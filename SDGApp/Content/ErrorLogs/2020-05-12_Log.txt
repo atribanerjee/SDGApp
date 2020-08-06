@@ -1,0 +1,10 @@
+05-12-2020 00:48:36 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - bmatichuk@gmail.com
+
+05-12-2020 00:50:30 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - bmatichuk@gmail.com
+
+05-12-2020 03:37:08 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+05-12-2020 03:37:46 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+05-12-2020 03:38:43 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - bmatichuk@gmail.com
+

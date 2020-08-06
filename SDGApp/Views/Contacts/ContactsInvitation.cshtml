@@ -1,0 +1,100 @@
+﻿
+@using SDGApp.Helpers
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    ViewBag.Title = "Contacts";
+    String title = "Search people (name, email, username)";
+    string imageSrc = string.Empty;
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+            <header class="panel-heading">
+
+                <div class="row">
+
+                    <div class="col-lg-9 col-md-9 col-sm-9">
+                        <h2 class="pull-left">@title</h2>
+
+                        <div class="pull-left searchOnHeaderGen ">
+                            <form action="#" class="header-search ">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" id="ContactSearchValue" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button id="btnSeach" onclick="GetSearchContact();" class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <span class="tools pull-right">
+                            <button onclick="window.location.href='/Contacts/Index'" type="button" class="btn btn-info btn-sm"> Back </button>
+                        </span>
+                    </div>
+
+                </div>
+
+            </header>            
+
+            <div id="divcontactinvitationlist" class="panel">
+                
+
+            </div>
+
+
+        </section>
+    </div>
+</div>
+
+
+<script>
+
+    function GetSearchContact() {        
+
+        var pagenumber = 1;
+        var pagesize = 10;
+
+        var searchvalue = $('#ContactSearchValue').val();
+        
+
+        var url = '@Url.Action("ContactsInvitationList", "Contacts")';
+
+        $('#divcontactinvitationlist').load(
+        url + "?SearchValue=" + encodeURIComponent(searchvalue)
+            );
+    }
+
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            GetSearchContact();
+        }
+    });
+
+
+    //$("#defaultSearch").keyup(function () {
+    //    GetSearchContact();
+    //});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,75 @@
+﻿@using SDGApp.Helpers
+@{
+
+    
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+    String title = "Help List";
+    ViewBag.Title = "Help";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+            <div id="divhelplist">
+                @{ Html.RenderAction("HelpList", "Help", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+            </div>
+
+
+        </section>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        var blockNumber = 2; //Infinate Scroll starts from second block
+        var noMoreData = false;
+        var inProgress = false;
+        $('.ScrollStyle').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                inProgress = true;
+                $("#loaderdiv").show();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("InfinateScroll", "Help")",
+                    data: ({ blockNumber: blockNumber }),
+                    //dataType: "html",
+                    success: function (data) {
+                        blockNumber = blockNumber + 1;
+                        noMoreData = data.NoMoreData;
+                        $("#datalist").append(data.HTMLString);
+
+                        $("#loaderdiv").hide();
+                        inProgress = false;
+                    },
+                    error: function () {
+                        alert('Error occured');
+                    }
+                });
+            }
+        })
+    });
+</script>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('help', '');
+
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("HelpList", "Help")';
+            $('#divhelplist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+
+}
+
+

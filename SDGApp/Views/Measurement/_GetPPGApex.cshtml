@@ -1,0 +1,182 @@
+﻿@model SDGApp.ViewModel.MeasurementViewModel
+@{
+    SDGApp.Models.UserModel UM = new SDGApp.Models.UserModel();
+}
+
+<style>
+    .modal-lg-chart { width: 1450px; height: 500px; }
+</style>
+
+<div class="modal fade" role="dialog" id="myPPGModal" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg modal-lg-chart" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">PPG</h4>
+            </div>
+            <div class="modal-body">
+                <div id="chartPpgModal"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="chart-holders">
+    <div id="chartPpg"></div>
+</div>
+
+
+@*<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">*@
+        <div class="well svgOverFlou none">
+            <div class="btn-group btn-group-chart" role="group" aria-label="Chart Scaling">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myPPGModal">Enlarge</button>
+                <a href='@Url.Action("PPGEnlarge", "ScaleUp")' target="_blank" class="btn btn-success none">Scaleup</a>
+            </div>
+        </div>
+    @*</div>
+</div>*@
+
+<script type="text/javascript">
+
+    //
+    var dps = [];
+    var differenceinmilisecond = @Model.Difference * 1000;
+    var XdataPointsArray = [@Model.PpgValues];
+    var YdataPointsArray = [@Model.PPGElapsedTime];
+
+
+    //addDataPointsAndStripLines();
+    //function addDataPointsAndStripLines() {
+    //    //dataPoints
+    //    for (var i = 0; i < XdataPointsArray.length; i++) {
+    //        var innerArr = [YdataPointsArray[i], XdataPointsArray[i].toFixed(2)];
+    //        dps.push(innerArr);
+    //    }
+
+    //}
+
+    function generateDayWiseTimeSeries() {
+
+        var i = 0;
+        var series = [];
+        var x = @Model.TotalMillisecond;
+        while (i < XdataPointsArray.length) {
+            series.push([x, XdataPointsArray[i].toFixed(2)]);
+            //x += 3600;
+            x += differenceinmilisecond;
+            i++;
+        }
+        return series;
+    }
+
+    function generateDayWiseTimeSeriesNew() {
+
+        var i = 0;
+        var series = [];
+        var x = 0;
+
+        @if (Model.PPGElapsedTime != null)
+        {
+            @:x =@Model.PPGElapsedTime.Split(',')[0];
+
+        } else {
+            @:x = 0;
+        }
+
+        
+
+        while (i < XdataPointsArray.length) {
+            series.push([parseInt(x.toFixed(2)), parseFloat(XdataPointsArray[i].toFixed(2))]);
+            x += 100;
+            i++;
+        }
+        return series;
+    }
+
+    if (XdataPointsArray.length > 0 && YdataPointsArray.length > 0) {
+
+
+    var options = {
+        tooltip: {
+            enabled: false,
+            position: "topLeft",
+            fixed: {
+                enabled: true,
+                position: "topLeft",
+                offsetX: 0,
+                offsetY: 0,
+            },
+        },
+        chart: {
+            width: '100%',
+            height: '500px',
+            type: 'line',
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            zoomedArea: {
+                fill: {
+                    color: '#90CAF9',
+                    opacity: 0.4
+                },
+                stroke: {
+                    color: '#0D47A1',
+                    opacity: 0.4,
+                    width: 0.5
+                }
+            },
+            toolbar: {
+                show: true,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                },
+                autoSelected: 'zoom'
+            }
+        },
+        series: [{
+            name: 'PPG',
+            //data: dps,
+            data: generateDayWiseTimeSeriesNew(),//generateDayWiseTimeSeries(),
+        }],
+        xaxis: {
+            type: 'datetime',
+            labels: {
+                show:true,
+                datetimeFormatter: {
+                    year: 'yyyy',
+                    month: 'MMM \'yy',
+                    day: 'dd MMM',
+                    hour: 'HH:mm'
+                }
+            },
+
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'butt',
+            colors: undefined,
+            width: 1,
+            dashArray: 0,
+        }
+
+    }
+
+        var chart = new ApexCharts(document.querySelector("#chartPpg"), options);
+        chart.render();
+        var chartModal = new ApexCharts(document.querySelector("#chartPpgModal"), options);
+        chartModal.render();
+
+    }
+
+
+
+</script>

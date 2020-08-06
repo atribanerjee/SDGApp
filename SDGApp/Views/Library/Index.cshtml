@@ -1,0 +1,179 @@
+﻿@using SDGApp.Helpers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    String title = "Library";
+
+    var DynamicWidthTopic = "col-lg-3 col-md-3";
+    var DynamicWidthTopic2 = "col-lg-9 col-md-9";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel Library-section">
+
+            <div class="modal fade multi-action" role="dialog" id="modalAddEdit" tabindex="-1" aria-labelledby="myModalLabel">
+
+            </div>
+
+            <header class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-9">
+                        <h2 class="pull-left">@title</h2>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <span class="tools pull-right">
+                            @Ajax.RawActionLink("Add Topic", "AddEditTopicTask", "Library", new { Flag = "Add Topic", Tid = 0 }, new AjaxOptions { UpdateTargetId = "modalAddEdit", OnSuccess = "TopicAdditionloadsuccess();" }, new { @class = "btn btn-info btn-sm" })
+                        </span>                        
+                    </div>
+                </div>
+            </header>
+
+            <div class="panel-body Library-Holder">
+                <div class="row">
+                    <div class="@DynamicWidthTopic col-sm-12 no-pad" id="dvTopicTask">
+
+                    </div>
+                    <div class="@DynamicWidthTopic2 col-sm-12 no-pad" id="dvSubtask">
+                        <!--chat start-->
+                        @*@{  Html.RenderAction("TaskSubTaskList", "Library", new { taskid = ViewBag.TaskID });}*@
+                        <!--chat end-->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var lastActiveTopicID = '';
+    var lastActiveTaskID = '';
+    $(document).ready(function () {
+        LoadTopicSubTasksDiv();
+    });
+
+    function TopicAdditionloadsuccess() {
+        $('div#modalAddEdit').modal('show');
+    }
+
+
+    // Get Task and SubTask list in left panel list
+
+    function LoadTopicSubTasksDiv() {
+        $('#dvTopicTask').html('');
+        //var url = '@Url.Action("TopicTaskSubTasklist", "Library")';
+        // Atri New Code added on 20181212
+        var url = '@Url.Action("GetLibraryHierarchy", "Library")';
+
+        $('#dvTopicTask').load(url);
+    }
+
+    // Get Task and SubTask list by taskid
+
+    function LoadSubTasksDiv(taskId) {
+        $('#dvSubtask').html('');
+        var Id = taskId;
+        var url = '@Url.Action("GetSubTasksByTaskID", "Library")';
+        $('#dvSubtask').load(
+            url + "?taskid=" + Id
+        );
+        lastActiveTaskID = 'spnTask_' + taskId;
+    }
+
+    // Get Task and SubTask list by topicid
+
+    function LoadSubTaskByTopicDiv(topicId) {
+        $('#dvSubtask').html('');
+        var Id = topicId;
+        var url = '@Url.Action("GetSubTasksByByTopicID", "Library")';
+        $('#dvSubtask').load(
+            url + "?taskid=" + Id
+        );
+        lastActiveTopicID = 'spnTopic_' + topicId;
+    }
+
+
+    function DeleteTopicTask(Id, flag) {
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+        function (retunVal) {
+            $.ajax({
+                type: 'POST',
+                data: { "id": Id, "flag": flag },
+                url: '@Url.Action("DeleteTopicTaskByID", "Library")',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Result) {
+
+                    }
+                    else {
+
+                    }
+
+                },
+                error: function (arg) {
+                    showalertpopup("Error");
+                },
+                complete: function () {
+                    LoadTopicSubTasksDiv();
+
+                }
+            });
+        },
+        function (retunVal) {
+            showalertpopup('No data was deleted.');
+        });
+    }
+
+    function DeleteUploadedFile(fileId, filename) {
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+
+        function (retunVal) {
+            $.ajax({
+                type: 'POST',
+                data: { "fileid": fileId, "filename": filename },
+                url: '@Url.Action("DeleteUploadedFileID", "Library")',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Result) {
+                        showalertpopup(data.Message);
+                    }
+                    else {
+                        showalertpopup(data.Message);
+                    }
+                },
+                error: function (arg) {
+                    showalertpopup("Error");
+                },
+                complete: function () {
+                    LoadTopicSubTasksDiv();
+                    LoadSubTasksDiv(Id);
+                }
+            });
+        },
+        function (retunVal) {
+            showalertpopup('No data was deleted.');
+        });
+    }
+
+
+
+</script>
+
+
+
+
+
+
+
+

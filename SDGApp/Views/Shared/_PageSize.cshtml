@@ -1,0 +1,64 @@
+﻿@{ int PageSize = (Int32)ViewData["pagesize"];}
+<select id="ddlPageSize">
+    @if (PageSize == 1)
+    {
+        <text>
+            <option selected="selected" value="1">1</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="1">1</option></text>
+    }
+    @if (PageSize == 5)
+    {
+        <text>
+            <option selected="selected" value="5">5</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="5">5</option></text>
+    }
+    @if (PageSize == 10)
+    {
+        <text>
+            <option selected="selected" value="10">10</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="10">10</option></text>
+    }
+    @if (PageSize == 25)
+    {
+        <text>
+            <option selected="selected" value="25">25</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="25">25</option></text>
+    }
+    @if (PageSize == 50)
+    {
+        <text>
+            <option selected="selected" value="50">50</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="50">50</option></text>
+    }
+    @if (PageSize == 100)
+    {
+        <text>
+            <option selected="selected" value="100">100</option></text>
+    }
+    else
+    {
+        <text>
+            <option value="100">100</option></text>
+    }
+</select>
+<span>&nbsp;&nbsp;records per page</span>

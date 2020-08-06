@@ -1,0 +1,2 @@
+06-19-2020 16:07:54 - SDGApp.Models.TagHistoryModel - GetAllTagList ::: The cast to value type 'System.DateTime' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+

@@ -1,0 +1,153 @@
+﻿@model List<SDGApp.ViewModel.TagsViewModel>
+
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Add Tags
+                </header>
+                <div class="success-message">
+                    @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                        @ViewBag.SuccessMessage
+                    }
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content tasi-tab">
+                        <div id="overview" class="tab-pane active">
+                            <div class="panel">
+                                @using (Html.BeginForm("Add", "TagCatagories", FormMethod.Post, new { @class = "form-horizontal" }))
+                                {
+                                    <div class="form-group">
+
+                                        @*<ol>
+                                                <li><input type="hidden" id="hdnTypeID" class="hdnTypeIDClass" value=@Model[0].TypeID /></li>
+                                            </ol>*@
+
+                                        <input type="hidden" id="TagID" value=@Model[0].TagsID />
+
+                                        <label class="col-lg-3 control-label">@Model[0].TagName<span class="" style="color:red"> *</span></label>
+                                        @*<div class="col-lg-7">
+                                                @Html.TextBoxFor(m => m[0].TagDscription, new { @placeholder = "Tag Description", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m[0].TagDscription, "", new { @style = "color: red" })
+                                            </div>*@
+                                        <label class="col-lg-3 control-label">@Model[0].TagDscription<span class="">Tag Description</span></label>
+                                    </div>
+                                    int x = 1;
+                                    int z = 1;
+
+                                    foreach (var item in Model)
+                                    {
+                                        <input type="hidden" id="hdnTypeID" class="hdnTypeIDClass" value="@item.TypeID" />
+                                        if (item.TypeID == 1)
+                                        {
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">@Model[0].Prompt<span class="" style="color:red"> *</span></label>
+                                                <div class="col-lg-7">
+                                                    @Html.TextBoxFor(m => m[0].Prompt, new { @id = "txtprompt" + z })
+                                                    @Html.ValidationMessageFor(m => m[0].Prompt)
+                                                </div>
+                                            </div>
+                                            z++;
+
+                                        }
+
+                                        else if (item.TypeID == 2)
+                                        {
+                                            <div><label class="col-lg-3 control-label">@item.Prompt</label></div>
+                                            var temp = item.Choice.Split(',');
+                                            int y = 1;
+                                            for (int i = 0; i < temp.Length; i++)
+                                            {
+                                                <input checked=""
+                                                       id=Rdbutton_@x@y
+                                                       name="Speed"
+                                                       class="radio_button"
+                                                       type="radio"
+                                                       value=@temp[i] />@temp[i]
+                                                y++;
+                                            }
+                                            x++;
+                                        }
+                                    }
+
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-3 col-lg-9">
+                                            <button id="btnSubmit" class="btn btn-primary" type="button"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                            @Html.ActionLink("Cancel", "Index", "Tags", new { }, new { @class = "btn btn-danger" })
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+
+        $('#btnSubmit').on('click', function () {
+            //
+            var index = @Model.Count;
+           // var Type_ID = $(this).closest('li').find('.hdnTypeIDClass').val();
+            var fields = new Array();
+            var radio_value = $('.radio_button').length;
+            if ($('#txtprompt1').val().length == 0 || $('#Rdbutton_11').val().length == 0) {
+                showfailure('Required field(s) missing.');
+                return;
+            }
+
+
+            for(var i=1;i<=index;i++)
+            {
+                
+                 if (parseInt($('#hdnTypeID').val()) == 1) {
+                    fields.push($('#txtprompt'+i).val());
+                }
+                else if(parseInt($('#hdnTypeID').val()) == 2)
+                {
+                    //
+                    for(var j=1;j<=radio_value;j++){
+                        if($('#Rdbutton_'+i+j).is(":checked")){
+                            fields.push($('#Rdbutton_'+i+j).val());
+                        }
+                    }
+                }
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Add", "TagCatagories")",
+                data: {
+                    TagID: $('#TagID').val(),
+                    Fields: fields
+            },
+            success: function (data) {
+                if (data) {
+                    window.location.href = "@GlobalConstants.BaseUrl/Dashboard/Index";
+                }
+            },
+            error: function (arg) {
+                alert("Error");
+            }
+
+        });
+        });
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+

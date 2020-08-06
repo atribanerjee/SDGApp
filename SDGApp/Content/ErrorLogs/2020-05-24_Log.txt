@@ -1,0 +1,14 @@
+05-24-2020 22:19:07 - SDGApp.Models.UserModel - CheckLogInService ::: Object reference not set to an instance of an object.
+
+05-24-2020 22:23:58 - SDGApp.Models.DeviceServicesModel - StoreMeasurementDataNew ::: Value to add was out of range.
+Parameter name: value
+
+05-24-2020 22:24:59 - SDGApp.Models.DeviceServicesModel - StoreMeasurementDataNew ::: Value to add was out of range.
+Parameter name: value
+
+05-24-2020 22:28:51 - SDGApp.Models.DeviceServicesModel - UnixTimeToDateTime ::: Value to add was out of range.
+Parameter name: value
+
+05-24-2020 22:29:10 - SDGApp.Models.DeviceServicesModel - UnixTimeToDateTime ::: Value to add was out of range.
+Parameter name: value
+

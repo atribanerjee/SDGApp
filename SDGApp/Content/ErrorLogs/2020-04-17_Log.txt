@@ -1,0 +1,8 @@
+04-17-2020 13:05:58 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-17-2020 13:06:50 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-17-2020 13:08:12 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-17-2020 13:40:56 - SDGApp.Models.UserMessageModel - FetchInboxMessageList ::: The underlying provider failed on Open.
+

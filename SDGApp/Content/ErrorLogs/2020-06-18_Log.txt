@@ -1,0 +1,4 @@
+06-18-2020 18:23:27 - SDGApp.Models.TagHistoryModel - GetAllTagList ::: LINQ to Entities does not recognize the method 'System.String ToString(System.String)' method, and this method cannot be translated into a store expression.
+
+06-18-2020 18:38:52 - SDGApp.Models.TagHistoryModel - GetAllTagList ::: LINQ to Entities does not recognize the method 'System.String ToString(System.String)' method, and this method cannot be translated into a store expression.
+

@@ -1,0 +1,4 @@
+03-31-2020 19:40:31 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+03-31-2020 19:40:59 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+

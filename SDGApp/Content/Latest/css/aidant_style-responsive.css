@@ -1,0 +1,606 @@
+/*
+    wirn
+    SaluINC Dashboard build with Bootstrap v3+ Author: SaluINC
+    Template.
+*/
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+    .lock-wrapper { width: 500px }
+    .lock-wrapper .form-signin input[type=password], .lock-wrapper .form-signin input[type=text] { height: 48px; line-height: 51px }
+    .quick-search .defal-search .form-control { padding: 10.5px 14px }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .form-control::-webkit-input-placeholder { text-align: left }
+    .form-control::-webkit-input-placeholder, ::i-block-chrome { text-align: left }
+}
+
+@media (min-width:992px) {
+    .lg-resolutionz { display: block }
+    .sm-resolutionz { display: none }
+    a.show-sm { display: none }
+    .hide-sm { display: block }
+}
+
+@media (max-width:768px) {
+    .gal-container .modal-content { height: auto }
+}
+
+@media (min-width:1500px) {
+    .panel.shopper.cammult form .form-group.md-sm-view { display: none }
+    .panel.shopper.cammult form .form-group.lg-view { display: inline-block; width: auto }
+}
+
+@media (min-width:1921px) {
+    a.logo .site-name { line-height: 1.9 }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok .control-label { width: auto; margin-top: 0 }
+}
+
+@media (max-width:1920px) {
+    a.logo .site-name { line-height: 1.9 }
+    .nu-camera-off .cr-action-thumb img { margin: 0; float: left }
+    .nu-camera-off .panel-body .gap-btn { width: auto; float: right; text-align: right }
+    .cr-action-thumb img { margin: 0 }
+    .save-search { width: 50% }
+    .panel.shopper .evnt-blok form { box-shadow: none; padding: 1.9em .5em; margin: 0 0 1.5em .5em }
+    .evnt-blok form.form-horizontal .form-group.devd-blok { box-shadow: none }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-icon { width: 60px; padding-left: 0; padding-right: 0 }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .link { width: 170px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .UPhoto-im { width: 250px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-label { width: 100px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-fname { width: 340px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-lname { width: 340px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-age { width: 200px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-action { width: auto }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .col-md-1.text-righty:last-child { padding-left: 15px; padding-right: 15px }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok .control-label { width: auto; margin-top: 0 }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=checkbox], .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=radio] { margin: 5px 0 0 0 }
+    .report .register-shopper .modal.regisusr .pagelist-panel table > tbody > tr > td, .report .register-shopper .modal.regisusr .pagelist-panel table > thead > tr > th { white-space: nowrap }
+    .wrapper .nu-camera .infos-note button.btn-search { /*width: auto; float: none; padding: 6px 11px; margin-top: 0.5em;*/ }
+    .wrapper .nu-camera .infos-note.scan-note button.btn { /*margin-top: 1.75em; padding: 9.5px 7px; font-size: 12px;*/ }
+}
+
+@media (max-width:1899px) {
+    .album .owl-nav a.btn.pg-prev { left: 4em }
+    .album .owl-nav a.btn.pg-next { right: 4em }
+}
+
+@media (max-width:1660px) {
+    .lock-wrapper { margin: auto auto }
+    .nav-pills > li > a.btn-success { width: auto; min-width: 100%; height: 68px; line-height: 67px; font-size: 30px }
+    .nav-pills > li > a.btn-danger { width: auto; min-width: 100%; height: 100px; line-height: 98px; font-size: 30px; padding: .27em 0 0 0 }
+    .nu-camera .panel-body .gap-btn .btn-group-justified { display: table }
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) { width: auto; min-width: 50%; transition: all .5s ease-in-out }
+    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle { min-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn { min-width: 50%; height: 68px; line-height: 66px; margin: 0; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger > img { max-width: 50%; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger:after { right: -1.3em }
+    .cr-action-thumb img { max-width: 94%; transition: all .5s ease-in-out; margin: 0 0 0 -1.2em }
+    .nu-camera .panel-body .btn-group-justified .btn img { width: 50px }
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option:after { top: .25em }
+    .merge-left .nav-pills > li > a.btn-danger > img { max-width: 40%; transition: all .5s ease-in-out }
+    .merge-left .cr-action-thumb img { max-width: 79%; transition: all .5s ease-in-out }
+    .cr-action iframe { width: 530px !important; height: 530px !important }
+    .nu-camera.off-camera .btn-info { width: auto; min-width: 100%; height: 68px; line-height: 67px; font-size: 30px }
+    .nu-camera.off-camera .btn-success { width: auto; min-width: 100%; height: 100px; line-height: 98px; font-size: 30px; padding: .47em 0 0 0 }
+    .nu-camera.off-camera .btn-success img { max-width: 50%; transition: all .5s ease-in-out }
+    .off-camera-panel .nav { text-align: right; margin-right: 0 }
+    .off-camera { background-size: auto }
+    .panel.report form { width: 85% }
+    table.table-custo { width: 65% }
+    .save-search { width: 70% }
+    .report .register-shopper .modal.regisusr .pagelist-panel table > tbody > tr > td, .report .register-shopper .modal.regisusr .pagelist-panel table > thead > tr > th { white-space: nowrap }
+    .aidant-login-body .aidant-login-bg .main-login-hold { height: 100%; max-height: 200px; min-height: 200px }
+}
+
+@media (max-width:1499px) {
+    .nav-pills > li > a.btn-success { width: auto; min-width: 100%; height: 68px; line-height: 67px; font-size: 30px }
+    .nav-pills > li > a.btn-danger { width: auto; min-width: 100%; height: 100px; line-height: 98px; font-size: 30px; padding: .47em 0 0 0 }
+    .nu-camera .panel-body .gap-btn .btn-group-justified { display: table }
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) { width: auto; min-width: 50%; transition: all .5s ease-in-out }
+    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle { min-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn { min-width: 50%; height: 68px; line-height: 66px; margin: 0; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger > img { max-width: 50%; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger:after { right: -1.3em }
+    .cr-action-thumb img { max-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn img { width: 50px }
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option:after { top: .65em; left: .55em }
+    .merge-left .nav-pills > li > a.btn-danger > img { max-width: 40%; transition: all .5s ease-in-out }
+    .merge-left .cr-action-thumb img { max-width: 89%; transition: all .5s ease-in-out }
+    .cr-action iframe { width: 530px !important; height: 530px !important }
+    .nu-camera .panel-body .country-select { font-size: 16px }
+    .nu-camera .panel-body .wdgt-row i { font-size: 18px }
+    .nu-camera.off-camera p { font-size: 18px; line-height: 32px }
+    .panel.report form { width: 90% }
+    table.table-custo { width: 60% }
+    .save-search { width: 70% }
+    .panel.report .register-shopper form { width: 100% }
+    .main-height { height: 315px }
+    .up-file .fileupload .thumbnail { width: auto !important; height: auto !important }
+    .pagelist-panel table.data-export > thead > tr > th.action.expname { min-width: 150px }
+    .pagelist-panel table.data-export > thead > tr > th.action.expquery { min-width: 467px }
+    .cammultview-blok .cr-name { width: 100%; margin: 0 }
+    .panel.shopper.cammult form { width: 100%; padding: 5px }
+    .panel.shopper.cammult form .form-group { width: 24% }
+    .panel.shopper.cammult form .form-group.floating { width: 48% }
+    .wrapper .panel.shopper.cammult form .form-group .form-control { width: 100% }
+    .panel.shopper.cammult form .form-group.floating .form-control { width: 80% }
+    .panel.shopper.cammult form .form-group.md-sm-view { display: block }
+    .panel.shopper.cammult form .form-group.md-sm-view { width: auto }
+    .panel.shopper.cammult form { position: relative; box-shadow: none; margin-left: 0 }
+    .panel.shopper.cammult form .form-group.md-sm-view .btn { position: absolute; left: auto; top: auto; right: 0; bottom: 5px; z-index: 3214; margin: auto; padding: 5.5px 17px }
+    .panel.shopper.cammult form .form-group.md-sm-view label { display: none }
+    .panel.shopper.cammult form .form-group.lg-view { display: none }
+    .panel.shopper.cammult form .form-group.floating { padding-top: 20px }
+    .panel.shopper.cammult form .form-group.floating .no-pad { padding-left: 15px; padding-right: 15px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-icon { width: 60px; padding-left: 0; padding-right: 0 }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .link { width: 170px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .UPhoto-im { width: 200px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-label { width: 100px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-fname { width: 150px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-lname { width: 200px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-age { width: 200px }
+    .pagelist-panel .table > tbody > tr > td.collapse-common .c-c-tbl .pm-action { width: auto }
+    .wrapper .nu-camera .cr-name { height: auto }
+    .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 6px 15px }
+    .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 6px 19px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 6px 15px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 6px 19px }
+    .wrapper .btn.btn-sm-pad { padding: 2px 5px }
+    .recognitions-taba .nav-tabs > li > a { font-size: 15px }
+    .recognitions-taba .nav-tabs > li.active > a, .recognitions-taba .nav-tabs > li.active > a:focus, .recognitions-taba .nav-tabs > li.active > a:hover { font-size: 15px }
+    .wrapper .nu-camera .cr-name h2 { font-size: 15px; line-height: 1.3 }
+    .wrapper .infos-note button.btn-search { margin-top: 0.5em; padding: 6.5px 4px; }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok .control-label { width: auto; padding-left: 0 }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok .control-label { margin-top: 0; font-size: 13px }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=checkbox], .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=radio] { width: auto }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=checkbox], .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=radio] { margin: 5px 0 0 0 }
+    .recognitions .pagelist-panel.recogmnglst table tr td span.avatar-small img { max-width: inherit }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table { table-layout: fixed }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table tr td:last-child, .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table tr th:last-child { white-space: normal; text-align: left }
+    .wrapper .infos-note .form-control.datetimepicker { /*width: 49.333%*/ width: 42.333%;  }
+    .wrapper .nu-camera .descriptive .infos-note .form-control.datetimepicker { padding: 6.5px 6px; }
+    .owl-theme .owl-nav { margin: 10px 0 0 0 }
+    .owl-custom-nav a.btn.pg-prev { left: 4.5em }
+    .owl-custom-nav a.btn.pg-next { right: 4.5em }
+    .owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot { height: 38px }
+    .album .owl-nav a.btn { padding-bottom: 0; padding-top: 0; height: 38px }
+    .album .owl-nav a.btn i { line-height: 1.55em }
+    .wrapper .nu-camera .cr-name button.btn-none.btn-gap { margin-right: .25em; padding: 0 .2em }
+    .aidant-login-body .aidant-login-bg { width: 100% }
+    .wrapper .quick-search .form-inline .form-group label { width: 90% }
+    .pagelist-panel .table > thead > tr > th.action a::before { padding: 0 0 0 .35em; top: -6px }
+    .wrapper .quick-search .form-inline .form-group label::before { top: -.3em; bottom: 0; left: -.5em; right: 100%; padding: 0 }
+    .aidant_cookie-wrapper .cookie_container .cookie_content { padding: 20px 0 0 }
+    .infos-note.attribute-camera .btn { padding: 5.5px 12px }
+    .modal.attredit a.btn, .modal.attredit button.btn { padding: 1px 12px }
+    .nu-camera .album .owl-carousel .owl-item .item a.thumbnail img { max-height: 92px }
+    form.form-view-shopper .global-click .avatar-modal { right: -9em }
+    .wrapper .nu-camera .lg-resolutionz .cr-name { height: 64px; overflow: hidden }
+    .cr-name .edit-right a.btn i { font-size: 1.3em; line-height: 2.78 }
+    .pagelist-panel.shopperGolbal table { table-layout: auto }
+    .pagelist-panel.mobdevice table { table-layout: fixed }
+    .pagelist-panel table, table.table { table-layout: fixed }
+    .pagelist-panel .table > thead > tr > th.Srn { width: 25px; padding-left: 0; padding-right: 0 }
+    .pagelist-panel .table > thead > tr > th.SId { width: 125px }
+    .pagelist-panel .table > thead > tr > th.UPhoto { width: auto }
+    .pagelist-panel .table > thead > tr > th.FName { width: auto }
+    .pagelist-panel .table > thead > tr > th.LName { width: auto }
+    .panel.shopper form { width: 95% }
+    section#divshopperreclist section.pagelist-panel.shopperGolbal .table > tbody > tr > td:last-child { width: 255px; min-width: 255px; max-width: 255px }
+    .cr-name .edit-right, .cr-name .edit-right .btn, .cr-name .edit-right .btn.btn-success { height: 64px; }
+    .cr-name .edit-right a.btn { padding: 3.5px 15px; } 
+    .cr-name .edit-right .btn.btn-success { padding: 3.5px 19px; }
+    .wrapper .nu-camera .infos-note button.btn-search { width: auto; float: none; padding: 6px 11px; margin-top: 0.5em;}
+    .wrapper .nu-camera .infos-note.scan-note button.btn { margin-top: 1.75em; padding: 9.5px 7px; font-size: 12px; }
+    .wrapper .access .pjason table.tbl-pjlist { width: 100%; }
+    .wrapper .access .pjason table.tbl-record-list tbody tr td { vertical-align:top; }
+    .wrapper .access .pjason table.table { table-layout: auto; }
+    .wrapper .cRecognition .show-all-picture ul li.thumbnail { width: 90px;}
+    .aidant-login-bg .form-group span.text-danger { font-size:12px; white-space:nowrap; }
+    .modal-lg-ex{ width: 1080px;}
+    .modal.relate-shopper .reltDiv { padding: 1.4em 1em;  width: 100%; }
+}
+
+@media (max-width:1399px) {
+    .descriptive { padding: 1em .75em }
+    .nu-camera .panel-body.com-brand { padding: 1em .35em 1em 1.5em }
+    .nav-pills > li > a.btn-success { width: auto; min-width: 100%; height: 68px; line-height: 67px; font-size: 30px }
+    .nav-pills > li > a.btn-danger { width: auto; min-width: 100%; height: 100px; line-height: 98px; font-size: 30px; padding: .47em 0 0 0 }
+    .nu-camera .panel-body .gap-btn .btn-group-justified { display: table }
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) { width: auto; min-width: 50%; transition: all .5s ease-in-out }
+    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle { min-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn { min-width: 50%; height: 68px; line-height: 66px; margin: 0; font-size: 16px; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger > img { max-width: 50%; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger:after { right: -1.3em }
+    .cr-action-thumb img { max-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn img { width: 50px }
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option:after { top: .65em; left: .55em }
+    .merge-left .nav-pills > li > a.btn-danger > img { max-width: 40%; transition: all .5s ease-in-out }
+    .merge-left .cr-action-thumb img { max-width: 93.5%; transition: all .5s ease-in-out }
+    .cr-action iframe { width: 530px !important; height: 530px !important }
+    .nu-camera .panel-body .country-select { font-size: 16px }
+    .nu-camera .panel-body .wdgt-row i { font-size: 18px }
+    .nu-camera.off-camera p { font-size: 16px; line-height: 30px }
+    .panel.report form { width: 90% }
+    table.table-custo { width: 60% }
+    .panel.access form, .panel.camera form, .panel.company form, .panel.event form, .panel.eventh form, .panel.feedback form, .panel.floor form, .panel.help form, .panel.report form, .panel.role form, .panel.shopper form, .panel.store form, .panel.user form { margin: 0 0 1.5em .5em }
+    .nu-camera-off .cr-name { margin: 0; padding: 1.5em; height: auto; width: 100% }
+    .nu-camera-off .cr-name h2 { margin: 0; font-size: 25px }
+    .nu-camera-off .cr-action-thumb img { margin: 0; float: left }
+    .nu-camera-off .panel-body .gap-btn .btn-group-justified { display: inline-block; width: 100% }
+    .nu-camera-off .bootstrap-select.btn-group .dropdown-toggle .filter-option:after { top: -0em; left: -1.65em }
+    .nu-camera-off .panel-body .gap-btn { width: auto; float: left; text-align: left }
+    .nu-camera-off .panel-body .btn-group-justified .btn { float: right; width: auto; text-align: left }
+    .nu-camera-off .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle { width: 100% }
+    .nu-camera-off .btn-group-justified > .btn-group .dropdown-menu { left: auto; right: 0; min-width: 289px }
+    .nu-camera-off .cr-action-thumb { border-bottom: 1px solid #dedede }
+    .nu-camera-off .cr-action-thumb img { border: none }
+    .nu-camera-off .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) { min-width: 100% }
+    .btn-no-cam { margin: 2em 0 1.5em 0 }
+    .save-search { width: 70% }
+    .thumbnail-shopper-load .carousel-inner.onebyone-carosel { width: 100% }
+    .all-load-shopper { width: 625px }
+    .panel.shopper .evnt-blok form { padding: 1.9em .5em }
+    .panel.shopper .evnt-blok form { box-shadow: none }
+    .evnt-blok form.form-horizontal .form-group.devd-blok { box-shadow: none }
+    .evnt-blok form.form-horizontal .blok-nu-subscript .blok-bottom .text-centery { text-align: left }
+    .evnt-blok form.form-horizontal .blok-nu-subscript .blok-bottom .text-centery a.btn.btn-danger, .evnt-blok form.form-horizontal .blok-nu-subscript .blok-bottom .text-centery a.btn.btn-info { min-width: inherit; padding: 4px 16px }
+    .panel.shopper.cammult form .form-group.floating { padding-top: 20px }
+    .panel.shopper.cammult form .form-group.floating .no-pad { padding-left: 15px; padding-right: 15px }
+    .cr-name .edit-right a.btn { padding: 3.5px 10px }
+    .cr-name .edit-right .btn.btn-success { padding: 3.5px 13px }
+    .global-click .avatar-modal { right: 4em; top: -.75em }
+    .helpDesk-section .helpdesk-Chat .col-lg-3, .helpDesk-section .helpdesk-Chat .col-md-3 { width: 35% }
+    .helpDesk-section .helpdesk-Chat .col-lg-9, .helpDesk-section .helpdesk-Chat .col-md-9 { width: 65% }
+    .wrapper .nu-camera .descriptive .infos-note.scan-note button.btn { margin-top: 1.75em; padding: 9.5px 7px; font-size: 12px; }
+    .cr-name .edit-right, .cr-name .edit-right .btn, .cr-name .edit-right .btn.btn-success { height: 64px; }
+    .cr-name .edit-right a.btn { padding: 3.5px 15px; } 
+    .cr-name .edit-right .btn.btn-success { padding: 3.5px 19px; }
+}
+
+@media (max-width:1299px) {
+    .descriptive { padding: 1em .75em }
+    .nu-camera .panel-body.com-brand { padding: 1em .35em 1em 1.5em }
+    .nav-pills > li > a.btn-success { width: auto; min-width: 100%; height: 68px; line-height: 67px; font-size: 30px }
+    .nav-pills > li > a.btn-danger { width: auto; min-width: 100%; height: 100px; line-height: 98px; font-size: 30px; padding: .47em 0 0 0 }
+    .nu-camera .panel-body .gap-btn .btn-group-justified { display: table }
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) { width: auto; min-width: 50%; transition: all .5s ease-in-out }
+    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle { min-width: 100%; margin: 0; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn { min-width: 50%; height: 68px; line-height: 66px; margin: 0; font-size: 16px; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger > img { max-width: 50%; transition: all .5s ease-in-out }
+    .nav-pills > li > a.btn-danger:after { right: -1.3em }
+    .cr-action-thumb img { max-width: 100%; margin: 0 0 0 -1.14em; transition: all .5s ease-in-out }
+    .nu-camera .panel-body .btn-group-justified .btn img { width: 50px }
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option:after { top: .65em; left: .55em }
+    .merge-left .nav-pills > li > a.btn-danger > img { max-width: 40%; transition: all .5s ease-in-out }
+    .merge-left .cr-action-thumb img { max-width: 98%; margin: .3em 0 0 0; transition: all .5s ease-in-out }
+    .cr-action iframe { width: 530px !important; height: 530px !important }
+    .nu-camera .panel-body .country-select { font-size: 16px }
+    .nu-camera .panel-body .wdgt-row i { font-size: 18px }
+    .infos-note h4 { font-size: 16px }
+    .nu-camera.off-camera h2 { font-size: 30px }
+    .panel.report form { width: 96% }
+    table.table-custo { width: 95% }
+    .pagelist-panel .table > thead > tr > th { font-size: 13px }
+    .pagelist-panel .table > tbody > tr > td { font-size: 13px }
+    .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 10px 13px }
+    .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 10px 15px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 10px 12px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 10px 14px }
+    .pagelist-panel .tbl-cam > thead > tr > th:nth-child(4), 
+    .pagelist-panel table.table > tbody > tr > td, 
+    .pagelist-panel table.table > thead > tr > th { width: 100% !important; max-width: 100% !important; min-width: 100% !important; white-space: nowrap; }
+    .quick-search.new-idea .input-group .btn-group .btn.btn-danger.dropdown-toggle, .quick-search.new-idea .input-group .btn-group .btn.btn-info.dropdown-toggle { padding: 6.5px 15px }
+    .evnt-blok form.form-horizontal .subscript-blok .control-label { margin-top: 0; padding-right: 0 }
+    #dvAttributes #slidecontainer_1 input[type=range], #dvAttributes input[type=range], #slidecontainer_1 input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    #dvAttributeTemplate input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    #dvAttributeTemplate .fc-range input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    .evnt-blok form.form-horizontal .form-group.devd-blok select { margin-bottom: 1em }
+    .panel.shopper.cammult form .form-group { width: 45% }
+    .panel.shopper.cammult form .form-group.floating { width: 95% }
+    .wrapper .panel.report .register-shopper form .btn { padding: 6.5px 15px }
+    .wrapper .panel.report .register-shopper form button.btn { padding: 6.5px 15px }
+    .wrapper .panel.report .register-shopper form .up-file a.btn-warning { padding: 0 }
+    .up-file a.btn-warning span { padding: 6.5px 15px }
+    .wrapper button.btn { padding: 6.5px 15px }
+    .wrapper .infos-note .form-control.datetimepicker { width: 100% }
+    .wrapper .nu-camera .cr-name button.btn-none.btn-gap { margin-right: .25em; padding: 0 .2em }
+    .wrapper .access .pjason table.tbl-record-list thead tr th:first-child, 
+    .wrapper .access .pjason table.tbl-record-list thead tr th:last-child, 
+    .wrapper .access .pjason table.tbl-record-list thead tr th,
+    .wrapper .access .pjason table.tbl-record-list tbody tr td{ width: auto !important; max-width: 100% !important; min-width: 100% !important; white-space:normal; }
+}
+
+@media (max-width:1099px) {
+    .panel.report form, table.table-custo { margin: 0 0 1.5em .75em }
+    .report .panel-body a.btn.btn-danger { margin-left: 0 }
+    .pagelist-panel table.data-export > thead > tr > th.action.expname { min-width: inherit }
+    .pagelist-panel table.data-export > thead > tr > th.action.expquery { min-width: inherit }
+    .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 10px 12px }
+    .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 10px 14px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs { margin-right: 0 }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li > a { font-size: 14px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li > a { padding: 10px 10px }
+    .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:focus, .camera-multiple .recognitions-taba.camobserv-taba .nav-tabs > li.active > a:hover { padding: 10px 11px }
+    .wrapper button.btn { padding: 6.5px 8px }
+    .helpDesk-section .helpdesk-Chat .col-lg-3, .helpDesk-section .helpdesk-Chat .col-md-3 { width: 45% }
+    .helpDesk-section .helpdesk-Chat .col-lg-9, .helpDesk-section .helpdesk-Chat .col-md-9 { width: 55% }
+}
+
+@media (max-width:991px) {
+    .lock-wrapper .modal.form-forgetpass form { width: auto }
+    .prd-row .action { right: 25px }
+    .hr-menu .brand { width: 100% }
+    .hr-menu .horizontal-menu { margin: 10px 0 }
+    .hr-menu .hr-top-nav { margin-top: 10px; float: right }
+    .media-gal .item { width: 100% }
+    .media-filter { margin: 25px 0 }
+    .lg-resolutionz { display: none }
+    .sm-resolutionz { display: block }
+    .panel.shopper form { width: 95% }
+    .sm-resolutionz table.table tbody tr th h3 { color: #1fb5ad; font-size: 15px; text-transform: uppercase; text-align: left; padding: 0; margin: .75em 0 0 0; font-weight: 300; display: inline-block; width: auto }
+    .sm-resolutionz table.table tbody tr th h3 strong { color: #1a332e; font-size: 17px; text-transform: lowercase; text-align: left; padding: 0; margin: 0; font-weight: 600; display: inline-block; width: auto }
+    a.show-sm { display: block }
+    .cr-action-thumb { padding: 1em .75em }
+    .pagelist-panel table.table > thead > tr > th, .pagelist-panel table.table > thead > tr > th.action a { font-size: 12px }
+    .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > tbody > tr > td a { font-size: 12px }
+    .pagelist-panel table.table > thead > tr > th.action a:before { padding: 0; top: -16px; left: 3px; font-size: 11px }
+    .pagelist-panel table.table > tbody > tr:last-child > td:last-child { padding-bottom: 15px }
+    .pagelist-panel table.table > tbody > tr > td a i { padding: 5px 3px }
+    .pagelist-panel .tbl-cam > thead > tr > th:nth-child(4), .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > thead > tr > th { width: 100% !important; max-width: 100% !important; min-width: 100% !important; white-space: nowrap }
+    .quick-search.new-idea .input-group .btn-group .btn.btn-danger.dropdown-toggle, .quick-search.new-idea .input-group .btn-group .btn.btn-info.dropdown-toggle { padding: 4.5px 15px }
+    .evnt-blok form.form-horizontal .form-group.devd-blok .text-lefty h3.section-heading, .evnt-blok form.form-horizontal .row.blok-top .text-lefty h3.section-heading { padding: 0 0 .5em 0 }
+    .evnt-blok form.form-horizontal .form-group.devd-blok a.btn, .evnt-blok form.form-horizontal .form-group.subscript-blok a.btn { margin: 0 15px 5px }
+    .evnt-blok form.form-horizontal .form-group.devd-blok select, .wrapper form .form-control { padding: 3.5px 10px }
+    section.eventHand-responz .no-pad-smmd { padding: 0 }
+    section.eventHand-responz .evnt-blok form.form-horizontal .form-group.devd-blok select, section.eventHand-responz form .form-control { margin-bottom: 1em }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty.so-no-righty { padding-right: 15px }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child { text-align: center !important }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child .btn-group, .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child .btn-group-vertical { text-align: center !important }
+    .subscript-blok.new-idea-subs .prf-box .pf-status { padding: 0 }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child .btn-group a.btn, .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child .btn-group-vertical a.btn { margin: 18px 25px 0 }
+    .dataexp .form-horizontal .control-label { padding: 0 20px }
+    .dashboard span.cs { min-height: inherit }
+    .dashboard .grid span.cs, .dashboard .list span.cs { padding-bottom: 3em }
+    .dashboard span.cs a.removee, .dashboard span.cs:hover a.removee { bottom: 0 }
+    .recognitions .pagelist-panel.recogmnglst table tr td span.avatar-small img { max-width: inherit }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table { table-layout: fixed }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table tr td:last-child, .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table tr th:last-child { white-space: normal; text-align: left }
+    .show-all-picture { text-align: center }
+    .show-all-picture a { display: inline-block; width: auto; height: auto }
+    .show-all-picture img { margin: 0 auto 1em }
+    .album .owl-nav a.btn.pg-prev { left: 4em }
+    .album .owl-nav a.btn.pg-next { right: 4em }
+    .aidant-login-body .aidant-login-bg { width: 85%; min-height: 240px; margin-bottom: 3em }
+    .aidant-login-body .top-height-gap { margin-top: 6em }
+    .aidant-login-body .aidant-login-bg .main-login-hold { height: auto; max-height: inherit; min-height: inherit }
+    .aidant-login-body .aidant-login-bg { margin-bottom: 9em }
+    .helpDesk-section .helpdesk-Chat .col-sm-12 { width: 100% }
+    a.logo img.img-icon { max-height: 50px; width: auto }
+    .header { top: 0; bottom: auto }
+    .helpDesk-section .helpdesk-Chat .event-calendar.holdin-tree { min-height: inherit }
+    .nu-camera .album .owl-carousel .owl-item .item a.thumbnail img { max-height: 402px }
+    .cr-action-thumb img { margin: 0 }
+    .aidant-login-bg .form-group span.text-danger { font-size:12px; }
+    .wrapper .access .pjason table.tbl-record-list thead tr th:first-child, 
+    .wrapper .access .pjason table.tbl-record-list thead tr th:last-child, 
+    .wrapper .access .pjason table.tbl-record-list thead tr th { width: auto !important; max-width: 100% !important; min-width: 100% !important; }
+}
+
+@media (max-width:767px) {
+    .fixed-width #container, .fixed-width #container .header { width: 100% }
+    #sidebar { margin-left: -240px; -webkit-transition: all .3s ease-in-out; -moz-transition: all .3s ease-in-out; -o-transition: all .3s ease-in-out; transition: all .3s ease-in-out }
+    .hide-left-bar { margin-left: 0 !important }
+    ul.sidebar-menu { padding-top: 0 }
+    ul.sidebar-menu { margin-top: 0 }
+    .prd-row .action { right: 25px }
+    .lock-wrapper { padding: 0 20px }
+    .lock-wrapper img { width: 140px; height: 140px; margin-top: 10px }
+    .lock-pwd input { width: 70% }
+    #time { font-size: 85px }
+    .media-gal .item { width: 100% }
+    .media-filter { margin: 25px 0 }
+    .media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important }
+    .panel.report form { width: 100% }
+    table.table-custo { width: 90% }
+    .pagelist-panel table.data-export > thead > tr > th.action.expname { min-width: inherit }
+    .pagelist-panel table.data-export > thead > tr > th.action.expquery { min-width: inherit }
+    .header { position: relative !important; margin-top: 80px !important }
+    .merge-header { margin-right: 0 !important }
+    .brand { width: 100%; float: none; position: fixed; top: 0; z-index: 1005 }
+    .sidebar-toggle-box { right: 10px }
+    .top-nav { margin-bottom: 20px }
+    .top-menu { margin-right: 10px }
+    .wrapper { margin-top: 0 }
+    #sidebar { position: fixed !important; z-index: 1002; top: 80px }
+    #main-content { margin-left: 0 }
+    .fc-button-inner { padding: 0 }
+    .prd-row .action { right: 25px }
+    .weather-full-info ul li { width: 15.8% }
+    .today-status { margin-bottom: 10px }
+    .hr-toggle { background: #32d2c9; color: rgba(0,0,0,.3); border-radius: 50%; -webkit-border-radius: 50%; height: 30px; line-height: 0; margin-top: -58px; position: fixed; right: 10px; width: 30px; z-index: 10000 }
+    .hr-top-nav { display: inline-block; float: right; margin: 10px 0 }
+    .horizontal-menu { width: 100% }
+    .horizontal-menu .navbar-nav > li { margin-bottom: 10px }
+    .lock-wrapper { padding: 0 20px }
+    .lock-wrapper img { width: 140px; height: 140px; margin-top: 10px }
+    .lock-pwd input { width: 70% }
+    #time { font-size: 100px; transition: all .5s ease-in-out .1s }
+    .media-gal .item { width: 100% }
+    .media-filter { margin: 25px 0 }
+    .media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important }
+    #time { margin-top: -7em; transition: all .5s ease-in-out .1s }
+    .lock-wrapper { text-align: center; transition: all .5s ease-in-out .1s }
+    .lock-screen { background-position: center center }
+    .lock-wrapper img { top: -2em; bottom: 0; z-index: 654 }
+    .lock-wrapper img { left: 0; right: 0; display: inline-block; margin: -25px auto 0; transition: all .5s ease-in-out .1s }
+    .lock-wrapper .form-signin .remember-me { left: 0; right: 0; top: 10em; bottom: auto; transition: all .5s ease-in-out .1s }
+    .lock-wrapper .form-signin { margin: 7em auto 0 }
+    .lock-wrapper .lock-box .lock-pwd { width: 64.1%; padding: 0 20px 0 40px }
+    .lock-wrapper .lock-box .lock-name { width: 64.1% }
+    .lock-wrapper .modal.form-forgetpass form { width: auto }
+    ul.sidebar-menu { padding-bottom: 80px !important; transition: all .3s ease-in-out 0ms }
+    .wrapper .btn { padding: 3.5px 10px; font-size: 14px; font-weight: 600; line-height: 1.9 }
+    .wrapper .form-control { padding: 3.5px 10px; font-size: 14px; font-weight: 600; line-height: 1.9 }
+    .wrapper .nu-camera .descriptive .infos-note .col-lg-12 .wrapper .nu-camera .descriptive .infos-note .col-md-12, .wrapper .nu-camera .descriptive .infos-note .col-sm-12 { display: inline-block; width: 100%; height: auto; float: none }
+    .modal-header, .panel-heading, .panel-heading h3 { display: inline-block; width: 100%; height: auto }
+    .tools a.btn { margin-top: 0; padding: 0 10px; margin-left: 0 }
+    .paging-panel .pagenext, .paging-panel .pageno, .paging-panel .pageprevious { display: inline-block; width: auto; height: auto; padding: .75em 0; margin: 0 auto; text-align: center; float: none }
+    .pagesize-panel .pagesiz-ddl, .pagesize-panel .records-count { display: inline-block; width: auto; height: auto; padding: .75em 0; margin: 0 auto; text-align: center; float: none }
+    .pagenext a.disable { margin: 0 }
+    .pagesize-panel .records-count { padding: .75em; width: 100% }
+    .pagelist-panel table.table { table-layout: fixed }
+    .pagelist-panel table.table > thead > tr > th { padding: 19px 5px 2px }
+    .pagelist-panel table.table > tbody > tr > td { padding: 7px 5px 2px; line-height: 2 }
+    .floor .pagelist-panel table.table { table-layout: auto; transition: all .5s ease-in-out 0ms }
+    .floor .pagelist-panel table.table.tbl-full-textAWS > tbody > tr > td.full-text div.text { padding: 5px 5px 2px; line-height: normal }
+    .floor .pagelist-panel table.table.tbl-full-textAWS tbody tr td.full-text { position: relative; transition: all .2s ease-in-out 0ms }
+    .floor .pagelist-panel table.table.tbl-full-textAWS tbody tr td.full-text:hover div.text:hover { position: inherit; top: 0; bottom: auto; left: auto; right: 0; transition: all .4s ease-in-out 0ms }
+    .floor .pagelist-panel table.table.tbl-full-textAWS tbody tr td.full-text div.text { width: auto; transition: all .2s ease-in-out 0ms }
+    .pagelist-panel table.table > tbody > tr > td > a { margin: 0 }
+    .quick-search.new-idea .dropdown-menu, .quick-search.new-idea .open > .dropdown-menu { min-width: 288px; width: 100% }
+    .quick-search.new-idea .input-group .btn-group .save-search-box { min-width: 100%; width: 100% }
+    .quick-search.new-idea .input-group .btn-group .save-search-box input#SearchNamevalue { min-width: 75%; width: 75% }
+    .pagelist-panel table.table > thead > tr > th, .pagelist-panel table.table > thead > tr > th.action a { font-size: 12px }
+    .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > tbody > tr > td a { font-size: 12px }
+    .pagelist-panel table.table > thead > tr > th.action a:before { padding: 0; top: -16px; left: 3px; font-size: 11px }
+    .pagelist-panel table.table > tbody > tr:last-child > td:last-child { padding-bottom: 15px }
+    .pagelist-panel .tbl-cam > thead > tr > th:nth-child(4), .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > thead > tr > th { width: 100% !important; max-width: 100% !important; min-width: 100% !important }
+    .panel.access form, .panel.camera form, .panel.company form, .panel.event form, .panel.eventh form, .panel.feedback form, .panel.floor form, .panel.help form, .panel.report form, .panel.role form, .panel.shopper form, .panel.store form, .panel.user form { margin: 0; width: 100%; padding: 0; box-shadow: none; border-radius: 0 }
+    .form-horizontal .form-group { margin-right: 0; margin-left: 0 }
+    .form-horizontal .control-label { padding-right: 15px; padding-left: 15px }
+    .form-horizontal .form-group.label-input { height: auto }
+    #dvAttributes #slidecontainer_1 input[type=range], #dvAttributes input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    #dvAttributeTemplate input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    #dvAttributeTemplate .fc-range input[type=range] { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    .form-horizontal .form-group.label-input .form-control.readonly { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    .wrapper #dvAttributeTemplate a.btn.btn-danger, .wrapper #dvAttributes a.btn.btn-danger { position: relative; width: 20%; margin: 0 auto; float: none; display: inline-block; text-align: center }
+    .wrapper #dvAttributeTemplate a.btn.btn-danger:after, .wrapper #dvAttributes a.btn.btn-danger:after { content: ""; position: absolute; width: 100%; min-width: 100%; max-width: 100%; height: 0; margin: auto; padding: 0; background: rgba(0,0,0,.3); left: 0; right: 0; top: auto; bottom: -.75em }
+    .wrapper form .form-control { display: inline-block; width: 100%; margin: 1em 0 .75em }
+    .wrapper .quick-search .defal-search .input-group-btn button { padding: 5.6px 8px }
+    .pagelist-panel { margin-bottom: 1em; margin-top: 1em }
+    .form-inline .select2-container { z-index: 9898 }
+    .header { z-index: 9998 }
+    #sidebar { z-index: 99999 }
+    .wrapper .quick-search .form-inline .form-group { width: 48% }
+    .wrapper .quick-search .form-inline .form-group label { width: 100%; padding-left: 15px; padding-bottom: 0 }
+    .wrapper .quick-search .form-inline .form-group label a.wclose { right: 2em }
+    .wrapper .quick-search .form-inline .form-group label:before { left: -8px; right: auto }
+    .quick-search.new-idea .input-group .btn-group .btn.btn-danger.dropdown-toggle, .quick-search.new-idea .input-group .btn-group .btn.btn-info.dropdown-toggle { padding: 3.5px 15px }
+    a.logo .site-name { line-height: 1.9 }
+    .cr-name .edit-right { top: 7px; right: 7px }
+    .wrapper .nu-camera .descriptive .infos-note .form-control { padding: 3.5px 10px; font-size: 14px; font-weight: 600; line-height: 1.9 }
+    .wrapper .cr-name .edit-right .btn.btn-danger i.fa-2x { font-size: 16px }
+    .panel.nu-camera .panel-body .row .no-pad { padding-left: 15px; padding-right: 15px }
+    .wrapper .nu-camera .cr-name h2 { font-weight: 600; font-size: 17px }
+    .wrapper .nu-camera .cr-name h2, .wrapper .nu-camera .cr-name h4 { display: inline-block; width: 100%; margin: .5em 0 }
+    .wrapper .nu-camera .cr-name h2, .wrapper .nu-camera .cr-name h4 { width: auto; margin: 0 0; font-size: 16px; line-height: 1.4 }
+    .wrapper .nu-camera .cr-name .edit-right .btn.btn-danger { background: 0 0; border: none; border-radius: 0; box-shadow: none; padding: 0 .5em; margin: .5em 0 0 }
+    .wrapper .nu-camera .cr-name .edit-right .btn.btn-danger i { font-size: 20px }
+    .form-horizontal .form-top-border, .form-horizontal .form-topMost-border { background: #f6f6f6 none repeat scroll 0 0; padding: 1em .85em }
+    .global-click .avatar-modal { right: -3em; top: 3em }
+    .global-click .avatar-modal img { max-width: 85% }
+    .wrapper span.btn.btn-file { height: auto; margin: 0 }
+    .gal-container table.tbl-incidentlist .box .avatar-small img { height: 60px; width: 60px; max-width: none }
+    .panel.user.attr-rule .border-area { padding: 1em .85em; background: #f6f6f6 none repeat scroll 0 0; border: none; border-radius: 0; box-shadow: none }
+    .wrapper form .form-control { padding: 3.5px 10px }
+    .evnt-blok form.form-horizontal .form-group.devd-blok .text-lefty h3.section-heading, .evnt-blok form.form-horizontal .row.blok-top .text-lefty h3.section-heading { padding: 0 0 .5em 0 }
+    .evnt-blok form.form-horizontal .form-group.devd-blok a.btn, .evnt-blok form.form-horizontal .form-group.subscript-blok a.btn { margin: 0 15px 5px }
+    .evnt-blok form.form-horizontal .row.blok-top { padding: 0 }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok .control-label { width: auto; padding-left: 0 }
+    .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=checkbox], .evnt-blok form.form-horizontal .form-group.subscript-blok input[type=radio] { width: auto }
+    .panel.shopper .evnt-blok form { margin: 0; padding: 0 }
+    .evnt-blok form.form-horizontal .form-group.devd-blok .devd-dvatyp .btn.btn-success { margin: 6px 0 }
+    .evnt-blok form.form-horizontal .form-group.devd-blok .devd-dvatyp { padding: 0 }
+    section.eventHand-responz .no-pad-smmd { padding: 0 }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty:last-child { text-align: center !important }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty.so-no-righty { text-align: center !important }
+    .subscript-blok.new-idea-subs .prf-box .wk-progress .text-lefty, .subscript-blok.new-idea-subs .prf-box .wk-progress .text-lefty strong, .subscript-blok.new-idea-subs .prf-box .wk-progress .text-righty { text-align: center !important }
+    .sm-md-response .sm-md-res { display: inline-block; width: auto }
+    .wrapper .sm-md-response .sm-md-res a.btn { width: auto !important }
+    .panel.shopper.cammult form .form-group { width: 100% }
+    .panel.shopper.cammult form .form-group.floating { width: 100%; padding-top: 0 }
+    .modal.regisusr .pagelist-panel table { table-layout: fixed }
+    .avatar-small img { width: 55px; height: 55px; max-width: inherit }
+    h4.hd-title { font-size: 15px }
+    .wrapper .tools .btn-link { padding: 2.5px 7px }
+    .wrapper .dataexp button.btn { padding: 3.5px 8px }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table { table-layout: fixed }
+    .pagelist-panel table.table > thead > tr > th { vertical-align: top }
+    .pagelist-panel .tbl-cam > thead > tr > th:nth-child(4), .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > thead > tr > th { white-space: normal }
+    .cr-action-thumb img { margin: 0 }
+    .aidant-login-body .aidant-login-bg { width: 75%; min-height: 240px; margin-bottom: 5em }
+    .aidant-login-body .top-height-gap { margin-top: 6em }
+    .overflow { overflow-x: hidden; overflow-y: visible }
+}
+
+@media (max-width:599px) {
+    .lock-screen { background-position: center center; transition: all .5s ease-in-out .1s }
+    #time { font-size: 50px; transition: all .5s ease-in-out .1s }
+    .lock-wrapper { padding: 0 20px }
+    .lock-wrapper img { width: 100px; height: 100px; margin-top: -25px; transition: all .5s ease-in-out .1s }
+    .lock-wrapper img { top: -5em; bottom: 0; z-index: 654; transition: all .5s ease-in-out .1s }
+    .form-signin .form-group { margin: 0; padding: 0; text-align: center }
+    .lock-wrapper .lock-box .lock-name { width: 100%; border-radius: 0; margin: 0; padding: 0; text-align: center; float: none }
+    .lock-wrapper .lock-box .lock-pwd { width: 100%; border-radius: 0; margin: 0; padding: 0; text-align: center; float: none }
+    .lock-wrapper .form-signin input[type=password], .lock-wrapper .form-signin input[type=text] { margin: 0; padding: 0; width: 80% !important; text-align: center; float: none }
+    .lock-wrapper .lock-box .lock-pwd button.btn.btn-lock { position: absolute; display: inline-block; z-index: 69; left: auto; right: 0; top: 0; bottom: 0; padding: 0 .75em; margin: auto }
+    .lock-wrapper .lock-box .lock-pwd button.btn.btn-lock { border-radius: 0; line-height: 1.6; height: auto; width: auto }
+    .notify-row { display: block; opacity: 1 }
+    .pagelist-panel table.table { table-layout: auto }
+    .pagelist-panel .table > tbody > tr > td.collapse-common table.table.c-c-tbl { table-layout: fixed }
+    .pagelist-panel table.table > thead > tr > th, .pagelist-panel table.table > thead > tr > th.action a { font-size: 11.5px; white-space: nowrap }
+    .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > tbody > tr > td a { font-size: 11.5px; white-space: nowrap }
+    .pagelist-panel .tbl-cam > thead > tr > th:nth-child(4), .pagelist-panel table.table > tbody > tr > td, .pagelist-panel table.table > thead > tr > th { width: 100% !important; max-width: 100% !important; min-width: 100% !important; white-space: nowrap }
+    .pagelist-panel .table > tbody > tr > td.collapse-common table.table.c-c-tbl > tbody > tr > td:first-child { width: 30px !important; max-width: 30px !important; min-width: 30px !important; white-space: nowrap }
+    .pagelist-panel .table > tbody > tr > td.collapse-common table.table.c-c-tbl > tbody > tr > td { width: 100% !important; max-width: 100% !important; min-width: 100% !important; white-space: nowrap }
+    .wrapper .quick-search .form-inline .form-group { width: 100% }
+    .wrapper .quick-search .form-inline .form-group label { width: 100%; padding-left: 15px; padding-bottom: 0 }
+    .wrapper .quick-search .form-inline .form-group label a.wclose { right: 2em }
+    .wrapper .quick-search .form-inline .form-group label a.wclose i { font-size: 16px }
+    .wrapper .quick-search .form-inline .form-group label:before { left: -8px; right: auto }
+    a.logo .site-name { line-height: 1.9 }
+    .modal.regisusr .pagelist-panel table { table-layout: fixed }
+    .recognitions .pagelist-panel.recogmnglst table tr td.collapse-common table { table-layout: fixed }
+    .aidant-login-body .top-height-gap { margin-top: 6em }
+    .aidant-login-body .aidant-login-bg { width: 75%; min-height: 240px; margin-bottom: 3em }
+}
+
+@media (max-width:479px) {
+    body { margin-top: 10px !important }
+    .header { position: relative !important }
+    .merge-header { margin-right: 0 !important }
+    .brand { width: 100%; float: none; position: fixed; top: 0; z-index: 1005 }
+    .sidebar-toggle-box { right: 10px }
+    .top-nav { margin-bottom: 20px }
+    .top-menu { margin-right: 10px }
+    .wrapper { margin-top: 0 }
+    ul.sidebar-menu { margin-top: 0 }
+    #sidebar { position: fixed !important; top: 80px }
+    #main-content { margin-left: 0 }
+    .notify-row { float: none }
+    .fc-button-content, .fc-button-inner { padding: 0 }
+    .fc-header-title h2 { font-size: 12px !important }
+    .fc .fc-header-space { padding-left: 0 }
+    .fc-button-today .fc-button-inner, .fc-state-active, .fc-state-active .fc-button-inner, .fc-state-hover, .fc-state-hover .fc-button-inner { background: none repeat scroll 0 0 #fff !important; color: #474747 !important }
+    .fc-state-default, .fc-state-default .fc-button-inner { background: none repeat scroll 0 0 #fff !important }
+    .prd-row .action { right: 25px }
+    .weather-full-info ul li { width: 30%; margin-bottom: 10px }
+    .today-status { margin-bottom: 10px }
+    .hr-toggle { background: #32d2c9; color: rgba(0,0,0,.3); border-radius: 50%; -webkit-border-radius: 50%; height: 30px; line-height: 0; margin-top: -58px; position: fixed; right: 10px; width: 30px; z-index: 10000 }
+    .hr-top-nav { display: inline-block; float: right; margin: 10px 0 }
+    .horizontal-menu { width: 100% }
+    .horizontal-menu .navbar-nav > li { margin-bottom: 10px }
+    .lock-pwd input { width: 70% }
+    .lock-pwd { padding: 0 }
+    .media-gal .item { width: 100% }
+    .media-filter { margin: 5px 0 }
+    .media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important }
+    .media-filter li a { margin-bottom: 10px; display: inline-block }
+    .modal.regisusr .pagelist-panel table { table-layout: auto }
+    .xdsoft_datetimepicker { left: auto !important; z-index: 9898999 !important }
+    .recognitions-taba .nav-tabs > li > a { padding: 10px 25px }
+    .recognitions-taba .nav-tabs > li.active > a, .recognitions-taba .nav-tabs > li.active > a:focus, .recognitions-taba .nav-tabs > li.active > a:hover { padding: 10px 27px }
+    .aidant-login-body .aidant-login-bg { width: 75%; min-height: 240px; margin-bottom: 3em }
+    .aidant-login-body .top-height-gap { margin-top: 6em }
+}

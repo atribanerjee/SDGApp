@@ -1,0 +1,10 @@
+06-09-2020 17:18:07 - SDGApp.Models.TagLabesModel - DeleteLabelByID ::: The 'UserID' property on 'TagLabel' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+06-09-2020 17:18:15 - SDGApp.Models.TagLabesModel - DeleteLabelByID ::: The 'UserID' property on 'TagLabel' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+06-09-2020 17:21:34 - SDGApp.Models.TagLabesModel - DeleteLabelByID ::: The 'UserID' property on 'TagLabel' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+06-09-2020 18:29:00 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-09-2020 19:50:39 - SGDApp.Models.MailService - SendEmail ::: 
+

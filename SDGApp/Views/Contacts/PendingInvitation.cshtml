@@ -1,0 +1,138 @@
+﻿
+@using SDGApp.Helpers
+@*@model List<SDGApp.ViewModel.UserContactsViewModel>*@
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    ViewBag.Title = "Contacts";
+    Int32 pageCount = 0;
+    Int32 pageSize = GlobalConstants.PageSize;
+
+    String title = "Pending Invitation List";
+
+    string imageSrc = string.Empty;
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+            <header class="panel-heading">
+
+                <div class="row">
+
+                    <div class="col-lg-9 col-md-9 col-sm-9">
+                        <h2 class="pull-left">@title</h2>
+
+                        <div class="pull-left searchOnHeaderGen ">
+                            <form action="#" class="header-search ">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" id="PendInvSearchValue" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button id="btnSeach" onclick="GetSearchPendingInv();" class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <span class="tools pull-right">
+                            <button onclick="window.location.href='/Contacts/Index'" type="button" class="btn btn-info btn-sm"> Back </button>
+                        </span>
+                    </div>
+
+                </div>
+
+            </header>
+
+            
+
+
+
+            <div id="divpendingcontactlist" class="panel">
+
+                @{ Html.RenderAction("PendingContactList", "Contacts", new { });}
+
+            </div>
+
+
+        </section>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    function fnReply(contactid, mode) {
+        //
+
+        //var dvid = '#dv_' + userid;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ContactAcceptReject", "Contacts")",
+            data: ({ ContactID: contactid, mode: mode }),
+            //dataType: "html",
+            success: function (data) {
+                
+                var pagenumber = 1;
+                var pagesize = 10;
+                var url = '@Url.Action("PendingContactList", "Contacts")';
+                $('#divpendingcontactlist').load(
+                    url + "?pageNumber=" + pagenumber + "&pageSize=" + pagesize
+                );
+
+                // showsuccess("");
+
+
+                //$("#loaderdiv").hide();
+            },
+            error: function () {
+                alert('Error occured');
+            }
+        });
+
+    }
+
+    function GetSearchPendingInv() {
+
+        var pagenumber = 1;
+        var pagesize = 10;
+
+        var searchvalue = $('#PendInvSearchValue').val();
+
+
+        var url = '@Url.Action("PendingContactList", "Contacts")';
+
+        $('#divpendingcontactlist').load(
+        url + "?SearchValue=" + encodeURIComponent(searchvalue)
+            );
+    }
+
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            GetSearchPendingInv();
+        }
+    });
+
+
+    //$("#defaultSearch").keyup(function () {
+    //    GetSearchContact();
+    //});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+

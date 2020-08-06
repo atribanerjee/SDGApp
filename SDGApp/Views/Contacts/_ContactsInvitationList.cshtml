@@ -1,0 +1,64 @@
+﻿@model List<SDGApp.ViewModel.SearchLeadViewModel>
+
+<div class="panel-body body-kontakts kontakts-invitey ">
+    <div class="well well-sm well-grid">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="media" id="dv_@item.UserID">
+                    <div class="media-body">
+                        <a href="#"> <img src="@item.Picture" class="img-responsive" alt=""> </a>
+                        <h4 class="media-heading">@item.FirstName @item.LastName</h4>
+                        <a href="#" onclick="fnConnect('@item.UserID')" type="button" id="btnConnect_@item.UserID" class="btn btn-primary btnConnect">Connect</a>
+
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+
+            <text>
+                <div class="media">
+                    <h3>
+                        No More Contacts
+                    </h3>
+                </div>
+            </text>
+        }
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+
+    function fnConnect(userid) {        
+
+        var dvid = '#dv_' + userid;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SendInvitation", "Contacts")",
+            data: ({ UserID: userid }),
+            //dataType: "html",
+            success: function (data) {
+
+                showsuccess(data.Message);
+                $(dvid).hide();
+
+
+                //$("#loaderdiv").hide();
+            },
+            error: function () {
+                alert('Error occured');
+            }
+        });
+
+    }
+
+</script>

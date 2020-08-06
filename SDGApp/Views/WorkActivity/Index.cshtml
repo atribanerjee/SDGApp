@@ -1,0 +1,535 @@
+﻿
+@{
+    ViewBag.Title = "Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+
+        <section class="panel panel-overview-app ">
+
+            <header class="panel-heading">
+                <h2> Activity history </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+
+            <div class=" panel-tab-view ">
+
+                <div class="panel-heading tab-bg-dark-navy-blue ">
+                    <ul id="toggleholder" class="nav nav-tabs">
+                        <li class="active">
+                            <a id="dayhistory" name="day" data-toggle="tab" onclick="fnGetHistory(this.name)" href="#">Day</a>
+                        </li>
+                        <li class="">
+                            <a id="weekhistory" name="week" data-toggle="tab" onclick="fnGetHistory(this.name)" href="#">Week</a>
+                        </li>
+                        <li class="">
+                            <a id="monthhistory" name="month" data-toggle="tab" onclick="fnGetHistory(this.name)" href="#">Month</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+
+                    <form action="#" class="form-horizontal ">
+
+                        <div class="form-group">
+                            <label id="lblfordetailsname" class="control-label col-lg-3 col-md-3 col-sm-12 ">History for the day : </label>
+                            <div id="datepickerholder" class="col-lg-3 col-md-3 col-sm-12">
+                                <div id="datepickerdivholder" data-date-viewmode="years" data-date-format="mm-dd-yyyy" data-date="@DateTime.Now.ToString("MM-dd-yyyy")" class="input-append date dpYears">
+                                    <input id="datepickerval" type="text" readonly="" value="@DateTime.Now.ToString("MM-dd-yyyy")" size="16" class="form-control">
+                                    <span class="input-group-btn add-on">
+                                        <button class="btn btn-round btn-primary" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-block none">Select date</span>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <section class="panel panel-overview-app ">
+
+                        <header class="panel-heading">
+                            <h2> Activity chart </h2>
+                            <span class="tools pull-right ">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+
+                        <div id="dbtabchart" class="panel-body no-pad ">
+                            <div class="main-chart">
+                                <div id="chtStepChart" class="bcBar"></div>
+                                <div id="chtKcalChart" class="bcBar"></div>
+                                <div id="chtMileageChart" class="bcBar"></div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section class="panel panel-overview-app table-tab-view ">
+
+                        <header class="panel-heading">
+                            <h2> Activity information </h2>
+                            <span class="tools pull-right ">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+
+                        <div class="panel-body no-pad">
+                            <table class="table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="numeric">Steps</th>
+                                        <th class="numeric">KCal</th>
+                                        <th class="numeric">Mileage</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dtlsinfoactivity"></tbody>
+                            </table>
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('workactivity', '');
+
+        var gethistorytype = "day";
+
+    $(document).ready(function () {
+        fnGetHistory("day");
+
+        $('#datepickerdivholder').on("changeDate", function (ev) {
+
+            fnGetHistory(gethistorytype);
+        });
+
+    });
+
+        function fnGetHistory(type) {
+            var date = $("#datepickerval").val();
+
+        if (type != '') {
+
+            gethistorytype = type;
+            $("#lblfordetailsname").text("History for the " + gethistorytype + " :");
+            $("#chtStepChart").html('');
+            $("#chtKcalChart").html('');
+            $("#chtMileageChart").html('');
+            $("#dtlsinfoactivity").html('');
+
+            if (date === '') {
+                date= "@DateTime.Now.ToString("MM-dd-yyyy")";
+            }
+            $.ajax({
+                    type: 'POST',
+                    data: { type: type, currentdate: date },
+                    url: '@Url.Action("GetWorkoutChartHistory", "WorkActivity")', // we are calling json method
+                    dataType: 'json',
+                    // here we are get value of selected country and passing same value
+                success: function (results) {
+
+                    if (results.WorkActivityList != '') {
+                        var listworkactivity = results.WorkActivityList;
+                        var DateValues = new Array();
+                        var StepsValues = new Array();
+                        var KCalValues = new Array();
+                        var MileageValues = new Array();
+
+                        $.each(listworkactivity, function (index, item) {
+
+                            var dtDate = new Date(parseInt(item.CreatedDateTime.substr(6)));
+                            DateValues.push(dtDate.toLocaleString('default', { day: 'numeric' }) + '-' + dtDate.toLocaleString('default', { month: 'short' }));
+
+                            StepsValues.push(item.Steps);
+                            KCalValues.push(item.KCal);
+                            MileageValues.push(item.Mileage);
+                        });
+
+                        LoadLineGraphForSteps(DateValues, StepsValues);
+                        LoadLineGraphForKCal(DateValues, KCalValues);
+                        LoadLineGraphForMileage(DateValues, MileageValues);
+                        fnWorkActivityHistory(listworkactivity);
+
+                    }
+                    },
+                    error: function (ex) {
+
+                        alert('Failed to retrieve chart.' + ex);
+                    }
+            });
+        }
+
+    }
+
+    </script>
+}
+
+<script type="text/javascript">
+   
+    function fnWorkActivityHistory(listworkactivity) {
+
+        $("#dtlsinfoactivity").html('');
+        $.each(listworkactivity, function (index, item) {
+
+           // var dtDate = new Date(parseInt(item.CreatedDateTime.substr(6)));
+
+            var strHtml = '';
+            strHtml += '<tr>';
+            strHtml += '<td>' + item.CreatedDateTimeStamp + '</td>';
+            strHtml += '<td class="numeric">' + item.Steps + '</td>';
+            strHtml += '<td class="numeric">' + item.KCal + '</td>';
+            strHtml += '<td class="numeric">' + item.Mileage + '</td>';
+            strHtml += '</tr>';
+
+            $("#dtlsinfoactivity").append(strHtml);
+        });
+    }
+
+    function LoadLineGraphForSteps(DateValues, Steps) {
+
+        var options = {
+            series: [
+                {
+                    name: "Steps",
+                    data: Steps //[120, 140, 120, 140, 125, 120, 120]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#77B6EA', '#545454', '#ff0000'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Steps History',
+                align: 'middle',
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 0,
+                //max: 5000
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtStepChart"), options);
+        chart.render();
+
+    }
+
+    function LoadLineGraphForKCal(DateValues, KCal) {
+
+        var options = {
+            series: [
+                {
+                    name: "KCal",
+                    data: KCal //[88, 88, 85, 86, 88, 85, 80]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#545454', '#545454', '#ff0000'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'KCal History',
+                align: 'middle',
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 0,
+                //max: 5000
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtKcalChart"), options);
+        chart.render();
+
+    }
+
+    function LoadLineGraphForMileage(DateValues, Mileage) {
+
+        var options = {
+            series: [
+                {
+                    name: "Mileage",
+                    data: Mileage //[77, 75, 70, 78, 75, 72, 70]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#ff0000', '#545454', '#ff0000'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Mileage History',
+                align: 'middle',
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 0,
+                //max: 5000
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtMileageChart"), options);
+        chart.render();
+
+    }
+
+</script>

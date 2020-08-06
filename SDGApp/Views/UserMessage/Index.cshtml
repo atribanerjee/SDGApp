@@ -1,0 +1,342 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Mail";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.2.js")"></script>*@
+
+
+<div class="row mailInbox">
+    <div class="col-lg-3 col-md-3 col-sm-12 no-rightty">
+        @Html.Partial("_InboxLeftMenu")
+
+
+
+        <div id="dvnewmessage">
+
+        </div>
+
+    </div>
+    <div id="lstandviewmessage" class="col-lg-9 col-md-9 col-sm-12">
+
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('sendmail', '');
+
+    </script>
+
+    <script type="text/javascript">
+
+        var mssgtypename = "inbox";
+        var pagefrom = 1;
+        var pageto = 10;
+
+        $(document).ready(function () {
+            fnGetMessageDtls("inbox");
+
+        });
+
+        $(document).on("keypress", "#dvsearch input#searchmessage", function (e) {
+
+            var keycode = parseInt((e.keyCode ? e.keyCode : e.which));
+            if (keycode == 13) {
+                var searchvalue = $(this).val().toLowerCase();
+                var url = '@Url.Action("SearchMessageByValue", "UserMessage")';
+                $('#lstandviewmessage').load(
+                    url + "?searchvalue=" + encodeURIComponent(searchvalue) + "&MessageTypeName=" + mssgtypename
+                );
+            }
+        });
+
+        function fnOnClickMenu(event) {
+
+            $(".selectmenu li").removeClass('active');
+            $(event).parent().addClass('active');
+
+            mssgtypename = $(event).attr("name");
+            fnGetMessageDtls(mssgtypename);
+
+            
+        }
+
+        function fnGetMessageDtls(messagetype) {
+
+            if (messagetype != "") {
+
+                var url = '@Url.Action("MessageList", "UserMessage")';
+
+                $('#lstandviewmessage').html('');
+                $('#lstandviewmessage').load(
+                    url + "?pagefrom=" + pagefrom + "&pageto=" + pageto + "&messagetype=" + messagetype
+                );
+
+            }
+        }
+
+        function fnOnClickNextPage(totalNoRecords) {
+
+
+
+            pagefrom = pagefrom + 10;
+            pageto = pageto + 10;
+
+            if (pageto > totalNoRecords) {
+                pageto = totalNoRecords;
+
+                $("#btnNextMessage").hide();
+            }
+            fnGetMessageDtls(mssgtypename);
+        }
+        function fnOnClickPreviousPage(totalNoRecords) {
+
+            $("#btnNextMessage").show();
+
+            pageto = pageto - (pageto - pagefrom) - 1; //23
+            pagefrom = pagefrom - 10;
+
+
+            fnGetMessageDtls(mssgtypename);
+        }
+
+        // partial view new compose mail position
+
+        function fnWinPos(value) {
+
+            if (value !== '' && value === 'maximize') {
+
+                if (parseInt($('#hdnIsDefault').val()) === 1) {
+                    $('#ifullscreen').attr('data-original-title', 'Default');
+                    $('#hdnIsDefault').val('0');
+
+                    $("#dvNewComposeMail").removeClass("default");
+                    $("#dvNewComposeMail").removeClass("maximiz");
+                    $("#dvNewComposeMail").removeClass("minimiz");
+                    $("#dvNewComposeMail").addClass("maximiz");
+                }
+                else {
+                    $('#ifullscreen').attr('data-original-title', 'Full Screen');
+                    $('#hdnIsDefault').val('1');
+
+                    $("#dvNewComposeMail").removeClass("default");
+                    $("#dvNewComposeMail").removeClass("maximiz");
+                    $("#dvNewComposeMail").removeClass("minimiz");
+                    $("#dvNewComposeMail").addClass("default");
+                }
+            }
+            else if (value !== '' && value === 'minimize') {
+
+                if (parseInt($('#hdnIsMin').val()) === 1) {
+                    $('#iminmax').attr('data-original-title', 'Maximize');
+                    $('#hdnIsMin').val('0');
+
+                    $("#dvNewComposeMail").removeClass("default");
+                    $("#dvNewComposeMail").removeClass("maximiz");
+                    $("#dvNewComposeMail").removeClass("minimiz");
+                    $("#dvNewComposeMail").addClass("minimiz");
+                }
+                else {
+                    $('#iminmax').attr('data-original-title', 'Minimize');
+                    $('#hdnIsMin').val('1');
+
+                    $("#dvNewComposeMail").removeClass("default");
+                    $("#dvNewComposeMail").removeClass("maximiz");
+                    $("#dvNewComposeMail").removeClass("minimiz");
+                    $("#dvNewComposeMail").addClass("default");
+                }
+            }
+            else if (value !== '' && value === 'closesave') {
+                CKEDITOR.instances.MessageBody.destroy();
+                $('#dvnewmessage').empty();
+            }
+        }
+
+
+        function fnOpenComposeMail() {
+
+            var url = '@Url.Action("ComposeMail", "UserMessage")';
+
+            $('#dvnewmessage').html('');
+            $('#dvnewmessage').load(url);
+        }
+
+        // FOR REPLY / FORWARD COMPOSE MAIL
+
+        function fnOpenReply(MessageID, TypeID) {
+
+             
+            $('#btnReply').hide();
+            $('#btnReplyAll').hide();
+            $('#btnForward').hide();
+            $('#dvcc').hide();
+
+            $('#dvReplyMessage').show();
+
+            
+
+            if (TypeID > 0 && TypeID == 1) {
+                $('#MsgResponseTypeID').val(1); // REPLY MODE
+
+            }
+            else if (TypeID > 0 && TypeID == 2) {
+                $('#MsgResponseTypeID').val(2);    // REPLY TO ALL MODE
+
+                $('#dvcc').show();
+                $('#MessageCc').focus();
+            }
+            else if (TypeID > 0 && TypeID == 3) {
+
+                $('#MsgResponseTypeID').val(3);  // FORWARD MODE
+            }
+
+            GetMessageDetlsForReplybyID(MessageID, TypeID);
+
+        }
+
+
+        function fnCloseReplySection() {
+
+            $('#dvReplyMessage').hide();
+
+            CKEDITOR.instances.MessageBody.destroy();
+            $('#dvnewmessage').empty();
+            $('#lstandviewmessage').empty();
+
+            $('ul.selectmenu li a[name="inbox"]').click();
+
+        }
+
+        function GetMessageDetlsForReplybyID(MessageID, TypeID) {
+
+            
+            var strHtml = '';
+
+            CKEDITOR.instances.MessageBody.setData('');
+           
+
+            $.ajax({
+                type: 'GET',
+                data: { "MessageID": MessageID, "ReplyTypeID": TypeID },
+                url: '@Url.Action("GetMessageDetailForReplyById", "UserMessage")',
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        //debugger;
+                        
+
+                        if (TypeID > 0 && TypeID == 3) {
+
+                            fnGenerateTreeViewMessage();  // GET TREE IN EDITOR
+
+                            strHtml += '---------- Forwarded message ---------';
+                            strHtml += '\n';
+                            strHtml += 'From: ' + data.SenderUserName;
+                            strHtml += '\n';
+                            strHtml += 'Date: ' + data.MessageCreatedDateTime;
+                            strHtml += '\n';
+                            strHtml += 'Subject: ' + data.MessageSubject;
+                            strHtml += '\n';
+                            strHtml += 'To: ' + data.ReceiverUserName;
+
+                            if (data.UserNameCc != '') {
+                                strHtml += '\n';
+                                strHtml += 'Cc: ' + data.UserNameCc;
+                            }
+
+                            $("#MessageTo").val('');
+                            $("#UserEmailTo").val('');
+                            
+
+                            $("#MessageSubject").val(data.MessageSubject);
+
+                            CKEDITOR.instances.MessageBody.insertText('');
+
+                            CKEDITOR.instances.MessageBody.insertText('\n');
+                            CKEDITOR.instances.MessageBody.insertText('\n');
+                            CKEDITOR.instances.MessageBody.insertText('\n');
+                            CKEDITOR.instances.MessageBody.insertText('\n');
+
+                            CKEDITOR.instances.MessageBody.insertText(strHtml);
+                            CKEDITOR.instances.MessageBody.insertHtml($("#ReplyMessageTree").html());
+                        }
+
+                        if (TypeID > 0) {
+                            if (TypeID == 1) { // Reply
+
+                                $("#MessageTo").val(data.MessageTo);
+                                $("#UserEmailTo").val(data.UserEmailTo);
+
+                                $("#MessageCc").val('');
+                                $("#UserEmailCc").val('');
+
+                                $("#MessageSubject").val(data.MessageSubject);
+
+                                CKEDITOR.instances.MessageBody.insertText('');
+
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+
+                                CKEDITOR.instances.MessageBody.insertHtml($("#ReplyMessageTree").html());
+
+                            }
+                            else if (TypeID == 2) { // Reply ALL 
+
+                                $("#MessageTo").val(data.MessageTo);
+                                $("#UserEmailTo").val(data.UserEmailTo);
+
+                                $("#MessageCc").val(data.MessageCc);
+                                $("#UserEmailCc").val(data.UserEmailCc);
+
+
+                                $("#MessageSubject").val(data.MessageSubject);
+
+                                CKEDITOR.instances.MessageBody.insertHtml('');
+
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+                                CKEDITOR.instances.MessageBody.insertText('\n');
+
+                                CKEDITOR.instances.MessageBody.insertHtml($("#ReplyMessageTree").html());
+                            }
+                        }
+
+                    }
+                },
+                error: function (arg) {
+                    showalertpopup("Error");
+                },
+                complete: function () {
+                }
+            });
+
+
+        }
+
+
+
+    </script>
+
+
+
+}
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+03-05-2020 15:42:46 - SDGApp.Models.UserModel - UserProfileUpdate ::: The 'CreateDateTime' property on 'User' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.DateTime'. 
+
+03-05-2020 15:51:44 - SDGApp.Models.UserModel - UserProfileUpdate ::: An error occurred while updating the entries. See the inner exception for details.
+

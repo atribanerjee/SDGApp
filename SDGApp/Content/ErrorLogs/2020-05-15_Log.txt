@@ -1,0 +1,16 @@
+05-15-2020 14:25:15 - SDGApp.Models.DashboardModel - TabListByUserId ::: An error occurred while executing the command definition. See the inner exception for details.
+
+05-15-2020 15:55:02 - SGDApp.Models.MailService - SendEmail ::: 
+
+05-15-2020 22:40:55 - SDGApp.Models.UserMessageModel - FetchInboxMessageList ::: Value cannot be null.
+Parameter name: input
+
+05-15-2020 22:42:25 - SDGApp.Models.UserMessageModel - FetchInboxMessageList ::: Value cannot be null.
+Parameter name: input
+
+05-15-2020 22:42:32 - SDGApp.Models.UserMessageModel - FetchInboxMessageList ::: Value cannot be null.
+Parameter name: input
+
+05-15-2020 22:42:34 - SDGApp.Models.UserMessageModel - FetchInboxMessageList ::: Value cannot be null.
+Parameter name: input
+

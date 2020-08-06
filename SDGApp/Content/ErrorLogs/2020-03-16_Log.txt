@@ -1,0 +1,16 @@
+03-16-2020 16:26:54 - SDGApp.Models.SleepModel - GetSleepActivity ::: The specified type member 'CreateDateTimeStamp' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+03-16-2020 16:27:29 - SDGApp.Models.SleepModel - GetSleepActivity ::: The specified type member 'CreateDateTimeStamp' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+03-16-2020 16:27:34 - SDGApp.Models.SleepModel - GetSleepActivity ::: The specified type member 'CreateDateTimeStamp' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+03-16-2020 17:56:03 - SDGApp.Models.SleepModel - GetSleepActivity ::: The specified type member 'CreateDateTimeStamp' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+03-16-2020 17:56:15 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+03-16-2020 18:30:08 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+03-16-2020 18:30:12 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+03-16-2020 18:30:15 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+

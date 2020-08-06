@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src='https://meet.jit.si/external_api.js'></script>
+</head>
+<body>
+    <div>
+        <div id="dvideo"></div>
+    </div>
+
+    <script>
+
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: 'VideoAPIExample',
+            width: 700,
+            height: 700,
+            parentNode: document.querySelector('#dvideo'),
+            noSSL: false
+
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+﻿@model SDGApp.ViewModel.TagDetailsViewModel
+<div class="form-group">
+    <label class="col-lg-3 control-label">Description<span class="" style="color:red"> *</span></label>
+    <div class="col-lg-7">
+        @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @disabled = "disabled" })
+    </div>
+</div>
+@foreach (var item in Model.Fields)
+{
+    if (item.FKTagTypeID == 1)
+    {
+        <div class="form-group">
+            <label class="col-lg-3 control-label">@item.Prompt<span class="" style="color:red"> *</span></label>
+            <div class="col-lg-7">
+                <input id="slider_@item.TagDetailsID" type="text" name="slider_@item.TagDetailsID" value="" />
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#slider_@item.TagDetailsID").ionRangeSlider({
+                    min: @item.Min,
+                    max: @item.Max,
+                    type: 'single',
+                    step: 1,
+                    postfix: " km",
+                    prettify: false,
+                    hasGrid: true
+                });
+            });
+        </script>
+    }
+    else
+    {
+        <div class="form-group">
+            <label class="col-lg-3 control-label">@item.Prompt<span class="" style="color:red"> *</span></label>
+            <div class="col-lg-7">
+                <div class="btn-row">
+                    <div class="btn-group" data-toggle="buttons">
+                        @for (int i = 0; i < item.Choice.Split(',').Length; i++)
+                        {
+                            <label class="btn btn-default">
+                                <input type="radio" name="@("rdb_"+item.TagDetailsID+"_"+i)" class="rdb_@item.TagDetailsID" id="@("rdb_"+item.TagDetailsID+"_"+i)"> @item.Choice.Split(',')[i].Trim()
+                                <input type="hidden" id="@("hdn_"+item.TagDetailsID+"_"+i)" value="@item.Choice.Split(',')[i].Trim()" />
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+<div class="form-group">
+    <div class="col-lg-offset-3 col-lg-9">
+        <button id="btnSubmit" class="btn btn-primary" type="button"><i class="fa fa-save"></i>&nbsp;Save</button>
+        @Html.ActionLink("Cancel", "Index", "TagCategory", new { }, new { @class = "btn btn-danger" })
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#btnSubmit').on('click', function () {
+            if (parseInt($('#TagID').val()) > 0 )
+            {
+                var promptArr=new Array();
+                var valueArr=new Array();
+                var tagDetailArr=new Array();
+                @foreach (var item in Model.Fields)
+                {
+                    if(item.FKTagTypeID==1)
+                    {
+                        <text>valueArr.push($('#slider_@item.TagDetailsID').val())</text>
+                    }
+                    else
+                    {
+                        <text>
+                $(".rdb_@item.TagDetailsID").each(function(){
+                    if($(this).is(":checked"))
+                    {
+                        var id=$(this).attr('id').split('_')[1]+'_'+$(this).attr('id').split('_')[2];
+
+                        valueArr.push($('#hdn_'+id).val())
+                    }
+                });
+
+                </text>
+                    }
+                    <text>
+                promptArr.push('@item.Prompt');
+                tagDetailArr.push('@item.TagDetailsID');
+                </text>
+                }
+
+                if(valueArr.length==parseInt('@Model.Fields.Count'))
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Add", "TagCategory")",
+                        data: {
+                            TagID: parseInt($('#TagID').val()),
+                            Prompts:promptArr,
+                            Fields: valueArr,
+                            TagDetails:tagDetailArr
+                        },
+                        success: function (data) {
+                            if (data) {
+                                window.location.href = "@GlobalConstants.BaseUrl/TagCategory/Index";
+                            }
+                        },
+                        error: function (arg) {
+                            alert("Error");
+                        }
+
+                    });
+                }
+                else
+                {
+                    showfailure('Required field(s) missing.');
+                }
+
+            }
+        });
+    });
+</script>

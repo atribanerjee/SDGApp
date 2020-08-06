@@ -1,0 +1,48 @@
+07-25-2020 13:02:56 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:03:35 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:04:04 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:16:45 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:17:07 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:17:26 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:52:58 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 13:53:37 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 16:21:26 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 16:21:56 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 16:22:12 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-25-2020 16:22:14 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-25-2020 16:22:28 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 17:10:52 - SDGApp.Models.UserMessageModel - FetchMessageList ::: Column 'SenderUserID' does not belong to table Table.
+
+07-25-2020 17:11:07 - SDGApp.Models.UserMessageModel - FetchMessageList ::: Column 'SenderUserID' does not belong to table Table.
+
+07-25-2020 17:11:12 - SDGApp.Models.UserMessageModel - FetchMessageList ::: Column 'SenderUserID' does not belong to table Table.
+
+07-25-2020 17:16:08 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-25-2020 17:41:26 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 17:42:41 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 17:44:07 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 17:58:16 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 18:00:02 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-25-2020 18:15:33 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-25-2020 18:19:41 - SGDApp.Models.MailService - SendEmail ::: 
+

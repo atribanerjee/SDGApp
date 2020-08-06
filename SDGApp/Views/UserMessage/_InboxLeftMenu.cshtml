@@ -1,0 +1,22 @@
+﻿
+
+
+
+
+<section class="panel panel-inbox inbox-left">
+    <div class="panel-body">
+        <a href="javascript:void(0);" onclick="fnOpenComposeMail()" class="btn btn-compose">
+            <i class="fas fa-plus"></i> compose
+        </a>
+        <ul class="nav nav-pills nav-stacked mail-nav selectmenu">
+            <li class="active"><a href="javascript:void(0);" name="inbox" onclick="fnOnClickMenu(this)"> <i class="fas fa-mail-bulk"></i> Inbox  <span id="inbox_unread_mg" class="label pull-right inbox-notification ">0</span></a></li>
+            <li class=" "><a href="javascript:void(0);" name="sent" onclick="fnOnClickMenu(this)"> <i class="fas fa-paper-plane"></i> Sent <span class="label pull-right inbox-notification none ">0</span></a></li>
+            @*<li class="none "><a href="/UserMessage/StarMail"> <i class="fas fa-star-of-david"></i> Important <span class="label pull-right inbox-notification none">0</span></a></li>
+                <li class="none "><a href="/UserMessage/SaveMail"> <i class="fas fa-file-download"></i> Drafts <span class="label pull-right inbox-notification">25</span></a></li>
+                <li class="none "><a href="/UserMessage/SpamMail"> <i class="fas fa-exclamation-triangle"></i> Spam <span class="label pull-right inbox-notification">19</span></a></li>*@
+            <li class=" "><a href="javascript:void(0);" name="draft" onclick="fnOnClickMenu(this)"> <i class="fas fa-save"></i> Draft <span class="label pull-right inbox-notification none ">0</span></a></li>
+            <li class=" "><a href="javascript:void(0);" name="bin" onclick="fnOnClickMenu(this)"> <i class="fas fa-trash-restore-alt"></i> Trash <span class="label pull-right inbox-notification none ">0</span></a></li>
+        </ul>
+    </div>
+</section>
+

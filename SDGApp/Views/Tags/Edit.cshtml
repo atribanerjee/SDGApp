@@ -1,0 +1,324 @@
+﻿@model SDGApp.ViewModel.TagDetailsViewModel
+@{
+    ViewBag.Title = "Edit";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+}
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <header class="panel-heading">
+
+                Edit Tags
+            </header>
+
+
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+            <div class="panel-body">
+                <div class="tab-content tasi-tab">
+                    <div id="overview" class="tab-pane active">
+                        <div class="panel">
+                            @using (Html.BeginForm("Edit", "Tags", FormMethod.Post, new { @class = "form-horizontal" }))
+                            {
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Tag Name<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-7">
+                                        @Html.HiddenFor(m => m.TagID)
+                                        @Html.TextBoxFor(m => m.TagName, new { @placeholder = "Tag Name", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.TagName, "", new { @style = "color: red" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Description<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-7">
+                                        @Html.TextBoxFor(m => m.Description, new { @placeholder = "Description", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color: red" })
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                        <label class="col-lg-3 control-label">Activity</label>
+                                        <div class="col-lg-3">
+                                            @Html.CheckBoxFor(m => m.IsActivity, new { })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Tag Category List<span class="" style="color:red"> *</span></label>
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(m => m.TagCategoryID,Model.TagCategoryTypeList, new { @placeholder = "Description", @class = "form-control" })
+                                        </div>
+                                    </div>*@
+                                int i = 1;
+                                foreach (var item in Model.Fields)
+                                {
+                                    <div><label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Field @i</b></label></div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Prompt<span class="" style="color:red"> *</span></label>
+                                        <div class="col-lg-3">
+                                            <input id="hdnTagDetailsID_@i" type="hidden" value="@item.TagDetailsID" />
+                                            <input id="txtPrompt_@i" type="text" placeholder="Max" class="form-control" value="@item.Prompt" />
+                                        </div>
+                                        <label class="col-lg-1 control-label ">Type<span class="" style="color:red"> *</span></label>
+                                        <div class="col-lg-3">
+                                            <select id="ddlTagType_@i" class="form-control">
+                                                <option value="0">--Select---</option>
+                                                @foreach (var ddlItem in Model.TagDetailTypeList)
+                                                {
+                                                    if (item.FKTagTypeID == BM.GetIntegerValue(ddlItem.Value))
+                                                    {
+                                                        @:
+                                                        <option selected="selected" value="@ddlItem.Value">@ddlItem.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:
+                                                        <option value="@ddlItem.Value">@ddlItem.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    if (item.FKTagTypeID == 1)
+                                    {
+                                        <div id="dvNumericSlider_@i" class="form-group max_min">
+                                            <label class="col-lg-3 control-label ">Min</label>
+                                            <div class="col-lg-3">
+                                                <input id="txtMin_@i" type="text" placeholder="Min" class="form-control numeric" value="@item.Min" />
+                                            </div>
+                                            <label class="col-lg-1 control-label">Max</label>
+                                            <div class="col-lg-3">
+                                                <input id="txtMax_@i" type="text" placeholder="Max" class="form-control numeric" value="@item.Max" />
+                                            </div>
+                                        </div>
+                                        <div id="dvRadio_@i" class="form-group" style="display:none;">
+                                            <label class="col-lg-3 control-label">Choice</label>
+                                            <div class="col-lg-7">
+                                                <input id="txtChoices_@i" type="text" placeholder="Choice" class="form-control" value="@item.Choice" />
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (item.FKTagTypeID == 2)
+                                    {
+                                        <div id="dvNumericSlider_@i" class="form-group max_min" style="display:none;">
+                                            <label class="col-lg-3 control-label ">Min</label>
+                                            <div class="col-lg-3">
+                                                <input id="txtMin_@i" type="text" placeholder="Min" class="form-control numeric" value="@item.Min" />
+                                            </div>
+                                            <label class="col-lg-1 control-label">Max</label>
+                                            <div class="col-lg-3">
+                                                <input id="txtMax_@i" type="text" placeholder="Max" class="form-control numeric" value="@item.Max" />
+                                            </div>
+                                        </div>
+                                        <div id="dvRadio_@i" class="form-group">
+                                            <label class="col-lg-3 control-label">Choice</label>
+                                            <div class="col-lg-7">
+                                                <input id="txtChoices_@i" type="text" placeholder="Choice" class="form-control" value="@item.Choice" />
+                                            </div>
+                                        </div>
+                                    }
+                                    <script>
+                                        $(function () {
+                                            $('#ddlTagType_@i').on('change', function () {
+                                                if ($(this).val() == 1) {
+                                                    $('#dvNumericSlider_@i').show();
+                                                    $('#dvRadio_@i').hide();
+                                                }
+                                                else if ($(this).val() == 2) {
+                                                    $('#dvNumericSlider_@i').hide();
+                                                    $('#dvRadio_@i').show();
+                                                }
+                                                else {
+                                                    $('#dvNumericSlider_@i').hide();
+                                                    $('#dvRadio_@i').hide();
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                    i++;
+                                }
+                                <div id="Add_div">
+                                </div>
+                                <div><a class="btn btn-success" href="javascript:void(0);" onclick="AddMoreField();"><i class="fa fa-plus"></i>&nbsp;Add More</a></div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-9">
+                                        <button id="btnSubmit" class="btn btn-primary" type="button"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        @Html.ActionLink("Cancel", "Index", "Tags", new { }, new { @class = "btn btn-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        fnSelectMenuActive('tag', 'manageTags');
+        var index = parseInt('@Model.Fields.Count') + 1;
+
+        function TypeChangeAddMore(strType, indx) {
+
+            if (strType == 1) {
+                $("#dvNumericSlider_" + indx).show();
+                $("#dvRadio_" + indx).hide();
+            }
+            else if (strType == 2) {
+                $("#dvNumericSlider_" + indx).hide();
+                $("#dvRadio_" + indx).show();
+            }
+            else {
+                $("#dvNumericSlider_" + indx).hide();
+                $("#dvRadio_" + indx).hide();
+            }
+
+        }
+
+
+        function AddMoreField() {
+
+
+            var AddHtml = '<div><label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Field ' + index + '</b></label></div>' +
+            '<div class="form-group">' +
+                '<label class="col-lg-3 control-label">Prompt<span class="" style="color:red"> *</span></label>' +
+                '<div class="col-lg-3">' +
+                    '<input class="form-control" id= "txtPrompt_' + index + '" placeholder="Prompt" />' +
+                '</div>' +
+                '<label class="col-lg-1 control-label ddl">Type<span class="" style="color:red"> *</span></label>' +
+                '<div class="col-lg-3">' +
+                    '<select id="ddlTagType_' + index + '" class="form-control addtypes" onchange = "TypeChangeAddMore(this.value,' + index + ');">' +
+                    '</select>' +
+                '</div>' +
+            '</div>' +
+            '<div class="form-group " id="dvNumericSlider_' + index + '" style="display:none">' +
+               '<label class="col-lg-3 control-label">Min</label>' +
+                 '<div class="col-lg-3">' +
+                 '<input class="form-control numeric" id="txtMin_' + index + '" placeholder="Min" /></div>' +
+                                        '<label class="col-lg-1 control-label">Max</label>' +
+                                        '<div class="col-lg-3">' +
+                                        '<input class="form-control numeric" id= "txtMax_' + index + '" placeholder="Max" /></div>' +
+                                    '</div>' +
+                                    '<div class="form-group" id="dvRadio_' + index + '" style="display:none">' +
+                                        '<label class="col-lg-3 control-label">Choice</label>' +
+                                        '<div class="col-lg-7">' +
+                                        '<input class="form-control" id= "txtChoices_' + index + '" placeholder="Fast, Medium, Slow" />' +
+                                        '</div>' +
+                                    '</div>' +
+            '</div>';
+            $('#Add_div').append(AddHtml);
+
+            BindTypeDropDown();
+            index += 1;
+
+        }
+
+        function BindTypeDropDown() {
+            var selectid = $("#ddlTagType_" + index);
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("FetchTypeList", "Tags")',
+                dataType: 'json',
+                success: function (data) {
+                    selectid.append('<option value="0">---Select---</option>')
+                    $.each(data, function (i, dat) {
+                        selectid.append('<option value="' + dat.Value + '">' +
+                             dat.Text + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+        }
+
+        $(function () {
+            $('#btnSubmit').on('click', function () {
+                //
+                var fields = new Array();
+
+                if ($('#TagName').val().length == 0 || $('#Description').val().length == 0 ) {
+                    showfailure('Required field(s) missing.');
+                    return;
+                }
+
+                // Collect all values from Fields
+
+                for (var j = 1; j < index; j++) {
+                    if ($('#txtPrompt_' + j).val().length == 0 || $('#ddlTagType_' + j).val() == 0) {
+                        showfailure('Required field(s) missing.');
+                        return;
+                    }
+
+
+
+                    // Add Tag DetailsID
+
+                    fields.push($('#hdnTagDetailsID_' + j).val());
+                    // Add prompt
+                    fields.push($('#txtPrompt_' + j).val());
+
+                    // Add type
+                    fields.push($('#ddlTagType_' + j).val());
+
+                    // Add min, max / choice
+
+                    if (parseInt($('#ddlTagType_' + j).val()) == 1) {
+                        fields.push($('#txtMin_' + j).val() + '|' + $('#txtMax_' + j).val());
+                    }
+                    else if (parseInt($('#ddlTagType_' + j).val()) == 2) {
+                        fields.push($('#txtChoices_' + j).val());
+                    }
+                }
+
+                var isActivity = false;
+                if ($('#IsActivity').is(':checked')) {
+                    isActivity = true;
+                }
+                else {
+                    isActivity = false;
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Edit", "Tags")",
+                    data: {
+                        //TagCategoryID: parseInt($('#TagCategoryID').val()),
+                        //IsActivity: isActivity,
+                        TagID: parseInt($('#TagID').val()),
+                        TagName: $('#TagName').val(),
+                        Desc: $('#Description').val(),
+                        Fields: fields
+                    },
+                    success: function (data) {
+                        if (data) {
+                            window.location.href = "/Tags/Index";
+                        }
+                    },
+                    error: function (arg) {
+                        alert("Error");
+                    }
+
+                });
+            });
+
+        });
+
+
+    </script>
+}
+
+

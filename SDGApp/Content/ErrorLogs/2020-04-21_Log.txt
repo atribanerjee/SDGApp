@@ -1,0 +1,44 @@
+04-21-2020 12:08:40 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:09:18 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:09:46 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:11:08 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:11:39 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:12:42 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:12:59 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:20:37 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 12:20:57 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:50:16 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:50:31 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:50:40 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:50:49 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:50:58 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:51:11 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:51:26 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:51:36 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:51:46 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:52:05 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 16:53:25 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 18:57:19 - SGDApp.Models.MailService - SendEmail ::: 
+
+04-21-2020 18:57:37 - SGDApp.Models.MailService - SendEmail ::: 
+

@@ -1,0 +1,51 @@
+﻿@{
+    var pagecount = (Int32)ViewData["pagecount"];
+    var pagenumber = (Int32)ViewData["pagenumber"];
+    var previouspage = "previous";
+    var firstpage = "first";
+    var nextpage = "next";
+    var lastpage = "last";
+    if (pagenumber <= 1)
+    {
+        previouspage = "previous disable";
+        firstpage = "first disable";
+    }
+    if (pagecount == pagenumber)
+    {
+        nextpage = "next disable";
+        lastpage = "last disable";
+    }
+}
+
+<div id="divpagination">
+    <div class="pageprevious">
+        <a class="@firstpage" title="First" href="javascript:void(0);">First</a><a title="Previous"
+                                                                                   class="@previouspage" href="javascript:void(0);">Previous</a>
+        <div class="clr"></div>
+    </div>
+    <div class="pageno">
+        Page No
+        <select id="ddlPaging">
+            @for (Int32 i = 1; i <= pagecount; i++)
+            {
+                if (i == pagenumber)
+                {
+                    <text>
+                        <option selected="selected" value="@i">@i</option></text>
+                }
+                else
+                {
+                    <text>
+                        <option value="@i">@i</option></text>
+                }
+            }
+        </select>
+    </div>
+    <div class="pagenext">
+        <a class="@nextpage" title="Next" href="javascript:void(0);">Next</a><a class="@lastpage" title="Last"
+                                                                                href="javascript:void(0);">Last</a>
+        <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+</div>
+<div class="clr"></div>

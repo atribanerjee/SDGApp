@@ -1,0 +1,200 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.UserContactsViewModel>
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    ViewBag.Title = "Contacts";
+
+    String title = "Contacts List";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+            <header class="panel-heading">
+
+                <div class="row">
+
+                    <div class="col-lg-9 col-md-9 col-sm-9">
+                        <h2 class="pull-left">
+                            @title  &nbsp; <span id="spnContactscount">0</span>  contact (s)
+                        </h2>
+
+                        <div class="pull-left searchOnHeaderGen ">
+                            <form action="#" class="header-search ">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" id="ContactSearchValue" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button id="btnSeach" onclick="GetSearchContact();" class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <span class="tools pull-right">
+                            <button onclick="window.location.href='/Contacts/PendingInvitation'" type="button" class="btn btn-info btn-sm"> Pending Invitation(s) </button>
+                            <button onclick="window.location.href='/Contacts/ContactsInvitation'" type="button" class="btn btn-success btn-sm"> Add Contact(s) </button>
+                        </span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+
+            <div class="panel-heading heading-contact-option">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <p class="form-control-static">Sort by : </p>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span id="spnsortedbytext">Recently added</span>
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" id="ulsortby">
+                                <li><a href="javascript:void(0);" id="sortbyaccepteddate" value="accepteddate" onclick="fnSortBy('accepteddate')">Accepted date</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);" id="sortbyfname" onclick="fnSortBy('fname')">First name</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);" id="sortbylname" onclick="fnSortBy('lname')">Last name</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p class="form-control-static">View by : </p>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group tool-option">
+                            <button type="button" class="tooltips tool-op " data-toggle="tooltip" data-placement="top" title="List View" onclick="ShowListGrid(1);"><i class="fa fa-th-list fa-lg" aria-hidden="true"></i></button>
+                            <button type="button" class="tooltips tool-op " data-toggle="tooltip" data-placement="top" title="Grid View" onclick="ShowListGrid(2);"><i class="fa fa-th-large fa-lg" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divusercontactlist" class="panel">
+
+                @{ Html.RenderAction("UserContactList", "Contacts", new { });}
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var cnt = 0;
+        sortbyvalue = 'accepteddate';
+
+        $(document).ready(function () {
+            
+            $("#spnsortedbytext").html('Accepted date');            
+
+        });
+
+        function fnClose(userid) {
+
+            var dvid = '#dv_' + userid;
+            $(dvid).hide();
+
+        }
+
+
+        function ShowListGrid(listflag) {
+            if (listflag == 1) {
+                $(".grdview").hide();
+                $(".lstview").show();
+            }
+            else if (listflag == 2) {
+                $(".grdview").show();
+                $(".lstview").hide();
+            }
+        }
+
+
+
+        function GetSearchContact() {
+
+            var pagenumber = 1;
+            var pagesize = 10;
+
+            var searchvalue = $('#ContactSearchValue').val();
+
+
+            var url = '@Url.Action("UserContactList", "Contacts")';
+            //window.location.href = url + "?SearchValue=" + encodeURIComponent(searchvalue);
+
+            $('#divusercontactlist').load(
+            url + "?SearchValue=" + encodeURIComponent(searchvalue)
+                );
+
+            GetContactsCount();
+
+            //
+            //$.get(url + "?SearchValue=" + encodeURIComponent(searchvalue), function (data, status) {
+            //    
+            //    alert("Data: " + data + "\nStatus: " + status);
+            //});
+        }
+
+
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                GetSearchContact();
+            }
+        });
+
+        function fnSortBy(sortbyvalue) {
+
+            //alert(sortbyvalue);
+            
+
+            var searchvalue = $('#ContactSearchValue').val();
+            
+            $("#spnsortedbytext").html('');
+
+            if (sortbyvalue !== '' && sortbyvalue === 'accepteddate') {
+                $("#spnsortedbytext").html('Accepted date');
+            }
+            else if (sortbyvalue !== '' && sortbyvalue === 'fname') {
+                $("#spnsortedbytext").html('First name');
+            }
+            else if (sortbyvalue !== '' && sortbyvalue === 'lname') {
+                $("#spnsortedbytext").html('Last name');
+            }
+
+
+            var url = '@Url.Action("UserContactList", "Contacts")';
+
+            $('#divusercontactlist').load(
+            url + "?SearchValue=" + encodeURIComponent(searchvalue) + "&sortbyvalue=" + encodeURIComponent(sortbyvalue)
+                );
+
+            cnt = cnt + 1;
+
+            GetContactsCount(sortbyvalue);
+
+        }
+
+    </script>
+
+}
+
+

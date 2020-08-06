@@ -1,0 +1,128 @@
+﻿@model SDGApp.ViewModel.TagsHistoryViewModel
+@{
+    ViewBag.Title = "Add Tag History";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+
+        <section class="panel ">
+            <header class="panel-heading">
+                <h2> Edit tag history </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+
+            <div class="panel-body form-generalIn">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 no=pad">
+
+                        @using (Html.BeginForm("Edit", "TagHistory", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(m => m.hdnTagValue)
+
+
+                            <div class="position-center generalIn-formz generalIn-formzTag">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Type</label>
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        @Html.DropDownListFor(m => m.FKTagLabelID, Model.DDLTagLabelType, "--Select Type--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.FKTagLabelID)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Tag Date</label>
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        @Html.TextBoxFor(m => m.CreatedDateTime, new { @class = "form-control", @placeholder = "Date" })
+                                        @Html.ValidationMessageFor(m => m.CreatedDateTime, "")
+                                    </div>
+                                </div>
+
+                                <div class="form-group valueRange">
+                                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Value</label>
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        <input type="range" min="1" max="10" name="RangeTagValue" value="@Model.TagValue" class="slider" id="RangeTagValue">
+                                        <p class="setRng">Set range : <span id="sldvalue"></span></p>
+                                        @*@Html.TextBoxFor(m => m.DefaultValue, new { @placeholder = "value", @class = "form-control", @type = "number" })*@
+                                        @*@Html.ValidationMessageFor(m => m.DefaultValue)*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Note</label>
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        @Html.TextAreaFor(m => m.Note, new { @placeholder = "Notes", @class = "form-control form-control-textarea", @rows = 5 })
+                                        @Html.ValidationMessageFor(m => m.Note)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-offset-2 col-lg-10">
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        @Html.ActionLink("Cancel", "Index", "TagHistory", new { }, new { @class = "btn btn-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        fnSelectMenuActive('tags', 'taghistory');
+
+        $(function () {
+
+            var date = new Date();
+            var today = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+
+            $("#CreatedDateTime").datetimepicker({
+                // dateFormat: "mm-dd-yy",
+                autoclose: true
+            });
+            $('#CreatedDateTime').datetimepicker('setDate', today);
+            $('#hdnTagValue').val('@Model.TagValue');
+
+        });//End Main function
+
+        var slider = document.getElementById("RangeTagValue");
+        var output = document.getElementById("sldvalue");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            //
+            output.innerHTML = this.value;
+            $('#hdnTagValue').val(this.value);
+        }
+
+
+    </script>
+
+}
+
+
+

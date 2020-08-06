@@ -1,0 +1,6 @@
+05-30-2020 23:27:41 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atribanerjee@hotmail.com
+
+05-30-2020 23:45:04 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+05-30-2020 23:47:46 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atribanerjee@hotmail.com
+

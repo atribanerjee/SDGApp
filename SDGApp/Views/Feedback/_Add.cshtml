@@ -1,0 +1,61 @@
+﻿@model SDGApp.ViewModel.FeedbackViewModel
+
+
+@using (Html.BeginForm("Add", "Feedback", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>
+
+    <div class="generalIn-formz generalIn-formzTag">
+        <div class="form-group">
+            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Added by</label>
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                @Html.TextBoxFor(model => model.UserFullName, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Topic</label>
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                @Html.DropDownListFor(model => model.FKHelpModuleID, Model.DDLTopic, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FKHelpModuleID)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-lg-2 col-md-2 col-sm-12 control-label">@Html.LabelFor(model => model.FeedbackContent)</label>
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                @Html.TextAreaFor(m => m.FeedbackContent, new { @placeholder = "Enter Feedback Content", @rows = "10", @cols = "10" , @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button id="btnSubmit" class="btn btn-primary" type="submit">Save</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    }
+
+<link href="@Url.Content("~/Content/bootstrap-rating.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/bootstrap-rating/bootstrap-rating.js")"></script>
+
+<script type="text/javascript">
+
+
+    $('.rating').each(function () {
+        $('<span class="label label-default"></span>')
+            .text($(this).val() || ' ')
+            .insertAfter(this);
+    });
+    $('.rating').on('change', function () {
+        $(this).next('.label').text($(this).val());
+        $("#FeedbackRating").val($(this).val());
+        // alert($("#FeedbackRating").val());
+    });
+
+</script>

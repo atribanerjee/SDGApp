@@ -1,0 +1,136 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.LibraryHierarchyViewModel>
+
+<script src="@Url.Content("~/Content/js/jquery.dcjqaccordion.2.7.js")" class="include" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/fuelux/css/tree-style.css")" />
+
+
+<div class="Holdin-Tree LeftHold clearfix ">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 event-list-block search-bar">
+        <div class="input-group defal-search">
+            <input class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <button class="btn btn-success" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 event-list-block ">
+
+        <div class="one-single-blok tree-holder ">
+
+            <div id="FlatTree2" class="tree">
+                <div class="tree-folder" style="display:none;">
+                    <div class="tree-folder-header">
+                        <i class="fa fa-folder"></i>
+                        <div class="tree-folder-name"></div>
+                    </div>
+                    <div class="tree-folder-content"></div>
+                    <div class="tree-loader" style="display:none"></div>
+                </div>
+                <div class="tree-item" style="display:none;">
+                    <i class="tree-dot"></i>
+                    <div class="tree-item-name"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="one-single-blok tree-holder none ">
+            <ul id="nav-accordion-ims" class="list-unstyled sidebar-menu event-listz">
+
+                @if (Model != null && Model.Count > 0)
+                    {
+                    foreach (var itemTopic in Model)
+                        {
+                        <!-- actual loop for main topic(with task) item START LoadSubTasksDiv-->
+
+                        <li class="sub-menu wirnselect ">
+                            <a href="javascript:;" class="">
+                                <span id="spnTopic_@itemTopic.TopicID" onclick="LoadSubTaskByTopicDiv('@itemTopic.TopicID');"><i class="fas fa-book-open" aria-hidden="true"></i> &nbsp; @itemTopic.TopicName</span>
+                            </a>
+                            <div class="tools pull-right">
+                                @Ajax.RawActionLink("<i class=\"fa fa-plus-square\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Add\"></i>", "AddEditTopicTask", "Library", new { Flag = "Add Task", Tid = itemTopic.TopicID }, new AjaxOptions { UpdateTargetId = "modalAddEdit", OnSuccess = "TopicAdditionloadsuccess();" }, new { @title = "add task", @class = "add-edit ico-add" })
+                                @Ajax.RawActionLink("<i class=\"fas fa-pen-nib\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Modify\" ></i>", "AddEditTopicTask", "Library", new { Flag = "Edit Topic", Tid = itemTopic.TopicID }, new AjaxOptions { UpdateTargetId = "modalAddEdit", OnSuccess = "TopicAdditionloadsuccess();" }, new { @title = "edit topic", @class = "add-edit ico-edit" })
+                                <a href="#" onclick="DeleteTopicTask('@itemTopic.TopicID','DeleteTopic')" class="add-edit ico-delete" data-toggle="modal">
+                                    <i class="fas fa-trash-restore-alt" data-placement="left" data-toggle="tooltip " data-original-title="Remove"></i>
+                                </a>
+                            </div>
+                            <ul class="sub" style="display: none;">
+                                <!-- actual loop for main task under topic item START -->
+                                @foreach (var itemTask in itemTopic.TaskList)
+                                    {
+                                    <li class="wirnselect ">
+                                        <a class="" href="#">
+                                            <span id="spnTask_@itemTask.WorkID" onclick="LoadSubTasksDiv('@itemTask.WorkID')"><i class="fas fa-address-book" aria-hidden="true"></i> &nbsp; @itemTask.WorkName</span>
+                                        </a>
+                                        <div class="tools pull-right">
+                                            @Ajax.RawActionLink("<i class=\"fa fa-plus-square\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Add\"></i>", "AddEditTopicTask", "Library", new { Flag = "Add SubTask", Tid = itemTask.WorkID }, new AjaxOptions { UpdateTargetId = "modalAddEdit", OnSuccess = "TopicAdditionloadsuccess();" }, new { @title = "add subtask", @class = "add-edit ico-add" })
+                                            @Ajax.RawActionLink("<i class=\"fas fa-pen-nib\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Modify\" ></i>", "AddEditTopicTask", "Library", new { Flag = "Edit Task", Tid = itemTask.WorkID }, new AjaxOptions { UpdateTargetId = "modalAddEdit", OnSuccess = "TopicAdditionloadsuccess();" }, new { @title = "edit task", @class = "add-edit ico-edit" })
+                                            <a href="#" onclick="DeleteTopicTask('@itemTask.WorkID','DeleteTask')" class="add-edit ico-delete" data-toggle="modal">
+                                                <i class="fas fa-trash-restore-alt" data-placement="left" data-toggle="tooltip " data-original-title="Remove"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    }@*foreach arrlist[1]*@
+
+                                    <!-- actual loop for main task under topic END -->
+
+                                </ul>
+                            </li>
+                            }//foreach arrlist[0]
+                        }@*if arrlit!=null*@
+
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="@Url.Content("~/Content/Latest/js/fuelux/js/tree.min.js")"></script>
+
+<script src="@Url.Content("~/Content/Latest/js/tree.js")"></script>
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        TreeView.init();
+    });
+
+    $(document).ready(function () {
+        if ($.fn.dcAccordion) {
+            $('#nav-accordion-ims').dcAccordion({
+                eventType: 'click',
+                autoClose: false,
+                saveState: true,
+                disableLink: true,
+                speed: 'slow',
+                showCount: false,
+                autoExpand: false,
+                classExpand: 'dcjq-current-parent'
+            });
+        }
+    })
+
+
+    // for Auto selected
+    if (lastActiveTopicID.length > 0) {
+        $('#' + lastActiveTopicID).click();
+
+        if (lastActiveTaskID.length > 0) {
+            $('#' + lastActiveTaskID).click();
+        }
+    }
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+
+</script>
+
+
+

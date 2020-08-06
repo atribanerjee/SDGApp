@@ -1,0 +1,112 @@
+﻿@model SDGApp.ViewModel.UserMessageViewModel
+@{
+    ViewBag.Title = "View Message";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+}
+
+<script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+<script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel ">
+            <header class="panel-heading">
+                <h2> View Message </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+            <div class="panel-body form-generalIn">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @using (Html.BeginForm("ViewMessage", "UserMessage", FormMethod.Get, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(m => m.MessageID)
+                            @*@Html.ValidationSummary(true)
+                                @Html.AntiForgeryToken()*@
+                            <div class="position-center generalIn-formz generalIn-formzTag">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h4>To -</h4>
+                                                <h2>@Model.MessageTo</h2>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h4>Cc -</h4>
+                                                <h2>@Model.MessageCc</h2>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h4>Subject -</h4>
+                                                <h2>@Model.MessageSubject</h2>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h4>Content -</h4>
+                                                <h2>@Html.Raw(@Model.MessageBody)</h2>
+                                            </li>
+                                            <li class="list-group-item">
+                                                @Html.ActionLink("Cancel", "Index", "UserMessage", new { }, new { @class = "btn btn-danger" })
+                                            </li>
+                                        </ul>
+
+                                        <div class="none">
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">To :</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12 control-label">
+                                                    @Model.MessageTo
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Cc :</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12 control-label">
+                                                    @Model.MessageCc
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Subject</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12 control-label">
+                                                    @Model.MessageSubject
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Body</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12 control-label">
+                                                    @Html.Raw(@Model.MessageBody)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-lg-offset-1 col-lg-11">
+                                                    @*<button id="btnSubmit" class="btn btn-primary" type="submit">Save</button>*@
+                                                    @Html.ActionLink("Cancel", "Index", "UserMessage", new { }, new { @class = "btn btn-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        fnSelectMenuActive('sendmail', '');
+
+    </script>
+}
+

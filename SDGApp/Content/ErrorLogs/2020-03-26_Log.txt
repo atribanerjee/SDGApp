@@ -1,0 +1,6 @@
+03-26-2020 09:43:26 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+03-26-2020 11:25:35 - SDGApp.Models.UserMessageModel - FetchMessageList ::: LINQ to Entities does not recognize the method 'System.String StripHTML(System.String)' method, and this method cannot be translated into a store expression.
+
+03-26-2020 11:28:10 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+

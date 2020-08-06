@@ -1,0 +1,46 @@
+06-30-2020 16:08:49 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:09:07 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:09:14 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:19:44 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:19:44 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:19:44 - SDGApp.Models.UserMessageModel - ComposeNewMessage ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:20:14 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:20:33 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:20:59 - SDGApp.Models.UserMessageModel - ComposeNewMessage ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:23:56 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:24:17 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:24:30 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:37:32 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:37:32 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:37:32 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:37:46 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 16:37:46 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 16:37:46 - SDGApp.Models.UserMessageModel - SaveMessageAttachment ::: Object reference not set to an instance of an object.
+
+06-30-2020 19:30:40 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 19:36:37 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-30-2020 19:42:05 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - chakraborty.amit.tict@gmail.com
+
+06-30-2020 19:42:30 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+06-30-2020 19:43:49 - SGDApp.Models.MailService - SendEmail ::: 
+

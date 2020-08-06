@@ -1,0 +1,44 @@
+﻿@using SDGApp.Helpers
+@{
+
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+    
+    ViewBag.Title = "Feedback";
+}
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-sm-12">
+        <section id="divfeedbacklist" class="panel">
+
+            @{ Html.RenderAction("FeedbackList", "Feedback", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'managefeedback');
+
+        //selectleftmenu('managefeedback', 'setup');
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("FeedbackList", "Feedback")';
+            $('#divfeedbacklist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+
+
+
+
+    </script>
+
+}
+
+

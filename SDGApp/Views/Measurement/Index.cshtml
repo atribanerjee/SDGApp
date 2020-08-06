@@ -1,0 +1,229 @@
+﻿@model SDGApp.ViewModel.MeasurementViewModel
+@{
+    ViewBag.Title = "Measurement";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+    SDGApp.Models.UserModel UM = new SDGApp.Models.UserModel();
+    List<SelectListItem> ddl = new List<SelectListItem>();
+    ddl = (List<SelectListItem>)ViewBag.UserDdl;
+}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+
+
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row ">
+    <div class="col-lg-9 col-md-9 col-sm-12">
+        <aside class="profile-nav panel-overview-app dashboard-overview ">
+            <section class="panel">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 no-pad">
+                        <div class="user-heading alt gray-bg">
+                            <h1 class=""> Measurement </h1>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 no-pad ">
+                        <input type="hidden" id="hdnUserID" value="@Model.UserID" />
+                        <ul class="nav nav-pills nav-stacked" id="ulhrhrvbp">
+                            @if (Model != null)
+                            {
+                                Html.RenderAction("GetHRHrvBP", "Measurement", new { UserID = Model.UserID });
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12"></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+          
+            <div class="panel-body panel-boditooos main-chart panel-collapse">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3> ECG &nbsp; </h3>
+                        <span class="tools pull-right none">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                        </span>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="chart" id="dvecg">
+                            @if (Model != null)
+                            {
+                                Html.RenderAction("GetEcgGraph", "Measurement", new { UserID = Model.UserID });
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3> PPG &nbsp; </h3>
+                        <span class="tools pull-right none">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                        </span>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="chart" id="dvppg">
+                            @if (Model != null)
+                            {
+                                Html.RenderAction("GetPpgGraph", "Measurement", new { UserID = Model.UserID });
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app ">
+
+            <header class="panel-heading">
+                <h2> Measurement history </h2>
+                <span class="tools pull-right ">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                </span>
+            </header>
+
+            <div class="panel-body panel-tab-view ">
+
+                <div class="panel-heading tab-bg-dark-navy-blue ">
+                    <ul id="toggleholder" class="nav nav-tabs">
+                        <li class="active">
+                            <a id="dayhistory" name="day" data-toggle="tab" onclick="fnGetHistory('day')" href="#">Day</a>
+                        </li>
+                        <li class="">
+                            <a id="weekhistory" name="week" data-toggle="tab" onclick="fnGetHistory('week')" href="#">Week</a>
+                        </li>
+                        <li class="">
+                            <a id="monthhistory" name="month" data-toggle="tab" onclick="fnGetHistory('month')" href="#">Month</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+
+                    <form id="datepickerholder" action="#" class="form-horizontal ">
+                        <div class="form-group">
+                            <label id="lblfordetailsname" class="control-label col-lg-3 col-md-3 col-sm-12 ">History for the day : </label>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div id="datepickerdiv" data-date-viewmode="years" data-date-format="mm-dd-yyyy" data-date="" class="input-append date dpYears">
+                                    <input id="datepickerval" type="text" readonly="" value="@DateTime.Now.ToString("MM-dd-yyyy")" size="16" class="form-control">
+                                    <span class="input-group-btn add-on">
+                                        <button class="btn btn-round btn-primary" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-block none">Select date</span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="detailshistory"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        fnSelectMenuActive('managemeasurement', '');
+
+        var gethistorytype = "day";
+
+        $(document).ready(function () {
+
+            fnGetHistory('day');
+
+            $('#datepickerdiv').on("changeDate", function (ev) {
+                $("#detailshistory").html('');
+                var currentdate = $("#datepickerval").val();
+
+                 if (currentdate==='') {
+                    currentdate="@DateTime.Now.ToString("MM-dd-yyyy")";
+                }
+
+                var url = '@Url.Action("GetHistory","Measurement")';
+                url += "?UserID=" + $('#hdnUserID').val() + "&type=" + gethistorytype + "&currentdate="+currentdate;
+                $("#detailshistory").load(url);
+            });
+
+
+        });//End document ready
+
+
+        //function for get all history as per day/month/week
+        function fnGetHistory(type) {
+
+            $("#detailshistory").html('');
+
+            if (type != '') {
+                gethistorytype = type;
+                $("#lblfordetailsname").text("History for the " + gethistorytype + " :");
+
+                var currentdate = $("#datepickerval").val();
+                if (currentdate==='') {
+                    currentdate="@DateTime.Now.ToString("MM-dd-yyyy")";
+                }
+
+                var url = '@Url.Action("GetHistory","Measurement")';
+                url += "?UserID=" + $('#hdnUserID').val() + "&type=" + type + "&currentdate=" + currentdate;
+                $("#detailshistory").load(url);
+
+            }
+
+        }
+
+    </script>
+
+}
+
+<script type="text/javascript">
+
+    function LoadChartdata(FileID) {
+        
+        if (FileID > 0) {
+
+            //Chart ECG
+            var urlecg = '@Url.Action("GetEcgGraphByID", "Measurement")';
+            urlecg += "?FileID=" + FileID ;
+            $('#dvecg').load(urlecg);
+
+            //Chart PPG
+            var urlppg = '@Url.Action("GetPpgGraphByID", "Measurement")';
+            urlppg += "?FileID=" + FileID ;
+            $('#dvppg').load(urlppg);
+
+            //Header BPHRHRV
+            var url = '@Url.Action("GetHRHrvBPByFileID", "Measurement")' + '?FileID=' + FileID;
+             $('#ulhrhrvbp').load(url);
+
+        }
+    }
+   
+</script>

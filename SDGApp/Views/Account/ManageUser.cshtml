@@ -1,0 +1,37 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "User";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+
+        <section id="divuserlist" class="panel">
+
+            @{Html.RenderAction("UserList", "Account", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'manageuser');
+        //selectleftmenu('manageuser', '');
+        function loadrecordlist(pagenumber) {
+            //
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("UserList", "Account")';
+            $('#divuserlist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

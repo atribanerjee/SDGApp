@@ -1,0 +1,631 @@
+﻿@using SDGApp.Helpers
+@{SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel(); }
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="@Url.Content("~/Content/Latest/images/favicon.ico")">
+    <title>Health Gauge | @ViewBag.Title</title>
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Latest/css/bootstrap.css")">
+    <script type="text/javascript" src="https://kit.fontawesome.com/dadf664d1b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF" crossorigin="anonymous">
+
+    <!-- full calendar related stylesheet start -->
+    <!-- full calendar related stylesheet end -->
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/gritter/css/jquery.gritter.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Latest/css/bootstrap-switch.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-fileupload/bootstrap-fileupload.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-wysihtml5/bootstrap-wysihtml5.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-datepicker/css/datepicker.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-timepicker/css/timepicker.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-colorpicker/css/colorpicker.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-daterangepicker/daterangepicker-bs3.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/bootstrap-datetimepicker/css/datetimepicker.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/jquery-multi-select/css/multi-select.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/jquery-tags-input/jquery.tagsinput.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/select2/select2.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Latest/css/style.css")" >
+    <link rel="stylesheet" href="@Url.Content("~/Content/Latest/css/style-responsive.css")" />
+    
+
+    @{
+        var imageSrc = "";
+
+        if (!String.IsNullOrEmpty(BM.GetStringValue(BM.GetSessionValue("LoggedInUserPicture"))))
+            {
+            imageSrc = Url.Content("~/Content/images/" + BM.GetStringValue(BM.GetSessionValue("LoggedInUserPicture")));
+            }
+    }
+
+</head>
+<body>
+
+    <!--SuccessFailure Notifications-->
+    <div class="modal fade modal-Messg " role="dialog" id="NotificationModal" tabindex="-1" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body body-notif">
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 color-bg">
+                            <button type="button" class="close btn-cross" data-dismiss="modal" aria-label="Close"><i class="far fa-times-circle"></i></button>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 grey-bg">
+                            <h4 id="NotificationBodytext"> </h4>
+                            <button type="button" class="btn btn-ok pull-left " data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--SuccessFailure Notifications-->
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg getFeedback" id="myFeedbackModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabelFeedback">Add New Feedback</h4>
+                </div>
+                <div id="modalbodyfeedback" class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg getFeedback" id="myHelpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabelFeedback">Help</h4>
+                </div>
+                <div id="modalbodyhelp" class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+    <section id="container">
+        <!--header start-->
+        <header class="header fixed-top clearfix">
+            <!--logo start-->
+            <div class="brand">
+                <a href="#" class="logo">
+                    <img src="@Url.Content("~/Content/Latest/images/logo.png")" class="img-responsive" alt="">
+                </a>
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars"></div>
+                </div>
+            </div>
+            <!--logo end-->
+
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <li>
+                        @*myFeedbackModal*@
+                        <a href="javascript:;" id="feedbackAddUser" onclick='AddFeedback();' data-toggle="modal" data-target="#myFeedbackModal">
+                            <i class="fa fa-comments"></i>
+                            <span class="badge bg-success"></span>
+                        </a>
+                    </li>
+                    <li>
+                        @*myHelpModal*@
+                        <a href="javascript:;" id="helpAddUser" onclick='Showhelptext();' data-toggle="modal" data-target="#myHelpModal">
+                            <i class="fa fa-question-circle"></i>
+                            <span class="badge bg-important"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/TagHistory/Add" class="addTag tooltips" data-toggle="tooltip" data-placement="bottom" title="Add Tag">
+                            <i class="fas fa-tags"></i>
+                            <span class="badge bg-important"></span>
+                        </a>
+                    </li>
+                    <!-- notification dropdown start-->
+                    <li id="header_notification_bar " class="dropdown none">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="badge bg-warning">3</span>
+                        </a>
+                        <ul class="dropdown-menu extended notification">
+                            <li>
+                                <p>Notifications</p>
+                            </li>
+                            <li>
+                                <div class="alert alert-info clearfix">
+                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
+                                    <div class="noti-info">
+                                        <a href="#"> Server #1 overloaded.</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="alert alert-danger clearfix">
+                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
+                                    <div class="noti-info">
+                                        <a href="#"> Server #2 overloaded.</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="alert alert-success clearfix">
+                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
+                                    <div class="noti-info">
+                                        <a href="#"> Server #3 overloaded.</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- notification dropdown end -->
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-nav clearfix">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <div class="holdImg">
+                                @if (!String.IsNullOrEmpty(imageSrc))
+                                    {
+                                    <img src="@imageSrc" alt="" />
+                                    }
+                                else
+                                    {
+                                    <img src="@Url.Content("~/Content/Latest/images/no-image4.jpg")" alt="" />
+                                    }
+                            </div>
+                            <span class="username"> @BM.GetStringValue(BM.GetSessionValue("LoggedInUserFullName"))</span>
+                            <b><i class="fa fa-angle-down" aria-hidden="true"></i></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <li>@Html.RawActionLink("<i class=\"fas fa-user-tie\"></i>Profile", "MyProfile", "Account", new { }, new { })</li>
+                            <li>@Html.RawActionLink("<i class=\"fas fa-phone-alt\"></i>Contacts", "Index", "Contacts", new { }, new { })</li>
+                            <li>@Html.RawActionLink("<i class=\"fas fa-key\"></i> Change Password", "ChangePassword", "Account", null, new { })</li>
+                            <li>@Html.RawActionLink("<i class=\"fas fa-power-off\"></i> Log Out", "LogOut", "Account", null, new { })</li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+
+                    <li class="none">
+                        <div class="toggle-right-box ">
+                            <div class="fa fa-bars"></div>
+                        </div>
+                    </li>
+
+                </ul>
+                <!--search & user info end-->
+            </div>
+        </header>
+        <!--header end-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <div class="leftside-navigation">
+                    @Html.Partial("_LeftMenu")
+                </div>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+        </section>
+        <!--main content end-->
+        <!--right sidebar start | open-right-bar , widget-container | .minimiseChat -->
+        <aside>
+            <div class="chat-window none">
+                <a href="#" class="close-window tooltips "><i class="fas fa-bars fa-lg" ata-toggle="tooltip" data-placement="top" title="Minimize"></i></a>
+                <div class="chat-conversation">
+                    <b class="message-trigger">message window</b>
+                    <ul class="conversation-list">
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Hello!
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Hi, How are you? What about our next meeting?
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Yeah everything is fine
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Wow that's great
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Hello!
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Hi, How are you? What about our next meeting?
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Yeah everything is fine
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Wow that's great
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Hello!
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Hi, How are you? What about our next meeting?
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb.png")" alt="male">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>John Carry</i>
+                                    <p>
+                                        Yeah everything is fine
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="@Url.Content("~/Content/Latest/images/chat-user-thumb-f.png")" alt="female">
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>Lisa Peterson</i>
+                                    <p>
+                                        Wow that's great
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr />
+                    <div class="conversation-trigger">
+                        <div class="input-group">
+                            <input type="text" class="form-control chat-input" placeholder="Enter your text">
+                            <span class="input-group-btn chat-send">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-paper-plane"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- .minimiseBar -->
+            <div class="right-sidebar rs-nuFeatures open-right-bar none ">
+                <a href="#" class="close-bar none "><i class="fa fa-close" aria-hidden="true"></i></a>
+                <div class="search-row none">
+                    <input type="text" placeholder="Search" class="form-control">
+                </div>
+                <div class="right-stat-bar">
+                    <ul class="right-side-accordion">
+                        <li class="widget-collapsible">
+                            <a href="#" class="head terques-bg active clearfix ">
+                                <span class="pull-left">Messageing ...</span>
+                                <span class="pull-right widget-collapse none"><i class="ico-minus"></i></span>
+                            </a>
+                            <div class="search-row ">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <ul class="widget-contain main-widget">
+                                <li>
+                                    <div class="prog-row">
+                                        <div class="widget-head">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/avatar1_small.jpg")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4><a href="#">Jonathan Smith</a></h4>
+                                                <p>Work for fun</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="widget-container widget-small-contain">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/trans.png")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4>UId : JSmith</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="prog-row">
+                                        <div class="widget-head">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/avatar1.jpg")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4><a href="#">Anjelina Joe</a></h4>
+                                                <p>Available</p>
+                                            </div>
+                                        </div>
+                                        <div class="widget-container widget-small-contain">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/trans.png")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4>UId : AnjeJoe</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="prog-row">
+                                        <div class="widget-head">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/avatar-mini-4.jpg")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4><a href="#">John Doe</a></h4>
+                                                <p>Away from Desk</p>
+                                            </div>
+                                        </div>
+                                        <div class="widget-container widget-small-contain">
+                                            <div class="user-thumb">
+                                                <a href="#"><img src="@Url.Content("~/Content/Latest/images/trans.png")" alt=""></a>
+                                            </div>
+                                            <div class="user-details">
+                                                <h4>UId : DoeJ</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="text-center none">
+                                        <a href="#" class="view-btn">View all Contacts</a>
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <!--right sidebar end-->
+    </section>
+
+
+
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery-1.10.2.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap.js")"></script>
+    <script type="text/javascript" class="include" src="@Url.Content("~/Content/Latest/js/jquery.dcjqaccordion.2.7.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery.scrollTo.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery.nicescroll.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/gritter/js/jquery.gritter.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-switch.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/fuelux/js/spinner.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-fileupload/bootstrap-fileupload.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-wysihtml5/wysihtml5-0.3.0.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-wysihtml5/bootstrap-wysihtml5.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-daterangepicker/moment.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-daterangepicker/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-colorpicker/js/bootstrap-colorpicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-timepicker/js/bootstrap-timepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery-multi-select/js/jquery.multi-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery-multi-select/js/jquery.quicksearch.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/bootstrap-inputmask/bootstrap-inputmask.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/jquery-tags-input/jquery.tagsinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/select2/select2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/select-init.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/easypiechart/jquery.easypiechart.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/sparkline/jquery.sparkline.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/morris-chart/morris.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/morris-chart/raphael-min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/tooltipsIn.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/scripts.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/advanced-form.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Latest/js/gritter.js")"></script>
+
+
+
+    <!-- full calendar related javascript start -->
+    <!-- full calendar related javascript end -->
+
+
+    <script type="text/javascript">
+
+            //$(function () {
+            //$('[data-toggle="tooltip"]').tooltip();
+            //})
+
+            function fnSelectMenuActive(mainmenu, submenu) {
+
+                $('#nav-accordion li').removeClass('active');
+                $('#nav-accordion a').removeClass('active');
+                if (mainmenu != '') {
+                    $('#nav-accordion .' + mainmenu).addClass('active');
+                }
+
+                if (submenu != '') {
+                    $('#nav-accordion .' + submenu).parent().addClass('active');
+                }
+            }
+
+            function AddFeedback() {
+                $('#modalbodyfeedback').load('@Url.Action("Add","Feedback")');
+            }
+
+            function Showhelptext() {
+
+                $('#sptitle').html(''); // added
+                $('#modalbodyhelp').html(''); // added
+
+                var modalhead = ''; // added
+                var htmlbody = ''; // added
+                var table = ''; // added
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Help/GetHelpText',
+                    dataType: 'json',
+                    processData: false,
+                    success: function (data) {
+                        if (data.Topic.length > 0) {
+
+
+                            modalhead = '<tr><td>' + data.Topic + '</td></tr>';
+                            htmlbody = '<tr><td>' + data.HelpText + '</td></tr>';
+
+                            table = '<table class="table table-striped table-hover tbl-record-list">' + htmlbody + ' </table>';
+
+
+
+                            $('#sptitle').append(data.Topic);
+                            $('#modalbodyhelp').append(table);
+
+                        }
+                        else {
+                            var table = '<table class="table table-striped table-hover tbl-record-list"><tr><td rowpan="2">No Records Found</td></tr></table>';
+
+                            $('#modalbodyhelp').html(table);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        showfailure('Error');
+                    }
+                });
+
+            }
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>

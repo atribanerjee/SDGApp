@@ -1,0 +1,149 @@
+﻿@model SDGApp.ViewModel.UpdateAppViewModel
+@{
+
+    ViewBag.Title = "Upload Application";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+    String title = "Upload app";
+}
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app">
+
+            <header class="panel-heading">
+                @title
+                <span class="tools pull-right none ">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                </span>
+            </header>
+
+            <div class="panel-body body-uploadApk">
+                <div class="row gap15sbs gap15ttb ntgap">
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 ">
+                        <h4>Upload IOS - .ipa file</h4>
+                        <div class="none">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <span class="btn btn-white btn-file">
+                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select to upload</span>
+                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                                    <input type="file" class="default" />
+                                </span>
+                                <span class="fileupload-preview pe"></span>
+                                <a href="#" class="close fileupload-exists ce" data-dismiss="fileupload"></a>
+                            </div>
+                            <span class="label label-primary">NOTE!</span>
+                            <span>
+                                Attached .ipa file only
+                            </span>
+                        </div>
+                        <hr />
+                        @using (Html.BeginForm("Index", "UpdateApp", FormMethod.Post))
+                        {
+                            @Html.TextBoxFor(m => m.AppiosURL, new { @placeholder = "AppURL", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.AppiosURL)
+                            <br />
+                            @Html.TextBoxFor(m => m.AppiosVersion, new { @placeholder = "AppVersion", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.AppiosVersion)
+                            <br />
+                            <button type="submit" name="apptype" value="ios" class="btn btn-success">save</button>
+                        }
+                        <hr />
+
+                        <div class="group-versionz versionz-upload">
+                            <h5 class="title">Download the older / other version :</h5>
+                            <hr class="clearfix no-pad" />
+                            <div class="list-group group-marged " id="dvios">
+
+                               @* @{Html.RenderAction("UpdateAppIOSList", "UpdateApp", new { AppType = 2, PageNumber = 1, PageSize = GlobalConstants.PageSize });}*@
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 ">
+                        <h4>ANDROID - .apk file path</h4>
+                        <div class="none">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <span class="btn btn-white btn-file">
+                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select to upload</span>
+                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                                    <input type="file" class="default" />
+                                </span>
+                                <span class="fileupload-preview pe"></span>
+                                <a href="#" class="close fileupload-exists ce" data-dismiss="fileupload"></a>
+                            </div>
+                            <span class="label label-primary">NOTE!</span>
+                            <span>
+                                Attached .apk file only
+                            </span>
+                        </div>
+                        <hr />
+                        @using (Html.BeginForm("Index", "UpdateApp", FormMethod.Post))
+                        {
+                            @Html.TextBoxFor(m => m.AppAndroidURL, new { @placeholder = "AppURL", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.AppAndroidURL)
+                            <br />
+                            @Html.TextBoxFor(m => m.AppAndroidVersion, new { @placeholder = "AppVersion", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.AppAndroidVersion)
+                            <br />
+                            <button type="submit" name="apptype" value="android" class="btn btn-success">save</button>
+                        }
+                        <hr />
+
+                        <div class="group-versionz versionz-upload">
+                            <h5 class="title">Download the older / other version :</h5>
+                            <hr class="clearfix no-pad" />
+                            <div class="list-group group-marged " id="dvandroid">
+
+                              @*  @{Html.RenderAction("UpdateAppAndroidList", "UpdateApp", new { AppType = 1, PageNumber = 1, PageSize = GlobalConstants.PageSize });}*@
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'uploadapp');
+
+        $(document).ready(function () {
+
+            var pagenumber = 1;
+            var pagesize = 10;
+
+            var urlios = '@Url.Action("UpdateAppIOSList", "UpdateApp")';
+            $('#dvios').load(
+                urlios + "?AppType=2&PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+
+            var urlandroid = '@Url.Action("UpdateAppAndroidList", "UpdateApp")';
+            $('#dvandroid').load(
+                urlandroid + "?AppType=1&PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+
+        });
+
+
+
+
+    </script>
+
+}

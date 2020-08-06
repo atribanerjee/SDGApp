@@ -1,0 +1,205 @@
+﻿@using SDGApp.Helpers
+@{
+
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+    ViewBag.Title = "Attribute";
+    String title = "Attribute List";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-attribute">
+
+            <!-- the form type section | for add or edit form page -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+
+                    <section class="panel ">
+                        <header class="panel-heading">
+                            <h2> Add/Edit attribute </h2>
+                            <span class="tools pull-right none">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                                <a href="javascript:;" class="fa fa-cog"></a>
+                                <a href="javascript:;" class="fa fa-times"></a>
+                            </span>
+                        </header>
+
+                        <div class="panel-body form-generalIn">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                    <form class="form-horizontal">
+                                        <div class="position-center generalIn-formz generalIn-formzTag">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+                                                    <div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Attribute name</label>
+                                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                                <input type="text" class="form-control" placeholder="Name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Attribute type</label>
+                                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                                <select class="form-control ">
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                    <option>5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Attribute rule type</label>
+                                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                                <select class="form-control ">
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                    <option>5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mtop20">
+                                                            <div class="col-lg-offset-2 col-lg-10">
+                                                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Submit</button>
+                                                                <a class="btn btn-danger" href="#">Cancel</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <!-- the form type section END-->
+
+
+            <!-- the table type section | for item listing page -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+
+                    <section class="panel ">
+                        <header class="panel-heading">
+
+                            <div class="row">
+
+                                <div class="col-lg-9 col-md-9 col-sm-9">
+                                    <h2 class="pull-left">@title</h2>
+
+                                    <div class="pull-left searchOnHeaderGen ">
+                                        <form action="#" class="header-search ">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="Search for ...">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <span class="tools pull-right">
+                                        <button type="button" class="btn btn-info btn-sm"> Add </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </header>
+
+                        <div class="panel-body ">
+
+                            @*<section class="pagesize-panel">
+                                    <div class="pagesiz-ddl">
+                                        @Html.Partial("_PageSize", new ViewDataDictionary { { "pagesize", pageSize } })
+                                    </div>
+                                    <div class="records-count">
+                                        @totalRecord record(s) found
+                                    </div>
+                                    <div class="clear"></div>
+                                </section>*@
+                            <table class="table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th> Attribute name</th>
+                                        
+                                        <th class="akxson">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td><a href="#">Attr names item one</a></td>
+                                        
+                                        <td class="akxson">
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-pen-nib" data-toggle="tooltip" data-placement="left" title="Modify"></i></a>
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-trash-restore-alt" data-toggle="tooltip" data-placement="left" title="Remove"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Attr names item1 one</a></td>
+                                        
+                                        <td class="akxson">
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-pen-nib"></i></a>
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-trash-restore-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Attr names item2 one</a></td>
+                                        
+                                        <td class="akxson">
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-pen-nib"></i></a>
+                                            <a href="javascript:void(0);" class=""><i class="fas fa-trash-restore-alt"></i></a>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                            @*<section class="paging-panel">
+                                    @Html.Partial("_Paging", new ViewDataDictionary { { "pagecount", pageCount }, { "pagenumber", pageNumber } })
+                                </section>*@
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <!-- the form type section END-->
+
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'attribute');
+
+
+
+    </script>
+
+}
+

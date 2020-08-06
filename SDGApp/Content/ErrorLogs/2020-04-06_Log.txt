@@ -1,0 +1,2 @@
+04-06-2020 21:55:05 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - amittict08@gmail.com
+

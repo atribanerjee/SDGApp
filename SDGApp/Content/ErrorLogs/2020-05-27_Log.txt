@@ -1,0 +1,8 @@
+05-27-2020 16:46:19 - SDGApp.Models.UserContactsModel - GetUserContactInvitationList ::: LINQ to Entities does not recognize the method 'System.DateTime ToDateTime(System.Object)' method, and this method cannot be translated into a store expression.
+
+05-27-2020 16:46:44 - SDGApp.Models.UserContactsModel - GetUserContactInvitationList ::: LINQ to Entities does not recognize the method 'System.DateTime ToDateTime(System.Object)' method, and this method cannot be translated into a store expression.
+
+05-27-2020 18:18:28 - SDGApp.Models.CompanyModel - FetchCompanyList ::: LINQ to Entities does not recognize the method 'System.String ToString(System.String)' method, and this method cannot be translated into a store expression.
+
+05-27-2020 20:18:44 - SDGApp.Models.ThirdPartyModel - LoadAPIKeys ::: An error occurred while executing the command definition. See the inner exception for details.
+

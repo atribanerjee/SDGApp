@@ -1,0 +1,152 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.LibraryViewModel>
+
+@{
+    ViewBag.Title = "Library";
+    // List<ShopperRecognitionSystem.ViewModels.LibraryViewModel>[] arrList = ViewBag.arrList;
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+}
+
+
+@if (Model != null && Model.Count > 0)
+    {
+
+    <section class="Library-DetailedIn RightHold ">
+        <div class="topicBlok">
+            <header class="panel-heading">
+                <h4>
+                    <i class="fa fa-clipboard" aria-hidden="true"></i> &nbsp; @Model[0].TopicName
+                </h4>
+            </header>
+        </div>
+        @for (var i = 0; i < Model.Count; i++)
+            {
+            if (Model[i].WorkParentID != null)
+                {
+                if (Model[i].WorkParentID == 0)
+                    {
+
+                    <div class="taskBlok">
+                        <header class="panel-heading">
+                            <h4>
+                                <i class="fa fa-tag" aria-hidden="true"></i> &nbsp; @Model[i].WorkName
+                                <p>
+                                    @Model[i].WorkDescription
+                                    @try
+                                        {
+                                        if (Model[i].LstFilesTask != null && Model[i].LstFilesTask.Count > 0)
+                                            {
+                                            <span class="icon-attach"><i class="fa fa-paperclip tooltips" data-placement="top" data-toggle="tooltip"></i></span>
+                                            }
+                                        }
+                                    catch { }
+                                </p>
+                            </h4>                            
+                        </header>
+
+                        <div class="panel-body show-files task-files ">
+                            <div class="panel ">
+                                <div class="well ">
+                                    <ul class="list-group">
+                                        @try
+                                            {
+                                            if (Model[i].LstFilesTask != null && Model[i].LstFilesTask.Count > 0)
+                                                {
+                                                foreach (var taskfileitem in Model[i].LstFilesTask)
+                                                    {
+                                                    var taskfilename = taskfileitem.DisplayName.Length < 15 ? taskfileitem.DisplayName : taskfileitem.DisplayName.Substring(0, 5) + "...";
+
+                                                    <li class="list-group-item">
+                                                        <a href="/Library/DownloadFile/@taskfileitem.FileID" download="download" class="item-name">@taskfilename</a>
+                                                    </li>
+                                                    }
+                                                }
+                                            }
+                                        catch { }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                else if (Model[i].WorkID > 0)
+                    {
+                    <div class="subTaskBlok">
+                        <div class="panel-body no-pad ">
+                            <div>
+                                <div class="well accordion ">
+                                    <div>
+                                        <div class="panel-group">
+
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                    <h4 class="panel-title">
+                                                        @Model[i].WorkName
+                                                        <span class="pull-right">
+                                                            <a class="add-edit ico-edit" data-ajax="true" data-ajax-mode="replace" data-ajax-success="TopicAdditionloadsuccess();"
+                                                               data-ajax-update="#modalAddEdit" href="/Library/AddEditTopicTask?Flag=Edit%20SubTask&amp;Tid=@Model[i].WorkID" title="edit task" data-toggle="modal">
+                                                                <i class="fas fa-pen-nib" data-toggle="tooltip" data-placement="left" title="Modify"></i>
+                                                            </a>
+                                                            <a onclick="DeleteTopicTask(@Model[i].WorkID ,'DeleteSubTask')" href="javascript:void(0)" class="add-edit ico-delete" data-toggle="modal">
+                                                                <i class="fas fa-trash-restore-alt tooltips" data-placement="top" data-toggle="tooltip " data-original-title="Remove"></i>
+                                                            </a>
+                                                            @if (Model[i].LstFilesSubTask != null && Model[i].LstFilesSubTask.Count > 0)
+                                                                {
+                                                                <span class="icon-attach"><i class="fas fa-link tooltips" data-toggle="tooltip" data-placement="left" title="Attach"></i></span>
+                                                                }
+                                                        </span>
+                                                    </h4>
+                                                </div>
+                                                <div class="collapse panel-collapse in" id="collapseOne_@Model[i].WorkParentID">
+                                                    <div class="panel-body show-files">
+                                                        <span> @Model[i].WorkDescription </span>
+
+                                                        <ul class="list-group">
+                                                            @if (Model[i].LstFilesSubTask != null && Model[i].LstFilesSubTask.Count > 0)
+                                                                {
+                                                                foreach (var subtaskfileitem in Model[i].LstFilesSubTask.Where(a => a.FKWorkID == Model[i].WorkID))
+                                                                    {
+                                                                    //if (Model[i].WorkID == subtaskfileitem.FKWorkID) var item2 in arrList[1].Where(a => a.WorkParentID == item.WorkID)
+                                                                    //{//}
+                                                                    var filename = subtaskfileitem.DisplayName.Length < 15 ? subtaskfileitem.DisplayName : subtaskfileitem.DisplayName.Substring(0, 5) + "...";
+
+                                                                    <li class="list-group-item">
+                                                                        <a href="/Library/DownloadFile/@subtaskfileitem.FileID" download="download" class="item-name">@filename</a>
+                                                                    </li>
+                                                                    }
+                                                                }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                }
+            else
+                {
+                <div class="panel-body">
+                    <h5>No tasks or sub tasks are added yet!</h5>
+                </div>
+                }
+            }
+
+    </section>
+
+    }
+
+<script type="text/javascript">
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    
+
+</script>
+

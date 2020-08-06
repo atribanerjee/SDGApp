@@ -1,0 +1,10 @@
+06-10-2020 14:03:07 - SDGApp.Models.TagLabesModel - GetAllTagLabelList ::: LINQ to Entities does not recognize the method 'Int32 ToInt32(System.Object)' method, and this method cannot be translated into a store expression.
+
+06-10-2020 14:03:42 - SDGApp.Models.TagLabesModel - GetAllTagLabelList ::: LINQ to Entities does not recognize the method 'Int32 ToInt32(System.Object)' method, and this method cannot be translated into a store expression.
+
+06-10-2020 19:23:27 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-10-2020 19:54:30 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-10-2020 20:06:42 - SGDApp.Models.MailService - SendEmail ::: 
+

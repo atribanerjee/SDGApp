@@ -1,0 +1,60 @@
+﻿@model SDGApp.ViewModel.FeedbackViewModel
+@{
+    ViewBag.Title = "Edit Feedback";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+@if (Model != null && Model.ID > 0)
+    {
+    <div class="panel">
+        @using (Html.BeginForm("Edit", "Feedback", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+            @Html.ValidationSummary(true)
+            @*@Html.HiddenFor(model => model.FKHelpModuleID)*@
+            @Html.HiddenFor(model => model.ID)
+            <div class="generalIn-formz generalIn-formzTag">
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Help Module</label>
+                    <div class="col-lg-10 col-md-10 col-sm-12">
+                        @Html.TextBoxFor(model => model.UserFullName, new { @class = "form-control", @disabled = "disabled" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">Help Module</label>
+                    <div class="col-lg-10 col-md-10 col-sm-12">
+                        @Html.DropDownListFor(model => model.FKHelpModuleID, Model.DDLTopic, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FKHelpModuleID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-md-2 col-sm-12 control-label">FeedBack Content</label>
+                    <div class="col-lg-10 col-md-10 col-sm-12">
+                        @Html.TextBoxFor(m => m.FeedbackContent, new { @placeholder = "Last Name", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FeedbackContent)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+                        @Html.ActionLink("Cancel", "ManageUser", "Account", new { }, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+            </div>
+            }
+    </div>
+    }
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'managefeedback');
+    </script>
+
+}

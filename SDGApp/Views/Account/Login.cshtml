@@ -1,0 +1,396 @@
+﻿@model SDGApp.ViewModel.UserViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<!-- begin::Head -->
+<head>
+    <base href="../../../">
+    <meta charset="utf-8" />
+    <title>Health Gauge | Login</title>
+    <meta name="description" content="Login page example">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--end::Page Custom Styles -->
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="@Url.Content("~/Content/plugins/global/plugins.bundle.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/style.bundle.css")" rel="stylesheet" type="text/css" />
+    <!--end::Global Theme Styles -->
+    <!--begin::Layout Skins(used by all pages) -->
+    <link href="@Url.Content("~/Content/css/skins/header/base/light.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/skins/header/menu/light.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/skins/brand/dark.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/skins/aside/dark.css")" rel="stylesheet" type="text/css" />
+    <!--end::Layout Skins -->
+    <script src="https://use.fontawesome.com/f00f7e0553.js"></script>
+    <!--begin::Page Custom Styles(used by this page) -->
+    <link href="@Url.Content("~/Content/css/pages/login/login-6.css")" rel="stylesheet" type="text/css" />
+
+    <link rel="shortcut icon" href="@Url.Content("~/Content/media/logos/favicon.ico")" />
+
+
+</head>
+<!-- end::Head -->
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+    <!-- begin:: Page -->
+    <div class="kt-grid kt-grid--ver kt-grid--root">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v6 kt-login--signin" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
+
+                <div id="hG_signup" class="kt-grid__item  kt-grid__item--order-tablet-and-mobile-2  kt-grid kt-grid--hor kt-login__aside ">
+                    <!-- add a class named "hG_Register" in up div here when click the sign up link or any button which will bring the sign up form in the page -->
+
+                    <div class="kt-login__wrapper">
+                        <div class="kt-login__container">
+                            <div class="kt-login__body">
+                                <div class="kt-login__logo">
+                                    <a href="#">
+                                        <img src="@Url.Content("~/Content/media/company-logos/logo-2.png")">
+                                    </a>
+                                </div>
+                                <div class="kt-login__signin">
+                                    <div class="kt-login__head">
+                                        <h3 class="kt-login__title">Sign In</h3>
+                                    </div>
+                                    <div class="kt-login__form">
+
+                                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "kt-form" }))
+                                            {
+                                            @Html.HiddenFor(m => m.ReturnUrl)
+                                            if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                                {
+                                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                                    <div class="alert-text">@ViewBag.ErrorMessage</div>
+                                                    <div class="alert-close">
+                                                        <i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i>
+                                                    </div>
+                                                </div>
+                                                }
+                                            if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                                                {
+                                                <div class="alert alert-success alert-dismissible" role="alert">
+                                                    <div class="alert-text">@ViewBag.SuccessMessage</div>
+                                                    <div class="alert-close">
+                                                        <i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i>
+                                                    </div>
+                                                </div>
+
+                                                }
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "User Name", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.UserName)
+                                                <a href="javascript:;" id="kt_login_forgot_username" class="forgt">Forget Username ?</a>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-last", @placeholder = "Password", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Password)
+                                                <a href="javascript:;" id="kt_login_forgot" class="forgt">Forget Password ?</a>
+                                            </div>
+                                            <div class="kt-login__extra">
+                                                <label class="kt-checkbox">
+                                                    @Html.CheckBoxFor(m => m.RememberMe) Remember me
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <div class="kt-login__actions">
+                                                <button type="submit" class="btn btn-brand btn-pill btn-elevate">Sign In</button>
+                                            </div>
+
+                                            }
+
+                                    </div>
+                                </div>
+
+                                <div id="dvReg" class="kt-login__signup">
+                                    <div class="kt-login__head">
+                                        <h3 class="kt-login__title">Sign Up</h3>
+                                        <div class="kt-login__desc">Enter your details to create your account:</div>
+                                    </div>
+                                    <div class="kt-login__form">
+                                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "kt-form" }))
+                                        {
+
+                                            if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                            {
+
+                                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                                    <div class="alert-text">@ViewBag.ErrorMessage</div>
+                                                    <div class="alert-close">
+                                                        <i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                                            {
+                                                <div class="alert alert-success alert-dismissible" role="alert">
+                                                    <div class="alert-text">@ViewBag.SuccessMessage</div>
+                                                    <div class="alert-close">
+                                                        <i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                            <input id="hdnIAgree" type="hidden" value="0" />
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="text" placeholder="First Name" name="firstname">*@
+                                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.FirstName)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="text" placeholder="Last Name" name="lastname">*@
+                                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.LastName)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="text" placeholder="UserID" name="uid">*@
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "User Name", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.UserName)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">*@
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Email)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="text" placeholder="Phone No" name="phone">*@
+                                                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @placeholder = "Phone", @autofocus = "", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Phone)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control" type="password" placeholder="Password" name="password">*@
+                                                @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", @placeholder = "Password", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.NewPassword)
+                                            </div>
+                                            <div class="form-group">
+                                                @*<input class="form-control form-control-last" type="password" placeholder="Confirm Password" name="rpassword">*@
+                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-last", @placeholder = "Confirm Password", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                            </div>
+
+                                            <div class="kt-login__extra">
+                                                <label class="kt-checkbox">
+                                                    @Html.CheckBoxFor(m => m.RememberMe, new { @id = "chkIagree", @onchange = "iagreeonchange();"  })
+                                                    I agree with the Health Gauge.
+                                                    <a href="/PrivacyPolicy/Index">Privacy Policy</a>
+                                                    <span></span>
+                                                </label>
+
+                                            </div>
+
+                                            <div class="kt-login__actions">
+                                                @*<button id="kt_login_signup_submit" type="submit" class="btn btn-brand btn-pill btn-elevate">Sign Up</button> 'disabled' class*@
+                                                <button id="btnSignUp" type="submit"  class="btn btn-brand btn-pill btn-elevate  ">Sign Up</button>
+                                                <button id="kt_login_signup_cancel" class="btn btn-outline-brand btn-pill">Cancel</button>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <!--begin::Modal-->
+                                    <div class="modal fade" id="kt_modal_1_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Terms and conditions</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="kt-scroll" data-scroll="true" data-height="75">
+                                                        <h4>Please agree with our <b>privacy and policy</b>. Otherwise you will not be able to <b>sign up</b>.</h4>                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    @*<button type="button" class="btn btn-danger" data-dismiss="modal">Do not agree</button>*@
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Modal-->
+
+                                </div>
+
+                                <div id="dv-kt-login_forgot_password" class="kt-login__forgot">
+                                    <div class="kt-login__head">
+                                        <h3 class="kt-login__title">Forgotten Password ?</h3>
+                                        <div class="kt-login__desc">Enter your email to reset your password:</div>
+                                    </div>
+                                    <div class="kt-login__form">
+                                        @using (Html.BeginForm("ForgetPassword", "Account", FormMethod.Post, new { @class = "kt-form" }))
+                                            {
+                                            <div class="form-group">
+
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @autofocus = "", type = "email", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Email)
+                                            </div>
+                                            <div class="kt-login__actions">
+                                                <button class="btn btn-brand btn-pill btn-elevate">Request</button>
+                                                <button id="kt_login_forgot_cancel" class="btn btn-outline-brand btn-pill">Cancel</button>
+                                            </div>
+
+                                            }
+                                    </div>
+                                </div>
+                                <div id="dv-kt-login_forgot_username" class="kt-login__forgot">
+                                    <div class="kt-login__head">
+                                        <h3 class="kt-login__title">Forgotten Username ?</h3>
+                                        <div class="kt-login__desc">Enter your email :</div>
+                                    </div>
+                                    <div class="kt-login__form">
+                                        @using (Html.BeginForm("ForgetUserID", "Account", FormMethod.Post, new { @class = "kt-form" }))
+                                            {
+
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @autofocus = "", type = "email", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Email)
+                                            </div>
+                                            <div class="kt-login__actions">
+                                                <button class="btn btn-brand btn-pill btn-elevate">Request</button>
+                                                <button id="kt_login_forgot_username_cancel" class="btn btn-outline-brand btn-pill">Cancel</button>
+                                            </div>
+
+                                            }
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="kt-login__account">
+                            <span class="kt-login__account-msg">
+                                Don't have an account yet ?
+                            </span>&nbsp;&nbsp;
+                            <a href="javascript:;" id="kt_login_signup" onclick="resetRegistrationForm();" class="kt-login__account-link">Sign Up!</a>
+                            <hr />
+                            <div class="btn-group group-link">
+                                <a href="/PrivacyPolicy/Index" class="kt-login__account-link link ">Privacy Policy</a>
+                                &nbsp; | &nbsp;
+                                <a href="/DownloadApp/Index" class="kt-login__account-link link ">Download App </a>
+                                <span class="link"><i class="fa fa-apple fa-lg" aria-hidden="true"></i> &nbsp;&nbsp; <i class="fa fa-android fa-lg" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="kt-grid__item kt-grid__item--fluid kt-grid__item--center kt-grid kt-grid--ver kt-login__content"
+                     style="background-image: url(@Url.Content("~/Content/media/bg/bg-4.jpg"));">
+                    <div class="kt-login__section">
+                        <div class="kt-login__block">
+                            <div class="slider-holder">
+                                <div class="slide-item  ">
+                                    <img alt="slide one" class="img-responsive mySlides animate-fading" src="@Url.Content("~/Content/images/home-slider/slide1.png")" />
+                                    <img alt="slide one" class="img-responsive mySlides animate-fading" src="@Url.Content("~/Content/images/home-slider/slide2.png")" />
+                                    <img alt="slide one" class="img-responsive mySlides animate-fading" src="@Url.Content("~/Content/images/home-slider/slide3.png")" />
+                                    <img alt="slide one" class="img-responsive mySlides animate-fading" src="@Url.Content("~/Content/images/home-slider/slide4.png")" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- end:: Page -->
+    <!-- begin::Global Config(global config for global JS sciprts) -->
+
+
+    <script type="text/javascript">
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#5d78ff",
+                    "dark": "#282a3c",
+                    "light": "#ffffff",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": [
+                        "#c5cbe3",
+                        "#a1a8c3",
+                        "#3d4465",
+                        "#3e4466"
+                    ],
+                    "shape": [
+                        "#f0f3ff",
+                        "#d9dffa",
+                        "#afb4d4",
+                        "#646c9a"
+                    ]
+                }
+            }
+        };
+
+        var myIndex = 0;
+        fnCarousel();
+        function fnCarousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            myIndex++;
+            if (myIndex > x.length) {
+                myIndex = 1
+            }
+            x[myIndex - 1].style.display = "block";
+            setTimeout(fnCarousel, 9000);
+
+        }
+        function iagreeonchange() {
+            if ($('#dvReg input#chkIagree').prop("checked") == true) {
+                $('#dvReg input#hdnIAgree').val('1');
+            }
+            else if ($('#dvReg input#chkIagree').prop("checked") == false) {
+                $('#dvReg input#hdnIAgree').val('0');
+            }
+        }
+        function resetRegistrationForm() {
+            $('#dvReg input#FirstName').val('');
+            $('#dvReg input#LastName').val('');
+            $('#dvReg input#UserName').val('');
+            $('#dvReg input#Email').val('');
+            $('#dvReg input#Phone').val('');
+            $('#dvReg input#NewPassword').val('');
+            $('#dvReg input#ConfirmPassword').val('');
+            $('#dvReg input#chkIagree').prop("checked", false);
+            
+            $('#dvReg input#hdnIAgree').val('0');
+
+           
+        }
+        //function fnOnClickSignUp() {
+
+        //    if (parseInt($('#dvReg input#hdnIAgree').val()) <= 0) {
+        //        $('#kt_modal_1_2').modal('show');
+
+        //        return false;
+        //    } else {
+        //        return true;
+        //    }
+        //}
+       
+    </script>
+
+    <!-- end::Global Config -->
+    <!--begin::Global Theme Bundle(used by all pages) -->
+    <script src="@Url.Content("~/Content/plugins/global/plugins.bundle.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/scripts.bundle.js")" type="text/javascript"></script>
+    <!--end::Global Theme Bundle -->
+    <!--begin::Page Scripts(used by this page) -->
+    <script src="@Url.Content("~/Content/js/pages/custom/login/login-general.js")" type="text/javascript"></script>
+    <!--end::Page Scripts -->
+</body>
+<!-- end::Body -->
+</html>

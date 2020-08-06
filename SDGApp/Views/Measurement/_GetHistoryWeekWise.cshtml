@@ -1,0 +1,51 @@
+﻿@model List<SDGApp.ViewModel.MeasurementViewModel>
+
+
+@if (Model != null && Model.Count > 0)
+{
+    <section class="table-tab-view" id="unseen">
+        <table class="table table-striped table-hover table-nobro general-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th class="numeric">SBP</th>
+                    <th class="numeric">DBP</th>
+                    <th class="numeric">HR</th>
+                    <th class="numeric">HRV1</th>
+                    <th class="akxson">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @*<tr onclick="LoadChartdata('@item.ID');">*@
+                    <tr>
+                        <td></td>
+                        <td>@item.CreatedDateTime.ToString("MM-dd-yyyy HH:mm")</td>
+                        <td class="numeric">@item.SBP</td>
+                        <td class="numeric">@item.DBP</td>
+                        <td class="numeric">@item.HR</td>
+                        <td class="numeric">@item.HRV1</td>
+                        <td class="akxson">
+                            <a href="javascript:void(0);" class="UserTagCatagorilist tooltips " id="btn_@item.ID" onclick="LoadChartdata('@item.ID');">
+                                <i class="fa fa-line-chart " aria-hidden="true" data-placement="top" data-toggle="tooltip" data-original-title="select to add on chart"></i>
+                            </a>
+                            <a href="/Measurement/DownloadFile?FileID=@item.ID" class="tooltips" id="btnDownload_@item.ID">
+                                <i class="fa fa-download" aria-hidden="true" data-placement="top" data-toggle="tooltip" data-original-title="click to download data"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+   
+</script>
+

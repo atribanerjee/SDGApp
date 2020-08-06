@@ -1,0 +1,1223 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Dashboard";
+
+
+}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<!-- select2 cdn -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="@Url.Content("~/Content/Latest/css/styleUI.css")" rel="stylesheet">
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<!-- Tab Modal -->
+<div class="modal fade modal-dashboard " role="dialog" id="myTabModal" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add tab </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="TabName">Tab name :</label>
+                    <input type="text" name="inputTabName" class="form-control" id="inputTabName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnSubmitTabNameModal" type="button" data-dismiss="modal" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab Modal -->
+<!-- Widget Modal -->
+
+<div class="modal fade modalCrop modal-dashboard " role="dialog" id="myWidgetModal" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Widget</h4>
+            </div>
+
+            <div class="modal-body body-dashAutocomplete">
+
+                <div class="dashAutocomplete-Search" id="WidgetSearch">
+                    <select id="SelectWidgetAdd" class="js-example-basic-multiple form-control" multiple="multiple" placeholder="Widget Name">
+                        @if (ViewBag.ListWidgetNames != null)
+                            {
+                            foreach (var item in (List<SelectListItem>)ViewBag.ListWidgetNames)
+                                {
+                                <option value="@item.Text">@item.Text</option>
+                                }
+                            }
+                    </select>
+                </div>
+
+                <div class="dashAutocomplete-SearchContent cropPict_holder">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnUpdateAddWidget" data-dismiss="modal" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Widget Modal -->
+
+<section class="panel panel-overview-app panel-dashboard ">
+    <div class="botaamHold">
+        <span class="position_button">
+            <span class="label label-danger label-lg none">*Note: Double click on item redirect to details page.</span>
+            <button id="btnAddTabM" type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fnAddTab()" data-target="#myTabModal">Add Tab</button>
+            <button id="btnAddWidget" type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fnAddWidgetIntoTab()" data-target="#myWidgetModal">Add Widget</button>
+            <button id="btnSave" onclick="fnSaveWidgetStyle()" type="button" class="btn btn-info btn-sm"> Save</button>
+        </span>
+    </div>
+
+    <div class="panel-body panel-tab-view ">
+
+        <div class="panel-heading tab-bg-dark-navy-blue marGTop ">
+            <ul id="AddNuTab" class="nav nav-tabs ">
+
+                @* Tab add here *@
+
+                @if (ViewBag.ListTabNames != null)
+                    {
+                    foreach (var item in ViewBag.ListTabNames)
+                        {
+                        <li id="Tab_@item" name="@item" class="newaddedtab liTab-itemIn " onclick="fnOnClickTab('@item');">
+                            <a data-toggle="tab" href="#">
+                                @item
+                                <button class="btn" type="button"><i onclick="fnDeleteTab('@item');" class="fas fa-times"></i></button>
+                            </a>
+                        </li>
+
+                        }
+                    }
+
+            </ul>
+        </div>
+        <div class="tab-content" id="TabContentHolder">
+            @*content here*@
+
+            @if (ViewBag.ListTabNames != null)
+                {
+                foreach (var item in ViewBag.ListTabNames)
+                    {
+                    <div id="TabContantArea_@item" class="tabcontentarea none">
+
+                        <ul class="list-panel panel-resize sortable" id="Content_@item">
+                            <li id="zeroPosition_@item"></li>
+
+                        </ul>
+
+                    </div>
+                    }
+                }
+            <ul id="DfltWidgetPosition" class="list-panel panel-resize  ">
+                <!--- *** Don't Delete This Element -->
+                <li class="none" id="ZeroPosition"></li>
+                <!--- Don't Delete This Element *** -->
+
+                <li id="CardioWeekWise" class="panel-item profile-nav alt panel-overview-app resizable none ">
+                    <!--widget start Basic Week Overview Cardio Widget-->
+                    <section class="panel">
+                        <div class="user-heading alt gray-bg">
+                            <h1>Cardio (week wise)</h1>
+                            <span class="close-bar ">
+                                <a href="javascript:;" onclick="fnDeleteWidget('CardioWeekWise')" class="fa fa-times"></a>
+                            </span>
+                        </div>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="javascript:;" class="text-success"> <i class="fa fa-stethoscope fa-lg"></i> HR (bpm) <span id="hartrateval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-warning"> <i class="fa fa-medkit fa-lg"></i> HRV <span id="valhrv" class="badge label-default r-activity">00</span></a></li>
+                            <li><a href="javascript:;" class="text-primary"> <i class="fa fa-heartbeat fa-lg"></i> BP (mmHg)<span id="sbpdbpval" class="badge label-default r-activity">00/0</span></a></li>
+                        </ul>
+                        <div class="top-stats-panel">
+                            <div class="daily-visit">
+                                <h4 class="widget-h">Display the week trends</h4>
+                                <div class="dashboard-chats" id="cardiacweekwise">
+                                    @*Chart Populate hare*@
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--widget end-->
+                </li>
+
+                <li id="CardioDayWise" class="panel-item profile-nav alt panel-overview-app resizable none">
+                    <!--widget start One day Overview Cardio Widget-->
+                    <section class="panel ">
+                        <div class="user-heading alt gray-bg">
+                            <h1>Cardio (day wise)</h1>
+                            <span class="close-bar ">
+                                <a href="javascript:;" onclick="fnDeleteWidget('CardioDayWise')" class="fa fa-times"></a>
+                            </span>
+                        </div>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="javascript:;" class="text-success"> <i class="fa fa-stethoscope fa-lg"></i> HR (bpm) <span id="dayhrval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-warning"> <i class="fa fa-medkit fa-lg"></i> HRV <span id="dayhrvval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-primary"> <i class="fa fa-heartbeat fa-lg"></i> BP (mmHg) <span id="daysbpanddbp" class="badge label-default r-activity">0/0</span></a></li>
+                        </ul>
+                        <div class="top-stats-panel">
+                            <div class="daily-visit">
+                                <h4 class="widget-h">Display the week trends</h4>
+                                <div class="dashboard-chats" id="dailycardiochart">
+                                    @*Chart Populate hare*@
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--widget end-->
+                </li>
+
+                <li id="ActivityWeekWise" class="panel-item profile-nav alt panel-overview-app resizable none">
+                    <!--widget start Basic Week Overview Activity Widget-->
+                    <section class="panel ">
+                        <div class="user-heading alt gray-bg">
+                            <h1>Activity (week wise)</h1>
+                            <span class="close-bar ">
+                                <a href="javascript:;" onclick="fnDeleteWidget('ActivityWeekWise')" class="fa fa-times"></a>
+                            </span>
+                        </div>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="javascript:;" class="text-success"> <i class="fas fa-shoe-prints"></i> Steps <span id="stepsval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-warning"> <i class="fas fa-fire"></i> Calories <span id="caloriesval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-primary"> <i class="fas fa-road"></i> Distance <span id="distanceval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-info"> <i class="fas fa-running"></i> Completion <span id="completionval" class="badge label-default r-activity">0</span></a></li>
+                        </ul>
+                        <div class="top-stats-panel">
+                            <div class="daily-visit">
+                                <div class="dashboard-chats" id="activiyweekchart">
+                                    @*Activity chart populate hare*@
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--widget end-->
+                </li>
+
+                <li id="SleepWeekWise" class="panel-item profile-nav alt panel-overview-app resizable none">
+                    <!--widget start Basic Week Overview Sleep Widget-->
+                    <section class="panel ">
+                        <div class="user-heading alt gray-bg">
+                            <h1>Sleep (week wise)</h1>
+                            <span class="close-bar ">
+                                <a href="javascript:;" onclick="fnDeleteWidget('SleepWeekWise')" class="fa fa-times"></a>
+                            </span>
+                        </div>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="javascript:;" class="text-success"> <i class="fas fa-bed"></i> Deep sleep <span id="deepsleephourval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-warning"> <i class="fas fa-bed"></i> Light sleep <span id="lightsleephourval" class="badge label-default r-activity">0</span></a></li>
+                            <li><a href="javascript:;" class="text-primary"> <i class="fas fa-cloud-moon"></i> Total sleep (mmHg) <span id="totalsleephourval" class="badge label-default r-activity">0/0</span></a></li>
+                        </ul>
+                        <div class="top-stats-panel">
+                            <div class="daily-visit">
+                                <h4 class="widget-h">Display the week trend</h4>
+                                <div class="dashboard-chats" id="sleepweekchart">
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--widget end-->
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('dashboard', '');
+    </script>
+}
+
+<script type="text/javascript">
+
+        var height = 200;
+        var widgetPositionArray = [];
+        var activeTabName = '';
+        var arrWidgetDtls = [];
+        var arrWidgetMaster = [];
+
+        var WidgetDtls = {
+            WidgetName: "",
+            TabName: "",
+            Height: 0,
+            Width: 0,
+            Position: 0
+        }
+
+    @if (ViewBag.ListWidgetNames.Count>0 && ViewBag.ListWidgetNames != null)
+    {
+        foreach (var item in ViewBag.ListWidgetNames)
+        {
+            @:arrWidgetMaster.push('@item.Text');
+        }
+    }
+
+    @if (ViewBag.ListTabNames.Count>0 && ViewBag.ListTabNames!=null)
+    {
+        @:activeTabName = '@ViewBag.ListTabNames[0]';
+    }
+
+    //main function
+    $(function () {
+
+        $(".js-example-basic-multiple").select2();
+        $("#TabContentHolder :first").removeClass('none');
+        $("#AddNuTab :first").addClass('active');
+
+        //fatch style from server
+        fnGetWidgetStyle();
+
+        if (activeTabName == '') {
+            $("#btnAddWidget").addClass('disabled');
+            $("#btnSave").addClass('disabled');
+
+        } else {
+
+            fnGetActivityHistory('week');
+
+            fnGetSleepHistory('week');
+
+            fnGetCardiacHistory('week', 'cardiacweekwise');
+
+            setTimeout(function () { fnGetCardiacHistory('day', 'dailycardiochart'); }, 500);
+        }
+
+        //Sortable feture activated
+        fnSortableFeature();
+
+        // Resize feature activated
+        $(".resizable").resizable({
+                minHeight: 375,
+                minWidth: 333,
+                stop: function (event, ui) {
+
+                    var selectwidgetid = event.target.id;
+
+                    if (arrWidgetDtls.find(x => x.WidgetName == selectwidgetid) !=undefined) {
+                        //value is exist
+
+                        arrWidgetDtls.find(x => x.WidgetName == selectwidgetid).Height = ui.size.height;
+                        arrWidgetDtls.find(x => x.WidgetName == selectwidgetid).Width = ui.size.width;
+
+                    }
+                }
+
+            });
+
+        
+
+        $('#CardioWeekWise').unbind("dblclick").on('dblclick', function () {
+
+             var url = '@Url.Action("Index", "Cardiac")';
+             window.location.href = url;
+        });
+        $('#CardioDayWise').unbind("dblclick").on('dblclick', function () {
+
+             var url = '@Url.Action("Index", "Cardiac")';
+             window.location.href = url;
+        });
+        $('#SleepWeekWise').unbind("dblclick").on('dblclick', function () {
+
+             var url = '@Url.Action("Index", "Sleep")';
+             window.location.href = url;
+        });
+        $('#ActivityWeekWise').unbind("dblclick").on('dblclick', function () {
+
+             var url = '@Url.Action("Index", "WorkActivity")';
+             window.location.href = url;
+        });
+
+        $('#btnSubmitTabNameModal').unbind("click").on('click', function () {
+
+            var inputTabNamevalue = $('#inputTabName').val();
+
+            if (inputTabNamevalue != '') {
+
+                 $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url:'@Url.Action("AddTab", "Dashboard")',
+                    data: { inputTabNamevalue },
+                     success: function (result) {
+
+                         if (result == true) {
+                             showsuccess("Saved Successfully.");
+
+                             var strHtml = '';
+                             strHtml += '<li class="newaddedtab liTab-itemIn " name="' + inputTabNamevalue + '" id="Tab_' + inputTabNamevalue + '" onclick="fnOnClickTab(\''+inputTabNamevalue+'\')">';
+                             strHtml += '<a data-toggle="tab" href="#">' + inputTabNamevalue;
+                             strHtml += '<button class="btn" type="button"><i onclick="fnDeleteTab(\'' + inputTabNamevalue +'\')" class="fas fa-times"></i></button>';
+                             strHtml += '</a>';
+                             strHtml += '</li>';
+
+                             $("#AddNuTab").append(strHtml);
+
+                             var stringHtml = '';
+                             stringHtml += '<div id="TabContantArea_' + inputTabNamevalue + '" class="tabcontentarea none">';
+                             stringHtml += '<ul id="Content_' + inputTabNamevalue +'" class="list-panel panel-resize sortable">';
+                             stringHtml += '<li id="zeroPosition_'+inputTabNamevalue+'"></li>';
+                             stringHtml += '</ul>';
+                             stringHtml += ' </div>';
+                             $("#TabContentHolder").append(stringHtml);
+
+
+                             $("#AddNuTab :first").addClass('active');
+                             $(".tabcontentarea").first().removeClass('none');
+                             $("#btnAddWidget").removeClass('disabled');
+                             $("#btnSave").removeClass('disabled');
+
+                             fnSortableFeature();
+
+                         } else {
+                             showfailure("Tab already exists");
+                         }
+
+                    },
+                     error: function (ex) {
+
+                         showfailure('Failed save data.' + ex);
+
+                     }
+                 })
+            }
+
+
+        });//click end
+
+        $('#btnUpdateAddWidget').unbind("click").on('click', function () {
+
+            var ActiveTabName = $("#AddNuTab").find('.active').attr('name');
+            var SelectWidgetForAdd = $('#SelectWidgetAdd').val();
+
+            if (ActiveTabName != '' && SelectWidgetForAdd.length>0) {
+
+
+                $.each(SelectWidgetForAdd, function (index, item) {
+                    
+                    $("#" + item).insertAfter($("#zeroPosition_" + ActiveTabName));
+
+                    $("#" + item).removeClass('none');
+
+                    //Remove option if selected widget
+                    $("#SelectWidgetAdd option[value='" + item + "']").remove();
+
+                    //widget details add json object
+                    WidgetDtls = new Object();
+
+                    WidgetDtls.WidgetName = item;
+                    WidgetDtls.TabName = ActiveTabName;
+                    WidgetDtls.Height = 0;
+                    WidgetDtls.Width = 0;
+                    WidgetDtls.Position = 0;
+
+                    arrWidgetDtls.push(WidgetDtls);
+                });
+
+            }
+        });
+
+        function fnSortableFeature() {
+
+            $(".sortable").sortable({
+                update: function (event, ui) {
+
+                    widgetPositionArray = $(this).sortable("toArray");
+
+                    $.each(widgetPositionArray, function (index, item) {
+
+                        if (arrWidgetDtls.find(x => x.WidgetName == item) != undefined) {
+
+                            //value is exist
+                            arrWidgetDtls.find(x => x.WidgetName == item).Position = widgetPositionArray.indexOf(item);
+                        }
+                    });
+
+                }
+            });
+        }
+    });//end main function
+
+    function fnDeleteTab(tabName) {
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+
+                 if (tabName != '') {
+
+                     $('#Content_' + tabName).children('li').each(function () {
+
+                        var childitemid = $(this).attr('id');
+
+                        if (childitemid != "zeroPosition_" + tabName) {
+
+                            $("#" + childitemid).insertAfter($("#ZeroPosition"));
+                            $("#" + childitemid).addClass('none');
+                        }
+
+                     })
+
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        url:'@Url.Action("DeleteTab", "Dashboard")',
+                        data: { tabName },
+                        success: function (result) {
+
+                            if (result == true) {
+                                $("#Tab_" + tabName).remove();
+                                $("#TabContantArea_" + tabName).remove();
+                                $("#AddNuTab :first").addClass('active');
+                                $("#TabContentHolder :first").removeClass('none');
+
+                                var TabCount = $("#AddNuTab").find("li");
+                                if (TabCount.length <= 0) {
+                                    $("#btnAddWidget").addClass('disabled');
+                                    $("#btnSave").addClass('disabled');
+                                }
+
+                                showsuccess("Tab Delete Successfully.");
+                            }
+                        },
+                        error: function (ex) {
+                        showfailure('Delete failed data.' + ex);
+
+                        }
+                    })//end ajax call
+                 }
+             },
+            function (retunVal) {
+
+            });
+    }
+
+      function fnDeleteWidget(widgetName) {
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+
+                if (widgetName != '') {
+
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        url: '@Url.Action("DeleteWidget", "Dashboard")',
+                        data: { widgetName},
+                        success: function (result){
+
+                            if (result == true) {
+
+                                $("#" + widgetName).insertAfter($("#ZeroPosition"));
+                                $("#" + widgetName).addClass('none');
+
+                                //add option if remove widget
+                                $('#SelectWidgetAdd').append(`<option value="${widgetName}">
+                                       ${widgetName}
+                                  </option>`);
+
+                                showsuccess("Delete Successfully");
+
+                            } else {
+
+                                $("#" + widgetName).insertAfter($("#ZeroPosition"));
+                                $("#" + widgetName).addClass('none');
+
+                                //add option if remove widget
+                                $('#SelectWidgetAdd').append(`<option value="${widgetName}">
+                                       ${widgetName}
+                                  </option>`);
+
+                                //Remove widget from json object
+                                var removewidgetindex = arrWidgetDtls.findIndex(x => x.WidgetName == widgetName);
+                                arrWidgetDtls.splice(removewidgetindex, 1);
+
+                                //showfailure("Delete Unsuccessful");
+                            }
+                        }
+                    })
+
+                 }
+             },
+            function (retunVal) {
+
+            });
+    }
+
+    function fnAddWidgetIntoTab() {
+
+        $('#SelectWidgetAdd').val(null).trigger('change');
+    }
+
+    function fnOnClickTab(value) {
+
+        activeTabName = value;
+        $("#TabContentHolder .tabcontentarea").addClass('none');
+        $("#TabContentHolder #TabContantArea_" + activeTabName).removeClass('none');
+
+    }
+
+    function fnAddTab() {
+        $("#inputTabName").val('');
+    }
+
+
+
+    function fnSaveWidgetStyle() {
+
+        if (arrWidgetDtls.length > 0 && arrWidgetDtls != null) {
+
+            var stringarrWidgetDtls = JSON.stringify(arrWidgetDtls);
+
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: '@Url.Action("StoreWidgetStyle", "Dashboard")',
+                data: { 'WidgetDtls': stringarrWidgetDtls },
+                success: function (result) {
+                    showsuccess("Saved Successfully.");
+
+                },
+                error: function (ex) {
+                    showfailure('Failed save data.' + ex);
+
+                }
+
+            })//end ajax call
+
+        } else {
+            showfailure('Please add widget first');
+        }
+
+
+
+    }
+
+    function fnGetWidgetStyle() {
+
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url:'@Url.Action("GetUserWidgetStyle", "Dashboard")',
+            data: { },
+            success: function (result) {
+               
+                if (result.ListWidgetDetails != null && result.ListWidgetDetails.length > 0) {
+
+                    arrWidgetDtls = result.ListWidgetDetails;
+
+                    $.each(arrWidgetDtls, function (index, item) {
+
+                        $("#" + item.WidgetName).insertAfter($("#zeroPosition_" + item.TabName));
+                        $("#" + item.WidgetName).removeClass('none');
+
+
+                        if (item.Height > 0 && item.Width > 0) {
+
+                            $("#" + item.WidgetName).height(item.Height);
+                            $("#" + item.WidgetName).width(item.Width);
+                        }
+
+                    });
+                }
+            },
+            error: function (ev) {
+                showfailure('Failed retrive data.' + ex);
+
+            }
+        })
+    }
+
+
+
+
+
+        //*******************Work Activity**************************
+        function fnGetActivityHistory(type) {
+        if (type != '') {
+            var date = '';
+            if (date === '') {
+                date= "@DateTime.Now.ToString("MM-dd-yyyy")";
+            }
+            $.ajax({
+                    type: 'POST',
+                    data: { type: type, currentdate: date },
+                    url: '@Url.Action("GetWorkoutChartHistory", "WorkActivity")', // we are calling json method
+                    dataType: 'json',
+                    // here we are get value of selected country and passing same value
+                success: function (results) {
+
+                    if (results.WorkActivityList != '') {
+                        var listworkactivity = results.WorkActivityList;
+                        var DateValues = new Array();
+                        var StepsValues = new Array();
+                        var KCalValues = new Array();
+                        var MileageValues = new Array();
+                        var CompletionValues = new Array();
+                        var totalStepsValues = 0;
+                        var totalKCalValues = 0;
+                        var totalMileageValues = 0;
+                        var totalCompletionValues = 0;
+
+                        $.each(listworkactivity, function (index, item) {
+
+                            var dtDate = new Date(parseInt(item.CreatedDateTime.substr(6)));
+                            DateValues.push(dtDate.toLocaleString('default', { day: 'numeric' }) + '-' + dtDate.toLocaleString('default', { month: 'short' }));
+
+                            StepsValues.push(item.Steps);
+                            KCalValues.push(item.KCal);
+                            MileageValues.push(item.Mileage);
+                            CompletionValues.push(item.Completion);
+                            totalStepsValues += item.Steps;
+                            totalKCalValues += item.KCal;
+                            totalMileageValues += item.Mileage;
+                            totalCompletionValues += item.Completion;
+                        });
+
+                        LoadLineGraph(DateValues, StepsValues, KCalValues, MileageValues, CompletionValues);
+                        $("#stepsval").html((totalStepsValues / StepsValues.length).toFixed(2));
+                        $("#caloriesval").html((totalKCalValues / KCalValues.length).toFixed(2));
+                        $("#distanceval").html((totalMileageValues / MileageValues.length).toFixed(2));
+                        $("#completionval").html((totalCompletionValues / CompletionValues.length).toFixed(2));
+                    }
+                    },
+                    error: function (ex) {
+                        showfailure('Failed retrive data.' + ex);
+
+                    }
+            });
+        }
+
+        }
+
+        function LoadLineGraph(DateValues, StepsValues, KCalValues, MileageValues, CompletionValues) {
+
+            var options = {
+                series: [
+                    {
+                        name: "Steps",
+                        data: StepsValues //[120, 140, 120, 140, 125, 120, 120]
+                    },
+                    {
+                        name: "Calories",
+                        data: KCalValues //[88, 88, 85, 86, 88, 85, 80]
+                    },
+                    {
+                        name: "Distance",
+                        data: MileageValues //[77, 75, 70, 78, 75, 72, 70]
+                    },
+                    {
+                        name: "Completion",
+                        data: CompletionValues //[77, 75, 70, 78, 75, 72, 70]
+                    }
+                ],
+                tooltip: {
+                    enabled: true,
+                    position: "topLeft",
+                    fixed: {
+                        enabled: true,
+                        position: "topLeft",
+                        offsetX: 0,
+                        offsetY: 0,
+                    },
+                },
+                chart: {
+                    width: '100%',
+                    height: height,
+                    type: 'line',
+                    shadow: {
+                        enabled: true,
+                        color: '#000',
+                        top: 18,
+                        left: 7,
+                        blur: 10,
+                        opacity: 1
+                    },
+                    zoom: {
+                        zoomedArea: {
+                            fill: {
+                                color: '#90CAF9',
+                                opacity: 0.4
+                            },
+                            stroke: {
+                                color: '#0D47A1',
+                                opacity: 0.4,
+                                width: 1
+                            }
+                        },
+                        type: 'x',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        show: false,
+                        tools: {
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                        },
+                        autoSelected: 'zoom'
+                    }
+                },
+                colors: ['#34bfa3','#e13a58','#ffb822', '#5d78ff'],
+                dataLabels: {
+                    enabled: true,
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                //title: {
+                //    text: 'Activity History',
+                //    align: 'middle',
+                //    fontWeight: "bold",
+                //    style: {
+                //        fontSize: '12px',
+                //        color: '#263238'
+                //    },
+                //},
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                markers: {
+                    size: 1
+                },
+                xaxis: {
+                    categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    title: {
+                        text: 'Date'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Value'
+                    }
+                    //,
+                    //min: 0,
+                    //max: 24
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'left',
+                    floating: true,
+                    offsetY: -25,
+                    offsetX: -5
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#activiyweekchart"), options);
+            chart.render();
+
+        }
+
+
+        //****************************Sleep Activity************************************
+    function fnGetSleepHistory(type) {
+
+        if (type != '') {
+
+            var date = "@DateTime.Now.ToString("MM-dd-yyyy")";
+
+                 $.ajax({
+                    type: 'POST',
+                    data: { type: type, currentdate: date },
+                    url: '@Url.Action("GetSleepChartHistory", "Sleep")', // we are calling json method
+                    dataType: 'json',
+                    // here we are get value of selected country and passing same value
+                    success: function (results) {
+
+                         if (results.SleepList != '') {
+
+                            var sleeplist = results.SleepList;
+
+                            var DateValues = new Array();
+                            var DeepSleepHour = new Array();
+                            var LightSleepHour = new Array();
+                             var StayUPHour = new Array();
+                             var TotalSleepHour = new Array();
+                             var totalDeepSleepHour = 0;
+                             var totalLightSleepHour = 0;
+                             var totalSleepHour = 0;
+
+                            $.each(sleeplist, function (i, item) {
+
+                                var dtsleepDate = new Date(parseInt(item.sleepDate.substr(6)));
+                                DateValues.push(dtsleepDate.toLocaleString('default', { day: 'numeric' }) + '-' + dtsleepDate.toLocaleString('default', { month: 'short' }));
+
+                                DeepSleepHour.push(item.sleepDeepTime);
+                                LightSleepHour.push(item.sleepLightTime);
+                                StayUPHour.push(item.sleepStayupTime);
+                                TotalSleepHour.push(item.sleepTotalTime);
+                                totalDeepSleepHour += item.sleepDeepTime;
+                                totalLightSleepHour += item.sleepLightTime;
+                                totalSleepHour += item.sleepTotalTime;
+
+                             });
+
+                             $("#deepsleephourval").html((totalDeepSleepHour / DeepSleepHour.length).toFixed(2));
+                             $("#lightsleephourval").html((totalLightSleepHour / LightSleepHour.length).toFixed(2));
+                             $("#totalsleephourval").html((totalSleepHour / TotalSleepHour.length).toFixed(2));
+                            LoadLineGraphForSleep(DateValues, DeepSleepHour, LightSleepHour, StayUPHour);
+
+                        } else {
+                            $("#nodatafounddiv").hide();
+                        }
+
+                    },
+                    error: function (ex) {
+                        showfailure('Failed retrive data.' + ex);
+
+                    }
+                });
+
+            }
+
+
+    }
+
+
+    function LoadLineGraphForSleep(DateValues, DeepSleepHour, LightSleepHour, StayUPHour) {
+
+        var options = {
+            series: [
+                {
+                    name: "Deep Sleep Hour",
+                    data: DeepSleepHour //[120, 140, 120, 140, 125, 120, 120]
+                },
+                {
+                    name: "Light Sleep Hour",
+                    data: LightSleepHour //[88, 88, 85, 86, 88, 85, 80]
+                },
+                {
+                    name: "Stay UP Hour",
+                    data: StayUPHour //[77, 75, 70, 78, 75, 72, 70]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: height,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: false,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#34bfa3', '#e13a58', '#ffb822', '#5d78ff'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            //title: {
+            //    text: 'Sleep History',
+            //    align: 'middle',
+            //    fontWeight: "bold"
+            //},
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#sleepweekchart"), options);
+        chart.render();
+
+    }
+
+
+    //***********************************Cardiac Activity ****************************************
+
+    function fnGetCardiacHistory(type,chatpopulate) {
+
+        var date = "@DateTime.Now.ToString("MM-dd-yyyy")";
+
+            if (type != '') {
+
+                $.ajax({
+                    type: 'POST',
+                    data: { type: type, currentdate: date },
+                    url: '@Url.Action("GetCardiacHistory", "Cardiac")', // we are calling json method
+                    dataType: 'json',
+                    success: function (results) {
+
+                        if (results.CardiacList != '') {
+                            var listdata = results.CardiacList;
+
+                            var DateValues = new Array();
+                            var SBPValues = new Array();
+                            var DBPValues = new Array();
+                            var HRValues = new Array();
+
+                            var totalSBPValues = 0;
+                            var totalDBPValues = 0;
+                            var totalHRValues = 0;
+                            var totalHRV = 0;
+
+                            $.each(listdata, function (index, item) {
+
+                                var dtDate = new Date(parseInt(item.CreatedDateTime.substr(6)));
+                                DateValues.push(dtDate.toLocaleString('default', { day: 'numeric' }) + '-' + dtDate.toLocaleString('default', { month: 'short' }));
+
+                                SBPValues.push(item.AVGSBP);
+                                DBPValues.push(item.AVGDBP);
+                                HRValues.push(item.AVGHR);
+
+                                totalSBPValues += item.AVGSBP;
+                                totalDBPValues += item.AVGDBP;
+                                totalHRValues += item.AVGHR;
+                            });
+
+                            if (type == 'day') {
+
+                                $("#dayhrval").html(Math.round(totalHRValues));
+
+                                var SBP = Math.round(totalSBPValues);
+                                var DBP = Math.round(totalDBPValues);
+
+                                $("#daysbpanddbp").html(SBP + " /" + DBP);
+
+                                LoadLineGraphForCardiac(chatpopulate,DateValues, SBPValues, DBPValues, HRValues)
+
+                            } else {
+                                $("#hartrateval").html(Math.round(totalHRValues / HRValues.length));
+
+                                var averageSBP = Math.round(totalSBPValues / SBPValues.length);
+                                var averageDBP = Math.round(totalDBPValues / DBPValues.length);
+
+                                $("#sbpdbpval").html(averageSBP + " /" + averageDBP);
+
+                                LoadLineGraphForCardiac(chatpopulate,DateValues, SBPValues, DBPValues, HRValues)
+                            }
+
+                        }
+
+                    },
+                    error: function (ex) {
+                        showfailure('Failed retrive data.' + ex);
+
+                    }
+                });
+            }
+
+        }
+
+    function LoadLineGraphForCardiac(chatpopulate,DateValues, SBPValues, DBPValues, HRValues) {
+
+        var options = {
+            series: [
+                {
+                    name: "SBP",
+                    data: SBPValues //[120, 140, 120, 140, 125, 120, 120]
+                },
+                {
+                    name: "DBP",
+                    data: DBPValues //[88, 88, 85, 86, 88, 85, 80]
+                },
+                {
+                    name: "HR",
+                    data: HRValues //[88, 88, 85, 86, 88, 85, 80]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: height,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: false,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#34bfa3', '#e13a58', '#ffb822', '#5d78ff'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            //title: {
+            //    text: 'Cardiac BP History',
+            //    align: 'middle',
+            //    bold: true,
+            //    fontWeight: "bold"
+            //},
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 5,
+                //max: 200
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#" + chatpopulate), options);
+        chart.render();
+
+    }
+
+</script>
+

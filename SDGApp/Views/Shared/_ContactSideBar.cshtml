@@ -1,0 +1,80 @@
+﻿@model List<SDGApp.ViewModel.UserDtlsViewModel>
+
+@using SDGApp.Helpers
+@using SDGApp.Models
+@{
+    BaseModel BM = new BaseModel();
+}
+
+@if (BM.GetIntegerValue(BM.GetSessionValue("LoggedInUserRoleID")) == (int)SDGApp.Helpers.SDGUtilities.UserRoleType.Administrator)
+{
+    
+
+    if (Model.Count>0 && Model!=null)
+	{
+		<div class="right-sidebar rs-nuFeatures ">
+        <a href="#" class="close-bar "><i class="fa fa-close" aria-hidden="true"></i></a>
+        <div class="search-row none">
+            <input type="text" placeholder="Search" class="form-control">
+        </div>
+        <div class="right-stat-bar">
+            <ul class="right-side-accordion">
+                <li class="widget-collapsible">
+                    <a href="#" class="head terques-bg active clearfix ">
+                        <span class="pull-left">Contacts (@Model.Count)</span>
+                        <span class="pull-right widget-collapse none"><i class="ico-minus"></i></span>
+                    </a>
+                    <ul class="widget-contain main-widget">
+                        <li>
+                            
+                            @foreach (var item in Model)
+                            {
+                                <div class="prog-row">
+                                    <div class="widget-head">
+                                        <div class="user-thumb">
+                                            <a href="#">
+                                                @if (!String.IsNullOrEmpty(item.UserImage))
+                                                {
+                                                    <img src="@Url.Content("~/Content/images/"+item.UserImage)" alt="">
+                                                }
+                                                else
+                                                {
+                                                    <img src="@Url.Content("~/Content/Latest/images/no-image4.jpg")" alt="" />
+                                                }
+                                            </a>
+                                        </div>
+                                        <div class="user-details">
+                                            <h4><a href="#">@item.FullName</a></h4>
+                                            @*<p>Available</p>*@
+                                        </div>
+                                    </div>
+                                    <div class="widget-container widget-small-contain">
+                                        <div class="user-thumb">
+                                            <a href="#">
+                                            <img src="@Url.Content("~/Content/Latest/images/trans.png")" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="user-details">
+                                            <h4>UserId : @item.UserName</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                            
+
+                            <p class="text-center none">
+                                <a href="#" class="view-btn">View all Contacts</a>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div> 
+	}
+}
+
+
+

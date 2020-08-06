@@ -1,0 +1,108 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.HelpViewModel>
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    Int32 pageCount = 0;
+    Int32 pageSize = GlobalConstants.PageSize;
+    if (Model.Count > 0)
+    {
+        pageSize = Model[0].PageSize;
+    }
+    Int32 pageNumber = 0;
+    Int32 totalRecord = 0;
+    String title = "Help List";
+}
+<script src="@Url.Content("~/Scripts/paging.js")"></script>
+
+<header class="panel-heading">
+    <div class="row">
+
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <h2 class="pull-left">@title</h2>
+
+            <input type="hidden" id="hdnpagename" value="helplist" />
+
+            @{Html.RenderPartial("_SearchView"); }
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <span class="tools pull-right none">
+                <button onclick="window.location.href='/Help/Add'" type="button" class="btn btn-info btn-sm"> Add </button>
+            </span>
+        </div>
+    </div>
+    
+</header>
+
+
+@if (Model.Count > 0)
+{
+    totalRecord = Model[0].TotalRecords;
+    <div class="panel-body">
+        <section class="pagesize-panel">
+            <div class="pagesiz-ddl">
+                @Html.Partial("_PageSize", new ViewDataDictionary { { "pagesize", pageSize } })
+            </div>
+            <div class="records-count">
+                @totalRecord record(s) found
+            </div>
+            <div class="clear"></div>
+        </section>
+        <table class="table  table-hover general-table">
+            <thead>
+                <tr>
+                    <th> Topic</th>
+                    <th class="akxson">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SDGApp.ViewModel.HelpViewModel item in Model)
+                {
+                    pageCount = item.TotalRecords / item.PageSize;
+                    if (item.TotalRecords % item.PageSize != 0)
+                    {
+                        pageCount = pageCount + 1;
+                    }
+                    pageNumber = item.PageNumber;
+                    pageSize = item.PageSize;
+
+                    <tr>
+                        <td><a href="#">@item.Topic</a></td>
+                        <td class="akxson">
+                            @Html.RawActionLink("<i class=\"fas fa-pen-nib\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Modify\" ></i>", "Edit", "Help", new { ID = item.HelpID }, new { })
+                            <a href="javascript:void(0);" class="" id="Delete_@item.HelpID" onclick='DeleteCompany(@item.HelpID);'>
+                            <i class="fas fa-trash-restore-alt" data-toggle="tooltip" data-placement="left" title="Remove"></i></a>
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+        <section class="paging-panel">
+            @Html.Partial("_Paging", new ViewDataDictionary { { "pagecount", pageCount }, { "pagenumber", pageNumber } })
+        </section>
+    </div>
+}
+else
+{
+    <div class="panel-body">
+        <div class="no-record-found">
+            No Records Found.
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('select#ddlPageSize').val('@pageSize');
+        $('select#ddlPaging').val('@pageNumber');
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+}
+

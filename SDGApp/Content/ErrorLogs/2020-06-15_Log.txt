@@ -1,0 +1,10 @@
+06-15-2020 11:51:05 - SDGApp.Models.UserModel - SaveUserCode ::: An error occurred while executing the command definition. See the inner exception for details.
+
+06-15-2020 16:56:41 - SDGApp.Models.UserModel - SaveUserCode ::: An error occurred while executing the command definition. See the inner exception for details.
+
+06-15-2020 17:34:33 - SDGApp.Models.UserContactsModel - SaveContactGUID ::: An error occurred while updating the entries. See the inner exception for details.
+
+06-15-2020 17:46:49 - SDGApp.Models.UserContactsModel - SaveContactGUID ::: The operation cannot be completed because the DbContext has been disposed.
+
+06-15-2020 17:52:22 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - cc@gmail.com
+

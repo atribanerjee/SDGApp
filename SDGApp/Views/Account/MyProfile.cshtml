@@ -1,0 +1,756 @@
+﻿@model SDGApp.ViewModel.UserViewModel
+@{
+    ViewBag.Title = "MyProfile";
+
+    var imageSrc = "";
+    if (!String.IsNullOrEmpty(Model.Picture))
+    {
+        imageSrc = Url.Content("~/Content/images/" + Model.Picture);
+    }
+
+}
+
+
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/Latest/js/Jquery-JCorp/js/jquery.Jcrop.js")"></script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Latest/js/Jquery-JCorp/css/jquery.Jcrop.css")" />
+
+<script type="text/javascript" src="@Url.Content("~/Content/CropImage/croppie.js")"></script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/CropImage/croppie.css")" />
+
+
+
+<div class="row company-Hold">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel">
+            <div class="panel-body profile-information">
+                <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+
+                    <!--tab nav start-->
+                    <section class="panel profile-overview-app ">
+                        <div class="panel-body panel-tab-view ">
+                            @using (Html.BeginForm("MyProfile", "Account", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+                            {
+                                @Html.HiddenFor(m => m.UserID)
+                                @Html.HiddenFor(m => m.IsActive)
+                                @Html.HiddenFor(m => m.SkinType)
+
+                                <div class="tab-content">
+
+                                    <!--profile picture part start-->
+                                    <div class="well">
+                                        <div class="profile-bg-picture none">
+                                            @*<img src="@Url.Content("~/Content/Latest/images/lock-screen.jpg")" alt="" />*@
+                                            <img src="@Url.Content("~/Content/images/1_ahW9Va9-DiYHGiNVIiIAOQ.jpeg")" alt="" />
+                                        </div>
+
+                                        <div class="media">
+
+                                            <div class="profile-pic-upload upload-modal">
+                                                <div class="modal fade modalCrop" role="dialog" id="myModal" tabindex="-1" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                <h4 class="modal-title" id="myModalLabel">Profile Image Upload</h4>
+                                                            </div>
+
+                                                            <div class="modal-body">
+
+                                                                <div class="cropPict_holder">
+                                                                    <div class="fileupload ">
+                                                                        <span class="btn btn-white btn-file ">
+                                                                            <button class="btn fileupload-new" type="button"> Select image </button>
+                                                                            <input type="file" id="userfile" />
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <h4><i class="fa fa-crop" aria-hidden="true"></i> &nbsp; Drag to crop the picture - </h4>
+                                                                    <p>After click select image the original picture appear below. And then after clicking the Crop Image button the desired image will be cropped for profile picture.</p>
+
+                                                                    <div class="croppedddd">
+                                                                        <div class="imgpictHold">
+                                                                            <img id="imgProfile" src="" alt="" style="display: none" />
+                                                                        </div>
+                                                                        <div class="croppedPict">
+                                                                            <canvas id="canvas" height="5" width="5"></canvas>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <button class="btn btn-warning fileupload-new" type="button" id="btnCrop" value="Crop" style="display: none"> Crop image </button>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <input type="hidden" name="imgX1" id="imgX1" />
+                                                            <input type="hidden" name="imgY1" id="imgY1" />
+                                                            <input type="hidden" name="imgWidth" id="imgWidth" />
+                                                            <input type="hidden" name="imgHeight" id="imgHeight" />
+                                                            <input type="hidden" name="imgCropped" id="imgCropped" />
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal fade modalCrop" role="dialog" id="myModal1" tabindex="-1" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                <h4 class="modal-title" id="myModalLabel">Profile Image Upload</h4>
+                                                            </div>
+
+                                                            <div class="modal-body">
+
+                                                                <div class="cropPict_holder">
+                                                                    <div class="fileupload ">
+                                                                        <span class="btn btn-white btn-file ">
+                                                                            <button class="btn fileupload-new" type="button"> Select image </button>
+                                                                            <button id="btnChange" class="btn fileupload-exists " type="button"> Change </button>
+
+                                                                            <input type="file" id="userimagefile" accept="image/*" />
+                                                                        </span>
+
+                                                                    </div>
+
+                                                                    <div id="page">
+                                                                        <div id="PreviewImage" class="upload-msg">
+                                                                            Upload a file to start cropping
+                                                                        </div>
+                                                                        <div id="dvProfileImageCrop" class="none">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img id="SelectedImgProfile" src="" alt="" style="display: none" />
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <a class="btn btn-danger btn-fileUp collapsed " role="button" data-toggle="modal" data-target="#myModal1">
+                                                    <i class="fa fa-pencil tooltips" aria-hidden="true" data-toggle="tooltip" data-placement="right" title=" Edit / Upload picture "></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="media-left profile-pic">
+
+                                                <a href="#" class="thumbnailProf">
+                                                    @if (!String.IsNullOrEmpty(imageSrc))
+                                                    {
+                                                        <img src="@imageSrc" alt="" />
+                                                    }
+                                                </a>
+
+                                            </div>
+
+                                            <div class="media-body profile-title">
+                                                <h2>@Model.FirstName @Model.LastName</h2>
+                                                <span class="text-muted">@Model.UserRole</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!--profile picture part end-->
+                                    <!--the form part start-->
+                                    <div id="dvCommon" class="tab-pane active">
+                                        <div class="position-center profile-settings">
+
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                                    <div class="prf-contacts sttng">
+                                                        <h2>Personal Information</h2>
+                                                        <button id="btnedit" type="button" onclick="fnShowUserInfoEditMode()" class="btn btn-danger btn-sm">edit/modify</button>
+                                                        @*<button type="button" onclick="" class="btn btn-danger btn-sm">Submit</button>*@
+                                                    </div>
+
+                                                    <div>
+                                                        <div class="form-group">
+
+                                                            <label class="control-label">First Name<span class="redy"> *</span></label>
+                                                            <div class="editonly ">
+                                                                @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "First Name", @id = "c-name", @class = "form-control" })
+                                                                @Html.ValidationMessageFor(m => m.FirstName)
+                                                            </div>
+
+                                                            <div class="list-group rdonly">
+                                                                <h5 class="list-group-item-heading">@Model.FirstName</h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Last Name<span class="redy"> *</span></label>
+                                                            <div class="editonly ">
+                                                                @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Last Name", @id = "c-name", @class = "form-control" })
+                                                                @Html.ValidationMessageFor(m => m.LastName)
+                                                            </div>
+
+                                                            <div class="list-group rdonly">
+                                                                <h5 class="list-group-item-heading">@Model.LastName</h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group none">
+                                                            <label class="control-label">Organisation</label>
+                                                            <div class="list-group rdonly ">
+                                                                <h5 class="list-group-item-heading">@Model.Company</h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Gender <span class="redy"> *</span></label>
+                                                            <div class="editonly ">
+                                                                @Html.DropDownListFor(m => m.Gender, Model.GenderNameList, "--Select Gender--", new { @class = "form-control" })
+                                                            </div>
+
+                                                            <div class="list-group rdonly ">
+                                                                <h5 class="list-group-item-heading">@Model.Gender</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                                    <div class="prf-contacts sttng none">
+                                                        <h2>Contacts Information</h2>
+                                                    </div>
+
+                                                    <div>
+
+                                                        <div class="form-group editonly">
+                                                            <label class="control-label">Unit <span class="redy"> </span></label>
+                                                            <div class="group-unit ">
+                                                                @foreach (var item in Model.UnitNameList)
+                                                                {
+                                                                    <label class="checkbox-inline">
+                                                                        @Html.RadioButtonFor(m => m.UnitNameID, item.Value, new { @class = "selectunit", @alt = "" + item.Text + "", @onchange = "fnSelectUnit('" + item.Text + "')" })
+                                                                        @item.Text
+                                                                    </label>
+                                                                }
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Height</label>
+                                                            <div class="editonly ">
+                                                                @Html.TextBoxFor(m => m.Height, new { @placeholder = "Height", @class = "form-control numeric", @id = "userheight" })
+                                                                @Html.ValidationMessageFor(m => m.Height)
+
+                                                                <input id="heightunit" type="text" class="form-control form-control-small" name="unit" value="M" readonly disabled>
+                                                            </div>
+
+                                                            <div class="list-group rdonly ">
+                                                                <h5 class="list-group-item-heading">@Model.Height <span id="readonlyheight">M</span></h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Weight</label>
+                                                            <div class="editonly ">
+                                                                @Html.TextBoxFor(m => m.Weight, new { @placeholder = "Weight", @class = "form-control numeric", @id = "userweight" })
+                                                                @Html.ValidationMessageFor(m => m.Weight)
+
+                                                                <input id="weightunit" type="text" class="form-control form-control-small" name="unit" value="KG" readonly disabled>
+                                                            </div>
+
+                                                            <div class="list-group rdonly ">
+                                                                <h5 class="list-group-item-heading">@Model.Weight <span id="readonlyweight">KG</span></h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group form-group-skin">
+                                                            <label class="control-label">Skin Type</label>
+                                                            <div class="editonly ">
+
+                                                                <div id="skintypeothers" class="color-hold">
+                                                                    <div class="skin-option-radio">
+                                                                        @if (Model.SkinType == "#8d5524")
+                                                                        {
+                                                                            <label class="radio-inline coption1 active">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                            </label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="radio-inline coption1">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                            </label>
+                                                                        }
+                                                                        @if (Model.SkinType == "#c68642")
+                                                                        {
+                                                                            <label class="radio-inline coption2 active">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                            </label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="radio-inline coption2">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                            </label>
+                                                                        }
+                                                                        @if (Model.SkinType == "#e0ac69")
+                                                                        {
+                                                                            <label class="radio-inline coption3 active">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                            </label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="radio-inline coption3">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                            </label>
+                                                                        }
+                                                                        @if (Model.SkinType == "#f1c27d")
+                                                                        {
+                                                                            <label class="radio-inline coption4 active">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                            </label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="radio-inline coption4">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                            </label>
+                                                                        }
+                                                                        @if (Model.SkinType == "#ffdbac")
+                                                                        {
+                                                                            <label class="radio-inline coption5 active">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                            </label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="radio-inline coption5">
+                                                                                <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                            </label>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- firefox issue start -->
+                                                                <div id="skintypefirefox" class="ch-firefox">
+                                                                    <div class="color-hold ">
+
+                                                                        <div class="skin-option-radio">
+                                                                            @if (Model.SkinType == "#8d5524")
+                                                                            {
+                                                                                <label class="radio-inline coption1 active">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label class="radio-inline coption1">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                                </label>
+                                                                            }
+                                                                            @if (Model.SkinType == "#c68642")
+                                                                            {
+                                                                                <label class="radio-inline coption2 active">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label class="radio-inline coption2">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                                </label>
+                                                                            }
+                                                                            @if (Model.SkinType == "#e0ac69")
+                                                                            {
+                                                                                <label class="radio-inline coption3 active">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label class="radio-inline coption3">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                                </label>
+                                                                            }
+                                                                            @if (Model.SkinType == "#f1c27d")
+                                                                            {
+                                                                                <label class="radio-inline coption4 active">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label class="radio-inline coption4">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                                </label>
+                                                                            }
+                                                                            @if (Model.SkinType == "#ffdbac")
+                                                                            {
+                                                                                <label class="radio-inline coption5 active">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label class="radio-inline coption5">
+                                                                                    <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                                </label>
+                                                                            }
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end firefox issue -->
+
+                                                            </div>
+
+                                                            <div class="list-group last rdonly ">
+                                                                <h5 class="list-group-item-heading">
+                                                                    My Skin type is :
+                                                                    <span class="label" style="background-color:@Model.SkinType;">&nbsp;</span>
+
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group form-group-left">
+                                                            <div class="editonly">
+                                                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                                                <button class="btn btn-danger" onclick="fnEditCancel()" type="button">Cancel</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <!--the form part end-->
+
+                                </div>
+                            }
+                        </div>
+                    </section>
+                    <!--tab nav end-->
+
+                </div>
+            </div>
+        </section>
+
+        @Html.Partial("_UserOrganizationList")
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function makeTabActive(control) {
+            $('li.liTabs').removeClass('active');
+            $('#' + control.id).closest("li").addClass('active');
+        }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
+
+
+<script type="text/javascript">
+
+
+    fnSelectUnit(null);
+    $(".editonly").hide();
+    $(".rdonly").show();
+
+    $(document).ready(function () {
+
+        var ua = navigator.userAgent.toLowerCase();
+
+        if (ua.indexOf('firefox') > -1) {
+            $("#skintypeothers").hide();
+            $("#skintypefirefox").show();
+
+        } else {
+            $("#skintypefirefox").hide();
+            $("#skintypeothers").show();
+        }
+
+        var dvProfileImageCrop = $('#dvProfileImageCrop').croppie({
+            enableExif: true,
+
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'circle'
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            }
+        });
+
+        
+
+        $('#userimagefile').change(function (event) {
+
+            $("#PreviewImage").addClass('none');
+            $('#dvProfileImageCrop').removeClass('none');
+
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    $('#dvProfileImageCrop').croppie('bind', {
+                        url: e.target.result
+                    });
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+            
+
+        });
+
+        
+
+        ///<img src="~/Content/images/avatar-mini.jpg" />
+        //$('#userfile').change(function () {
+        //    $('#imgProfile').hide();
+        //    var reader = new FileReader();
+        //    reader.onload = function (e) {
+        //        $('#imgProfile').show();
+        //        $('#imgProfile').attr("src", e.target.result);
+        //        $('#imgProfile').Jcrop({
+        //            onChange: SetCoordinates,
+        //            onSelect: SetCoordinates
+        //        });
+        //    }
+        //    reader.readAsDataURL($(this)[0].files[0]);
+        //});
+
+        $('#btnCrop').click(function () {
+            var x1 = $('#imgX1').val();
+            var y1 = $('#imgY1').val();
+            var width = $('#imgWidth').val();
+            var height = $('#imgHeight').val();
+            var canvas = $("#canvas")[0];
+            var context = canvas.getContext('2d');
+            var img = new Image();
+            img.onload = function () {
+                canvas.height = height;
+                canvas.width = width;
+                context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
+                $('#imgCropped').val(canvas.toDataURL());
+                //$('#btnUpload').show();
+            };
+            img.src = $('#imgProfile').attr("src");
+        });
+
+    });
+
+
+
+    function SetCoordinates(c) {
+
+        $('#imgX1').val(c.x);
+        $('#imgY1').val(c.y);
+        $('#imgWidth').val(c.w);
+        $('#imgHeight').val(c.h);
+        $('#btnCrop').show();
+    };
+
+    function fnShowUserInfoEditMode() {
+        $(".editonly").show();
+        $(".rdonly").hide();
+        $("#btnedit").hide();
+    }
+
+    function fnEditCancel() {
+        $(".editonly").hide();
+        $(".rdonly").show();
+        $("#btnedit").show();
+    }
+
+    function fnSelectUnit(event) {
+
+        if (event != null) {
+            //var selectedtext = $(event).find("option:selected").text();
+            var userheight = parseFloat($("#userheight").val());
+            var userweight = parseFloat($("#userweight").val());
+
+            var selectedtext = event;
+            if (selectedtext == 'Metric') {
+                var convervalheight = (userheight * 0.0254).toFixed(2);
+                var convervalweight = (userweight * 0.453592).toFixed(2);
+                $("#userheight").val(convervalheight);
+                $("#userweight").val(convervalweight);
+                $("#heightunit").val("M");
+                $("#readonlyheight").text("M");
+                $("#weightunit").val("KG");
+                $("#readonlyweight").text("KG");
+            } else {
+
+                //else "Imperial"
+                var convervalheight = (userheight * 39.3701).toFixed(2);
+                var convervalweight = (userweight * 2.20462).toFixed(2);
+                $("#userheight").val(convervalheight);
+                $("#userweight").val(convervalweight);
+
+                $("#heightunit").val("Inch");
+                $("#readonlyheight").text("Inch");
+                $("#weightunit").val("Pound");
+                $("#readonlyweight").text("Pound");
+            }
+        } else {
+
+            var selectedtext = $(".selectunit:checked").attr('alt');
+
+            if (selectedtext == 'Metric') {
+
+                $("#heightunit").val("M");
+                $("#readonlyheight").text("M");
+                $("#weightunit").val("KG");
+                $("#readonlyweight").text("KG");
+            } else {
+
+                //else "Imperial"
+                $("#heightunit").val("Inch");
+                $("#readonlyheight").text("Inch");
+                $("#weightunit").val("Pound");
+                $("#readonlyweight").text("Pound");
+            }
+        }
+
+    }
+
+    function SkinTypeChange(event) {
+
+        $(".radio-inline").removeClass('active');
+
+        $(event).parent().addClass('active');
+
+    }
+
+
+    function CountryChange(strCountry) {
+
+            $("#State").empty();
+            $("#City").empty();
+            $("#City").append('<option value="0">--Select City--</option>');
+            $.ajax({
+                type: 'Get',
+                data: { CountryID: $('#CountryID').val() },
+                url: '@Url.Action("GetStates", "Account")', // we are calling json method
+                dataType: 'json',
+                // here we are get value of selected country and passing same value
+                //as inputto json method GetStates.
+                success: function (states) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $("#State").append('<option value="0">--Select State--</option>');
+                    $.each(states, function (i, state) {
+                        $("#State").append('<option value="' + state.ID + '">' +
+                             state.StateName + '</option>');
+                        // here we are adding option for States
+                    });
+
+                },
+                error: function (ex) {
+
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+
+        }
+
+        function StateChange(strState) {
+            $("#City").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCity","Account")',
+                dataType: 'json',
+                data: { StateId: $('#State').val() },
+                success: function (citys) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    //$("#City").append('<option value="0">--Select City--</option>');
+                    $.each(citys, function (i, city) {
+                        $("#City").append('<option value="'
+                              + city.ID + '">'
+                              + city.CityName + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+        }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

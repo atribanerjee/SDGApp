@@ -1,0 +1,68 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.ThirdPartyViewModel>
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-hover general-table table-api">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>API key</th>
+                <th class="akxson">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <h4>@item.APIKeyName</h4>
+                        <p>@item.APIKeyID</p>
+                    </td>
+                    <td class="api_pass">
+                        <a href="javascript:void(0);" class="tooltips links_toggole" onclick="showHideKey('@item.UserThirdPartyAPIKeyID');">
+                            <input type="hidden" id="hdnKey_@item.UserThirdPartyAPIKeyID" value="0"/>
+                            <i id="eyeSlash_@item.UserThirdPartyAPIKeyID" class="fas fa-eye-slash" data-toggle="tooltip" data-placement="left" title="Show Secret Key"></i>
+                            <i id="eye_@item.UserThirdPartyAPIKeyID" class="fas fa-eye none " data-toggle="tooltip" data-placement="left" title="Hide Secret Key"></i>
+                        </a>
+                        <span id="spnHidden_@item.UserThirdPartyAPIKeyID" class="pass_fields_toggole ">
+                            *********
+                        </span>
+                        <span id="spnShow_@item.UserThirdPartyAPIKeyID" class="pass_fields_toggole text none ">
+                            <span id="spnAPIKeyVal_@item.UserThirdPartyAPIKeyID"> @item.APIKeyValue</span>
+                            <a href="javascript:void(0);" onclick="copyAPIKey('@item.UserThirdPartyAPIKeyID');" class="tooltips links_on"><i class="fas fa-copy" data-toggle="tooltip" data-placement="left" title="Copy Key"></i></a>
+                        </span>
+                    </td>
+                    <td class="akxson">
+                        <a href="javascript:void(0);" class="" onclick="deleteAPIKey('@item.UserThirdPartyAPIKeyID');"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Remove key"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table table-hover general-table table-api">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>API key</th>
+                <th class="akxson">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+                <tr>
+                    <td colspan="3">
+                        <h4>No API key added</h4>                        
+                    </td>                    
+                </tr>            
+        </tbody>
+    </table>
+}
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });   
+</script>

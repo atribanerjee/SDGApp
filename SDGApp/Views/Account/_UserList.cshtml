@@ -1,0 +1,183 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.UserViewModel>
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    Int32 pageCount = 0;
+    Int32 pageSize = GlobalConstants.PageSize;
+    if (Model.Count > 0)
+        {
+        pageSize = Model[0].PageSize;
+        }
+    Int32 pageNumber = 0;
+    Int32 totalRecord = 0;
+    String title = "Users List";
+}
+<script src="@Url.Content("~/Scripts/paging.js")"></script>
+
+<header class="panel-heading">
+
+    <div class="row">
+
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <h2 class="pull-left">@title</h2>
+
+            <input type="hidden" id="hdnpagename" value="userlist" />
+
+            @{Html.RenderPartial("_SearchView"); }
+
+            <div class="pull-left searchOnHeaderGen none">
+                <form action="#" class="header-search ">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Search for ...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <span class="tools pull-right">
+                <button onclick="window.location.href='/Account/Add'" type="button" class="btn btn-info btn-sm"> Add User</button>
+            </span>
+        </div>
+
+    </div>
+
+</header>
+
+@if (Model.Count > 0)
+    {
+
+    totalRecord = Model[0].TotalRecords;
+
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-lg-9 col-md-10 col-sm-12">
+                <div>
+                    <section class="pagesize-panel">
+                        <div class="pagesiz-ddl">
+                            @Html.Partial("_PageSize", new ViewDataDictionary { { "pagesize", pageSize } })
+                        </div>
+                        <div class="records-count">
+                            @totalRecord record(s) found
+                        </div>
+                        <div class="clear"></div>
+                    </section>
+                    <table class="table table-hover general-table">
+                        <thead>
+                            <tr>
+                                <th> First Name</th>
+                                <th> Last Name</th>
+                                <th> Email</th>
+                                <th class="hidden-phone">Mobile</th>
+                                <th class="akxson">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (SDGApp.ViewModel.UserViewModel item in Model)
+                                {
+                                pageCount = item.TotalRecords / item.PageSize;
+                                if (item.TotalRecords % item.PageSize != 0)
+                                    {
+                                    pageCount = pageCount + 1;
+                                    }
+                                pageNumber = item.PageNumber;
+                                pageSize = item.PageSize;
+
+                                <tr>
+                                    <td><a href="#">@item.FirstName</a></td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.MobileNo</td>
+                                    <td class="akxson">
+                                        @Html.RawActionLink("<i class=\"fas fa-pen-nib\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Modify\"></i>", "Edit", "Account", new { ID = item.UserID }, new { })
+                                        @if (item.UserID != BM.GetIntegerValue(BM.GetSessionValue("LoggedInUserID")))
+                                            {
+                                            <a href="javascript:void(0);" class="" id="Delete_@item.UserID" onclick='DeleteUser(@item.UserID);'><i class="fas fa-trash-restore-alt" data-toggle="tooltip" data-placement="left" title="Remove"></i></a>
+                                            }
+                                    </td>
+
+                                </tr>
+
+                                }
+
+                        </tbody>
+                    </table>
+                    <section class="paging-panel">
+                        @Html.Partial("_Paging", new ViewDataDictionary { { "pagecount", pageCount }, { "pagenumber", pageNumber } })
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2 col-sm-12"></div>
+        </div>
+
+
+
+    </div>
+
+    }
+
+else
+    {
+
+    <div class="panel-body">
+        <div class="no-record-found">
+            No Records Found.
+        </div>
+    </div>
+
+    }
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('select#ddlPageSize').val('@pageSize');
+        $('select#ddlPaging').val('@pageNumber');
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+
+}
+
+<script type="text/javascript">
+    function DeleteUser(UserID) {
+
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteUser", "Account")",
+                    data: { UserId: UserID },
+                    success: function (data) {
+                        if (data.Result) {
+
+                            showsuccess(data.Message);
+                            setTimeout(function () { location.reload(); }, 1000);
+                        }
+                        else {
+                            showsuccess(data.Message);
+                            location.reload();
+                            setTimeout(function () { location.reload(); }, 1000);
+                        }
+                    },
+                    error: function (arg) {
+                        alert("Error");
+                    }
+
+                });
+            },
+             function (retunVal) {
+                 showalertpopup('No data was deleted.');
+             });
+
+    }
+</script>

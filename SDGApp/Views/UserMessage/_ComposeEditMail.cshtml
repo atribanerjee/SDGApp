@@ -1,0 +1,564 @@
+﻿@model SDGApp.ViewModel.UserMessageViewModel
+@{
+    ViewBag.Title = "Edit Compose";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+
+
+<script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+<script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>
+
+
+<!--<link href="@Url.Content("~/Content/Latest/css/jqueryUI.css")" rel="stylesheet">-->
+<!-- for stycky COMPOSE MAIL section START -->
+<!-- the class name needs to be changed / modified as per requirements =
+     class names are : .minimiz | .maximiz | .default -->
+
+<div id="dvNewComposeMail" class="well well-compose default ">
+
+    <section class="panel ">
+
+        <header class="panel-heading">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <h2 class="pull-left">New message</h2>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div id="dvDraftSaveMessage" style="display:none;">
+                        <p class="flash_notification">Draft saved</p>
+                    </div>
+                    <span class="tools pull-right ">
+                        <input type="hidden" id="hdnIsMin" value="1" />
+                        <input type="hidden" id="hdnIsDefault" value="1" />
+                        <a href="javascript:void(0);" onclick="fnWinPos('minimize');" class="igons"><i id="iminmax" class="fas fa-window-minimize" data-toggle="tooltip" data-placement="top" title="Minimize"></i></a>
+                        <a href="javascript:void(0);" onclick="fnWinPos('maximize');" class="igons"><i id="ifullscreen" class="fas fa-expand-arrows-alt" data-toggle="tooltip" data-placement="top" title="Full Screen"></i> </a>
+                        <!-- <i class="fas fa-expand-alt"></i> -->
+                        <a href="javascript:void(0);" onclick="fnWinPos('closesave');" class="igons"><i class="fas fa-times-circle fa-lg" data-toggle="tooltip" data-placement="top" title="Save and Close"></i></a>
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <div class="panel-body form-generalIn">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @using (Html.BeginForm("ComposeEditMail", "UserMessage", FormMethod.Post, new { @class = "form-horizontal formz-autocom" }))
+                        {
+                        @Html.HiddenFor(m => m.MessageID)
+                        @Html.HiddenFor(m => m.UserEmailTo);
+                        @Html.HiddenFor(m => m.UserEmailCc);
+                        @Html.ValidationSummary(true)
+                        @Html.AntiForgeryToken()
+                        <div class="position-center generalIn-formz generalIn-formzTag">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+                                    <div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">To :</label>
+                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                @Html.TextBoxFor(m => m.MessageTo, new { @placeholder = "To", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.MessageTo)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Cc :</label>
+                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                @Html.TextBoxFor(m => m.MessageCc, new { @placeholder = "Cc", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.MessageCc)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Subject :</label>
+                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                @Html.TextBoxFor(m => m.MessageSubject, new { @placeholder = "Subject", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.MessageSubject)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 control-label">Body</label>
+                                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                                @Html.TextAreaFor(m => m.MessageBody, new { @placeholder = "Body", @class = "form-control", @rows = "10" })
+                                                @Html.ValidationMessageFor(m => m.MessageBody)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group group-igons">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <button id="btnSubmit" class="btn btn-success" type="submit">Send</button>
+                                                <a href="javascript:void(0);" class="btn btn-danger" id="btnComposeEmailCancel" onclick="fnWinPos('closesave');">Cancel</a>
+                                                @*<a href="javascript:;" class="igons first none "><i class="fas fa-paperclip fa-lg" data-toggle="tooltip" data-placement="top" title="Attach file(s)"></i></a>
+                                                    <a href="javascript:;" class="igons none"><i class="fas fa-trash-restore fa-lg" data-toggle="tooltip" data-placement="top" title="Discard draft"></i> </a>
+                                                    <a href="javascript:void(0);" class="close fileupload-exists none" data-dismiss="fileupload"></a>*@
+
+                                                <div class="fileupload-new igons first" data-provides="fileupload">
+                                                    <a href="javascript:void(0);" class="fud_lnk" data-toggle="tooltip" data-placement="top" title="Attach file(s)">
+                                                        <span class="btn btn-file">
+                                                            <span class="fileupload-new blocking "><i class="fas fa-paperclip fa-lg" data-toggle="tooltip" data-placement="top" title="Attach file(s)"></i></span>
+                                                            @Html.TextBoxFor(m => m.FileAttachments, new { type = "file", multiple = "multiple" })
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row none">
+                                <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+
+                                    <div class="attachment-mail  ">
+                                        <p class="attachment-text">
+                                            <span><i class="fas fa-paperclip"></i> 2 attachments — &nbsp;&nbsp; </span>
+                                            <a href="#" class="igons" data-toggle="tooltip" data-placement="top" title="Download all attachments"><i class="fas fa-arrow-circle-down fa-lg"></i></a>
+                                            <!-- <i class="fas fa-download"></i> -->
+                                        </p>
+                                        <ul class="attachment-value">
+                                            <li>
+                                                <a class="atch-thumb thumb-sm" href="#">
+                                                    <img src="@Url.Content("~/Content/Latest/images/product_img.png")" class="img-responsive" alt="">
+                                                </a>
+                                                <a class="name igons" href="#">
+                                                    IMG_001.jpg &nbsp;&nbsp;<span>20KB</span>
+                                                </a>
+                                                <div class="links igons">
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a> &nbsp;&nbsp;
+                                                    <a href="#" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>
+                                                </div>
+                                            </li>
+                                            <hr class="clearfix" />
+                                            <li>
+                                                <a class="atch-thumb thumb-sm" href="#">
+                                                    <img src="@Url.Content("~/Content/Latest/images/weather_image.jpg")" class="img-responsive" alt="">
+                                                </a>
+                                                <a class="name igons" href="#">
+                                                    IMG_001.jpg &nbsp;&nbsp;<span>20KB</span>
+                                                </a>
+                                                <div class="links igons">
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a> &nbsp;&nbsp;
+                                                    <a href="#" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>
+                                                </div>
+                                            </li>
+                                            <hr class="clearfix" />
+                                            <li>
+                                                <a class="atch-thumb thumb-sm" href="#">
+                                                    <img src="@Url.Content("~/Content/Latest/images/product_img.png")" class="img-responsive" alt="">
+                                                </a>
+                                                <a class="name igons" href="#">
+                                                    IMG_001.jpg &nbsp;&nbsp;<span>20KB</span>
+                                                </a>
+                                                <div class="links igons">
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a> &nbsp;&nbsp;
+                                                    <a href="#" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>
+                                                </div>
+                                            </li>
+                                            <hr class="clearfix" />
+                                            <li>
+                                                <a class="atch-thumb thumb-sm" href="#">
+                                                    <img src="@Url.Content("~/Content/Latest/images/product_img.png")" class="img-responsive" alt="">
+                                                </a>
+                                                <a class="name igons" href="#">
+                                                    IMG_001.jpg &nbsp;&nbsp;<span>20KB</span>
+                                                </a>
+                                                <div class="links igons">
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+                                                    <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a> &nbsp;&nbsp;
+                                                    <a href="#" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <a href="javascript:;" class="igons-prevmail none  " data-toggle="tooltip" data-placement="right" title="Hide expanded content">
+                                <i class="fas fa-ellipsis-h"></i>
+                                <!-- data-toggle="tooltip" data-placement="right" title="Previous email(s) / Hide expanded content" -->
+                            </a>
+                            <div class="row none">
+                                <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+
+                                    <div class="treeviewHold ">
+
+                                        @*<div id="FlatTree3" class="tree tree-plus-minus tree-solid-line ">
+                                                <div class="tree-folder" style="display:none;">
+                                                    <div class="tree-folder-header">
+                                                        <i class="fa fa-folder"></i>
+                                                        <div class="tree-folder-name"></div>
+                                                    </div>
+                                                    <div class="tree-folder-content"></div>
+                                                    <div class="tree-loader" style="display:none"></div>
+                                                </div>
+                                                <div class="tree-item" style="display:none;">
+                                                    <i class="tree-dot"></i>
+                                                    <div class="tree-item-name"></div>
+                                                </div>
+                                            </div>*@
+
+                                        <div class="treeviewBlok">
+                                            <ul>
+                                                <h5 class="title">
+                                                    On Wed, Jun 10, 2020 at 11:45 AM Doe Jon <a href="#">[jon_doe@abcd.xyz]</a> wrote:
+                                                </h5>
+                                                <li>
+                                                    <p class="intro">Hiii , </p>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                                </li>
+
+                                                <ul>
+                                                    <h5 class="title">
+                                                        On Wed, Jun 10, 2020 at 11:45 AM Doe Jon <a href="#">[jon_doe@abcd.xyz]</a> wrote:
+                                                    </h5>
+                                                    <li>
+                                                        <p class="intro">Hello , </p>
+                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. Lorem Ipsum is simply dummy text.</p>
+                                                        <p>Established fact that a reader will be distracted by the readable content.</p>
+                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. Lorem Ipsum is simply dummy text.</p>
+                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. Lorem Ipsum is simply dummy text.</p>
+                                                    </li>
+
+                                                    <ul>
+                                                        <h5 class="title">
+                                                            On Wed, Jun 10, 2020 at 11:45 AM Doe Jon <a href="#">[jon_doe@abcd.xyz]</a> wrote:
+                                                        </h5>
+                                                        <li>
+                                                            <p class="intro">Hey , </p>
+                                                            <p>The printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                            <p>A reader will be distracted by the readable content.</p>
+                                                        </li>
+                                                    </ul>
+                                                </ul>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        }
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+<!-- for stycky COMPOSE MAIL section END -->
+@*@section Scripts
+    {}*@
+
+<script>
+
+    $(document).ready(function () {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        for (name in CKEDITOR.instances) {
+            CKEDITOR.instances[name].destroy(true);
+        }
+
+        var editor = CKEDITOR.replace('MessageBody', { toolbarStartupExpanded: false, resize_enabled: false, })
+
+
+        editor.on('change', function (e) {
+            
+
+            SaveDraftBodyData();
+
+        });
+
+        function split(val) {
+            return val.split(/,\s*/);
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+
+        var messageto = ''; var emailto = '';
+        var messagecc = ''; var emailcc = '';
+
+        $("#MessageTo")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            }).autocomplete({
+                minLength: 0, delay: 200,
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: "/UserMessage/MessageSearchList",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                        success: function (data) {
+
+
+                            var arraydata = $.map(data, function (m) {
+
+                                return {
+                                    Name: m.Name,
+                                    Email: m.Email,
+                                    Picture: m.Picture
+                                };
+                            })
+
+                            response(arraydata);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                focus: function (event, ui) {
+
+                    // $("#MessageTo").val(ui.item.Email);
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+
+                    var terms = split(ui.item.Name);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.Name);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join(", ");
+
+                    messageto = messageto + this.value;
+                    emailto = emailto + this.value + " " + ui.item.Email + " | ";
+
+                    $("#MessageTo").val('');
+                    $("#UserEmailTo").val('');
+
+                    $("#MessageTo").val(messageto);
+                    $("#UserEmailTo").val(emailto);
+
+                    setTimeout(function () { SaveDraftBodyData(); }, 3000);
+
+                    //alert($("#MessageTo").val());
+                    //alert($("#UserEmailTo").val());
+                    return false;
+                }
+
+
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                ul.addClass('group-autocomplete');
+
+                var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                    '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                    '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append(inner_html)
+                    .appendTo(ul);
+
+
+            };
+
+
+
+        $("#MessageCc")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            }).autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/UserMessage/MessageSearchList",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                        success: function (data) {
+                            //
+
+                            var arraydata = $.map(data, function (m) {
+
+                                return {
+                                    Name: m.Name,
+                                    Email: m.Email,
+                                    Picture: m.Picture
+                                };
+                            })
+
+                            response(arraydata);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                focus: function (event, ui) {
+
+                    // $("#MessageTo").val(ui.item.Email);
+
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+                    var terms = split(ui.item.Name);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.Name);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join(", ");
+
+                    messagecc = messagecc + this.value;
+                    emailcc = emailcc + this.value + " " + ui.item.Email + " | ";
+
+                    $("#MessageCc").val('');
+                    $("#UserEmailCc").val('');
+
+                    $("#MessageCc").val(messagecc);
+                    $("#UserEmailCc").val(emailcc);
+
+                    setTimeout(function () { SaveDraftBodyData(); }, 3000);
+
+                    return false;
+                },
+                messages: {
+                    noResults: "",
+                    results: function (count) {
+                        return count + (count > 1 ? ' results' : ' result ') + ' found';
+                    }
+                }
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                ul.addClass('group-autocomplete');
+
+                var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                    '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                    '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append(inner_html)
+                    .appendTo(ul);
+
+
+            };
+
+
+
+    });
+
+    // auto Save data
+    var flagsuccess = true;
+
+    function SaveDraftBodyData() {
+
+
+
+        if (flagsuccess) {
+
+            flagsuccess = false;
+
+            var MessageID = $('#MessageID').val();
+
+            if (MessageID != '' && MessageID > 0) {
+                $('#MessageID').val(MessageID);
+            }
+
+
+            var MessageID = $('#MessageID').val();
+            var MessageTo = '';
+            var MessageCc = '';
+
+            if ($('#UserEmailTo').val().trim() != '') {
+                MessageTo = $('#UserEmailTo').val().trim();
+            }
+            else {
+                MessageTo = $('#MessageTo').val().trim();
+            }
+
+            if ($('#UserEmailCc').val().trim() != '') {
+                MessageCc = $('#UserEmailCc').val().trim();
+            }
+            else {
+                MessageCc = $('#MessageCc').val().trim();
+            }
+
+
+            var MessageSubject = $('#MessageSubject').val().trim();
+            var MessageBody = CKEDITOR.instances['MessageBody'].getData();
+
+
+
+            $.ajax({
+                url: "/UserMessage/SaveDraft",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    MessageID: MessageID,
+                    MessageTo: MessageTo,
+                    MessageCc: MessageCc,
+                    MessageSubject: MessageSubject,
+                    MessageBody: MessageBody
+                },
+                success: function (data) {
+
+                    //showsuccess("Draft saved");
+
+                    flagsuccess = true;
+
+                    if (data.MessageID > 0) {
+                        $('#MessageID').val(data.MessageID);
+
+                        $("#dvDraftSaveMessage").show();
+                        setTimeout(function () { $("#dvDraftSaveMessage").hide(); }, 5000);
+
+
+                    }
+                },
+                error: function (ex) {
+                    alert('Error' + ex);
+                },
+                complete: function () {
+                    flagsuccess = true;
+
+                }
+
+            });
+        }
+
+
+    }
+
+</script>
+
+
+

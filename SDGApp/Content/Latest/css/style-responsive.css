@@ -1,0 +1,322 @@
+/*
+    wirn
+    SaluINC Dashboard build with Bootstrap v3+ Author: SaluINC
+    Template.
+*/
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+
+    /*
+    .lock-wrapper { width: 500px }
+    .lock-wrapper .form-signin input[type=password], .lock-wrapper .form-signin input[type=text] { height: 48px; line-height: 51px }
+    .quick-search .defal-search .form-control { padding: 10.5px 14px }
+    */
+
+
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+    .form-control::-webkit-input-placeholder { text-align: left }
+    .form-control::-webkit-input-placeholder, ::i-block-chrome { text-align: left }
+
+}
+
+@media (min-width:992px) {
+
+    .lg-resolutionz { display: block }
+    .sm-resolutionz { display: none }
+    a.show-sm { display: none }
+    .hide-sm { display: block }
+
+}
+
+@media (max-width:768px) {
+
+    
+
+}
+
+@media (min-width:1500px) {
+
+    
+
+}
+
+@media (min-width:1921px) {
+
+    
+
+}
+
+@media (max-width:1920px) {
+    
+
+
+}
+
+@media (max-width:1899px) {
+
+    
+
+}
+
+@media (max-width:1660px) {
+
+    .lock-wrapper { margin: auto auto; }    
+
+
+}
+
+@media (max-width:1499px) {
+
+    section.profile-overview-app .panel-body.panel-tab-view .tab-content .position-center.profile-settings { }
+    .panel-dashboard .panel-overview-app.profile-nav .panel .top-stats-panel { min-height: 200px; }
+    .panel-dashboard.panel-overview-app.dashboard-tab .panel-tab-view .contentUnderTAB .contents-Ondash .profile-nav .panel .top-stats-panel { min-height: 200px; }
+    .modal.modal-dashboard .modal-body.body-dashAutocomplete .profile-nav .panel .top-stats-panel { min-height: 200px; }
+    section.panel-overview-app .body-kontakts .well .media{ width: 48.7933%;}
+    section.panel-overview-app .body-kontakts .well .media .media-body{ width:65%;}
+    section.panel-overview-app .body-kontakts .well .media .media-body h4 { margin-top: 18px;}
+    section.panel-overview-app .body-kontakts .well.well-grid .media{ width: 23.8333%;}
+    section.wrapper section.panel .panel-body .gridHold .thumbnail-grid{ width: 23.4875%;}
+    .mailInbox section.panel-inbox.inbox-right .attachment-mail .attachment-value li{ width: 35%;}
+    
+
+
+}
+
+@media (max-width:1399px) {
+
+    .bcBar .legend_div ul li{ padding-right: 20px;}
+    .profile-information section.profile-overview-app .panel-tab-view .tab-content .well .media .form-group { width:50%; }
+    /*.Library-section .Library-Holder .col-lg-3, 
+    .Library-section .Library-Holder .col-md-3 { width: 35% }
+    .Library-section .Library-Holder .col-lg-9, 
+    .Library-section .Library-Holder .col-md-9 { width: 65% }*/
+    .Library-section .Library-Holder .Holdin-Tree .one-single-blok.tree-holder ul.event-listz li a span{ width:66%; height:57px; overflow:hidden;}/*36px*/
+    .mailInbox .well-compose.maximiz { width: 75%; max-width: 880px; min-height: 500px; min-width: 700px;}
+    .mailInbox .well-compose.maximiz section.panel{ min-height: 515px;}
+    .mailInbox .well-compose.maximiz section.panel .form-generalIn .generalIn-formz .form-group{ margin-bottom:20px;}
+    .mailInbox .well-compose.maximiz .panel .form-generalIn .generalIn-formz.generalIn-formzTag{ height: 545px; overflow-x: hidden; overflow-y: auto;}
+    .mailInbox .well-compose.default .panel .form-generalIn .generalIn-formz.generalIn-formzTag{ height: 445px; overflow-x: hidden; overflow-y: auto;} 
+    .panel-dashboard ul.list-panel.panel-resize li.panel-item{ width: 450px;}
+    .versionz-upload.group-versionz .list-group .list-group-item{ width: 47%;}   
+    .Library-section .LibDrive-Hold .hold-Contentz .tabble .tabbpanel .holdLIST .panel .panel-body .contentHoldLIST .group-CommonLIST .group-item-list table.table-genueIN th.cell-lg{ width:385px; min-width:385px; text-align:left;}
+
+
+
+
+
+}
+
+@media (max-width:1299px) {
+
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:last-child{ width:auto; min-width:inherit; max-width:inherit;}
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:first-child{ width:auto; min-width:inherit; max-width:inherit; }
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:nth-child(2){ width:auto; min-width:inherit; max-width:inherit;}
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:nth-child(3){ width:auto; min-width:inherit; max-width:inherit;}
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:nth-child(4){ width:auto; min-width:inherit; max-width:inherit;}
+    .mailInbox section.panel-inbox .panel-body.body-mail .table-inbox-wrap table.table-inbox tr td:nth-child(5){ width:auto; min-width:inherit; max-width:inherit;}
+
+
+}
+
+@media (max-width:1199px) {
+
+    .wrapper header .searchOnHeaderGen .header-search .input-group input.form-control{ width: 80.159999%;}
+    .versionz-upload.group-versionz .list-group .list-group-item{ width: 97%;}
+
+}
+
+@media (max-width:1099px) {
+
+    .wrapper header .searchOnHeaderGen .header-search .input-group input.form-control{ width: 80.159999%;}
+    
+
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+
+
+}
+
+@media (max-width:991px) {
+
+    .lock-wrapper .modal.form-forgetpass form { width: auto }
+    .lg-resolutionz { display: none }
+    .sm-resolutionz { display: block }    
+    a.show-sm { display: block }    
+    a.logo img.img-icon { max-height: 50px; width: auto }
+    body.pp-body{ margin-top:0px !important;}
+    body.pp-body header.header{ margin-top:0px !important;}
+    body.pp-body header.header .header-policy .top-nav ul.top-menu .btn { margin: 0px auto;}
+    body.pp-body header.header .header-policy .top-nav.hr-top-nav { display: inline-block; float: none; margin: 10px auto; text-align: center; width: 100%; }
+    body.pp-body header.header .header-policy .top-nav ul.top-menu, body.pp-body header.header .header-policy .top-nav ul.top-menu li { float:none !important; margin:0 auto; text-align:center;}
+    body.pp-body header.header .header-policy .brand { text-align:center; float:none; margin:0px auto;}
+    body.pp-body header.header .header-policy .brand a.logo { text-align:center; float:none; margin:15px auto;}
+    body.pp-body header.header .header-policy .brand a.logo img { margin:0 auto;}
+    body.pp-body footer{ padding:0; margin-top:0; line-height: 1;}
+    body.pp-body .wrapper-policy a.appHolder img{ max-width:100%;}
+    body.pp-body header.header .header-policy .brand{ position: inherit;}
+    body.pp-body footer{ position:fixed; bottom:0; top:auto;}
+    body.pp-body footer .footer-policy{ padding-top:15px; padding-bottom:15px;}
+    body.pp-body .wrapper-policy .page-header{ font-size:40px; border:none; margin:65px 0 25px; transition: all 0.3s ease-in-out;}
+    body.pp-body .wrapper-policy .page-type-header{ font-size:22px;}
+    body.pp-body .wrapper-policy .page-type-headerone{ font-size:18px;}
+    body.pp-body .wrapper-policy .page-text-point{ text-align:justify; padding:0 0 0 35px; margin: 0px 0 35px;}
+    body.pp-body .wrapper-policy .page-text-point .text-single-point{ margin: 0 0 15px;}
+    body.pp-body footer a.go-top{ top: -5em;}
+    body.pp-body .wrapper-policy{ padding-bottom:70px;}
+    .wrapper header .searchOnHeaderGen{ width: 65%;}
+    .wrapper header .searchOnHeaderGen .header-search .input-group input.form-control{ width: 80.159999%;}
+    .group-versionz .list-group .list-group-item{ width: 97%;}
+    .group-versionz hr{ margin-bottom:5px; margin-top:5px;}
+
+
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+
+	.header { position: relative! important; margin-top: 80px ! important; }
+	.merge-header { margin-right: 0px !important; }
+	.brand { width: 100%; float: none; position: fixed; top: 0px; z-index: 1005; }
+	.sidebar-toggle-box { right: 10px; }
+	.top-nav { margin-bottom: 20px; }
+	.top-menu { margin-right: 10px; }
+	.wrapper { margin-top: 0px; }
+	ul.sidebar-menu { margin-top: 0px; }
+	#sidebar { position: fixed !important; z-index: 1002; top: 80px; }
+	#main-content { margin-left: 0px; }
+	.fc-button-inner { padding: 0; }
+	.prd-row .action { right: 25px; }
+	.weather-full-info ul li { width: 15.8%; }
+	.today-status { margin-bottom: 10px; }
+	.hr-toggle { background: #32D2C9; color: rgba(0, 0, 0, 0.3); border-radius: 50%; -webkit-border-radius: 50%; height: 30px; line-height: 0; margin-top: -58px; position: fixed; right: 10px; width: 30px; z-index: 10000; }
+	.hr-top-nav { display: inline-block; float: right; margin: 10px 0; }
+	.horizontal-menu { width: 100%; }
+	.horizontal-menu .navbar-nav > li { margin-bottom: 10px; }
+	.lock-wrapper { padding: 0 20px; }
+	.lock-wrapper img { width: 140px; height: 140px; margin-top: 10px; }
+	.lock-pwd input { width: 70%; }
+	#time { font-size: 100px; }
+	.media-gal .item { width: 100%; }
+	.media-filter { margin: 25px 0; }
+	.media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important; }
+
+    
+
+}
+
+@media (max-width:767px) {
+
+    .fixed-width #container, .fixed-width #container .header { width: 100% }
+    #sidebar { margin-left: -240px; -webkit-transition: all .3s ease-in-out; -moz-transition: all .3s ease-in-out; -o-transition: all .3s ease-in-out; transition: all .3s ease-in-out }
+    .hide-left-bar { margin-left: 0 !important }
+    ul.sidebar-menu { padding-top: 0 }
+    ul.sidebar-menu { margin-top: 0 }
+    .prd-row .action { right: 25px }
+    .lock-wrapper { padding: 0 20px }
+    .lock-wrapper img { width: 140px; height: 140px; margin-top: 10px }
+    .lock-pwd input { width: 70% }
+    #time { font-size: 85px }
+    .media-gal .item { width: 100% }
+    .media-filter { margin: 25px 0 }
+    .media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important }
+    .header { z-index: 9998 }
+    #sidebar { z-index: 99999 }    
+    a.logo .site-name { line-height: 1.9 }    
+    .wrapper form .form-control { padding: 3.5px 10px }    
+    h4.hd-title { font-size: 15px }
+    .overflow { overflow-x: hidden; overflow-y: visible }
+    .aidant-login-body .top-height-gap { margin-top: 6em }
+    .aidant-login-body .aidant-login-bg { width: 75%; min-height: 240px; margin-bottom: 3em }
+    body.pp-body .wrapper-policy a.appHolder img{ max-width:40%;}
+    .wrapper header.panel-heading{ height: 110px;}
+    .wrapper header .searchOnHeaderGen { width: 55%; }
+    .wrapper header.panel-heading span{ float:left !important;}
+    body.pp-body header.header .header-policy .brand{ position: inherit; height: 105px; width:auto;}
+    body.pp-body header.header .header-policy .brand a.logo { text-align:center; float:none; margin:15px auto; width:auto;}
+    body.pp-body header.header .header-policy .brand a.logo img { margin:0 auto; width:auto; min-width: 75%; max-width: 75%;}
+    .group-versionz .title, .group-versionz .list-group{ width: 45%;}
+
+
+
+}
+
+@media (max-width:599px) {
+
+    .lock-screen { background-position: center center; transition: all .5s ease-in-out .1s }
+    #time { font-size: 50px; transition: all .5s ease-in-out .1s }
+    .lock-wrapper { padding: 0 20px }
+    .lock-wrapper img { width: 100px; height: 100px; margin-top: -25px; transition: all .5s ease-in-out .1s }
+    .lock-wrapper img { top: -5em; bottom: 0; z-index: 654; transition: all .5s ease-in-out .1s }
+    .form-signin .form-group { margin: 0; padding: 0; text-align: center }
+    .lock-wrapper .lock-box .lock-name { width: 100%; border-radius: 0; margin: 0; padding: 0; text-align: center; float: none }
+    .lock-wrapper .lock-box .lock-pwd { width: 100%; border-radius: 0; margin: 0; padding: 0; text-align: center; float: none }
+    .lock-wrapper .form-signin input[type=password], .lock-wrapper .form-signin input[type=text] { margin: 0; padding: 0; width: 80% !important; text-align: center; float: none }
+    .lock-wrapper .lock-box .lock-pwd button.btn.btn-lock { position: absolute; display: inline-block; z-index: 69; left: auto; right: 0; top: 0; bottom: 0; padding: 0 .75em; margin: auto }
+    .lock-wrapper .lock-box .lock-pwd button.btn.btn-lock { border-radius: 0; line-height: 1.6; height: auto; width: auto }
+    
+
+
+
+}
+
+@media (max-width:479px) {
+
+    body { margin-top: 80px !important; }
+	.header { position: relative !important; }
+	.merge-header { margin-right: 0px !important; }
+	.brand { width: 100%; float: none; position: fixed; top: 0px; z-index: 1005; }
+	.sidebar-toggle-box { right: 10px; }
+	.top-nav { margin-bottom: 20px; }
+	.top-menu { margin-right: 10px; }
+	.wrapper { margin-top: 0px; }
+	ul.sidebar-menu { margin-top: 0px; }
+	#sidebar { position: fixed !important; z-index: 1002; top: 80px; }
+	#main-content { margin-left: 0px; }
+	.notify-row { float: none; }
+	.fc-button-inner, .fc-button-content { padding: 0; }
+	.fc-header-title h2 { font-size: 12px!important; }
+	.fc .fc-header-space { padding-left: 0; }
+	.fc-state-active, .fc-state-active .fc-button-inner, .fc-state-active, .fc-button-today .fc-button-inner, .fc-state-hover, .fc-state-hover .fc-button-inner { background: none repeat scroll 0 0 #FFFFFF !important; color: #32323A !important; }
+	.fc-state-default, .fc-state-default .fc-button-inner { background: none repeat scroll 0 0 #FFFFFF !important; }
+	.prd-row .action { right: 25px; }
+	.weather-full-info ul li { width: 30%; margin-bottom: 10px; }
+	.today-status { margin-bottom: 10px; }
+	.hr-toggle { background: #32D2C9; color: rgba(0, 0, 0, 0.3); border-radius: 50%; -webkit-border-radius: 50%; height: 30px; line-height: 0; margin-top: -58px; position: fixed; right: 10px; width: 30px; z-index: 10000; }
+	.hr-top-nav { display: inline-block; float: right; margin: 10px 0; }
+	.horizontal-menu { width: 100%; }
+	.horizontal-menu .navbar-nav > li { margin-bottom: 10px; }
+	.lock-wrapper { padding: 0 20px; }
+	.lock-wrapper img { width: 100px; height: 100px; margin-top: -25px; }
+	.lock-pwd input { width: 70%; }
+	#time { font-size: 50px; }
+	.lock-pwd { padding: 0; }
+	.media-gal .item { width: 100%; }
+	.media-filter { margin: 5px 0; }
+	.media-filter + .pull-right, .media-filter + .pull-right + .btn { float: left !important; }
+	.media-filter li a { margin-bottom: 10px; display: inline-block; }
+    .wrapper header .searchOnHeaderGen { width: 75%; margin:0 0 0.55em 0; }
+    .wrapper header.panel-heading { height: 150px; }
+   
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

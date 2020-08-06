@@ -1,0 +1,291 @@
+﻿@model SDGApp.ViewModel.TagsViewModel
+
+@{
+    ViewBag.Title = "Add";
+}
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Add Tags
+            </header>
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+            <div class="panel-body">
+                <div class="tab-content tasi-tab">
+                    <div id="overview" class="tab-pane active">
+                        <div class="panel">
+                            @using (Html.BeginForm("Add", "Tags", FormMethod.Post, new { @class = "form-horizontal" }))
+                            {
+                                @*<div class="form-group">
+                                    <label class="col-lg-3 control-label">Tag Category<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-3">
+                                        @Html.DropDownListFor(m => m.CategoryID, Model.TagCategoryList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Activity</label>
+                                    <div class="col-lg-3">
+                                        @Html.CheckBoxFor(m => m.IsActivity, new { })
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Tag Name<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-7">
+                                        @Html.TextBoxFor(m => m.TagName, new { @placeholder = "Tag Name", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.TagName, "", new { @style = "color: red" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Description<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-7">
+                                        @Html.TextBoxFor(m => m.Description, new { @placeholder = "Description", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color: red" })
+                                    </div>
+                                </div>
+
+                                <div id="Add_div">
+
+                                    <div><label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Field 1</b></label></div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Prompt<span class="" style="color:red"> *</span></label>
+                                        <div class="col-lg-3">
+                                            @Html.TextBoxFor(m => m.Prompt, new { @placeholder = "Prompt", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Prompt, "", new { @style = "color: red" })
+                                        </div>
+                                        <label class="col-lg-1 control-label ddl">Type<span class="" style="color:red"> *</span></label>
+                                        <div class="col-lg-3">
+                                            @Html.DropDownListFor(m => m.TypeID, Model.TypeList, "---Select---", new { @onchange = "TypeChange(this.value);", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group " id="maxmin_show" style="display:none">
+                                        <label class="col-lg-3 control-label">Min</label>
+                                        <div class="col-lg-3">
+                                            @Html.TextBoxFor(m => m.Min, new { @placeholder = "Min", @class = "form-control numeric" })
+                                            @Html.ValidationMessageFor(m => m.Min, "", new { @style = "color: red" })
+                                        </div>
+                                        <label class="col-lg-1 control-label">Max</label>
+                                        <div class="col-lg-3">
+                                            @Html.TextBoxFor(m => m.Max, new { @placeholder = "Max", @class = "form-control numeric" })
+                                            @Html.ValidationMessageFor(m => m.Max, "", new { @style = "color: red" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="choice_show" style="display:none">
+                                        <label class="col-lg-3 control-label">Choice</label>
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(m => m.Choice, new { @placeholder = "Fast, Medium, Slow ", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Choice, "", new { @style = "color: red" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div><a class="btn btn-success" href="javascript:void(0);" onclick="AddMoreField();"><i class="fa fa-plus"></i>&nbsp;Add More</a></div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-9">
+                                        <button id="btnSubmit" class="btn btn-primary" type="button"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        @Html.ActionLink("Cancel", "Index", "Tags", new { }, new { @class = "btn btn-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        fnSelectMenuActive('tag', 'manageTags');
+
+        var index = 1;
+        function TypeChange(strType) {
+            if (strType == 1) {
+                $("#maxmin_show").show();
+                $("#choice_show").hide();
+            }
+            else if (strType == 2) {
+                $("#choice_show").show();
+                $("#maxmin_show").hide();
+
+            }
+            else {
+                $("#choice_show").hide();
+                $("#maxmin_show").hide();
+            }
+        }
+
+        function TypeChangeAddMore(strType, indx) {
+
+            if (strType == 1) {
+                $("#maxmin_show_" + indx).show();
+                $("#choice_show_" + indx).hide();
+            }
+            else if (strType == 2) {
+                $("#choice_show_" + indx).show();
+                $("#maxmin_show_" + indx).hide();
+            }
+            else {
+                $("#choice_show_" + indx).hide();
+                $("#maxmin_show_" + indx).hide();
+            }
+
+        }
+
+        function AddMoreField() {
+
+            var AddHtml = '<div><label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Field ' + (index + 1) + '</b></label></div>' +
+            '<div class="form-group">' +
+                '<label class="col-lg-3 control-label">Prompt<span class="" style="color:red"> *</span></label>' +
+                '<div class="col-lg-3">' +
+                    '<input class="form-control" id= "Prompt_' + index + '" placeholder="Prompt" />' +
+                '</div>' +
+                '<label class="col-lg-1 control-label ddl">Type<span class="" style="color:red"> *</span></label>' +
+                '<div class="col-lg-3">' +
+                    '<select id="ddlType_' + index + '" class="form-control addtypes" onchange = "TypeChangeAddMore(this.value,' + index + ');">' +
+                    '</select>' +
+                '</div>' +
+            '</div>' +
+            '<div class="form-group " id="maxmin_show_' + index + '" style="display:none">' +
+               '<label class="col-lg-3 control-label">Min</label>' +
+                 '<div class="col-lg-3">' +
+                 '<input class="form-control numeric" id= "Min_' + index + '" placeholder="Min" /></div>' +
+                                        '<label class="col-lg-1 control-label">Max</label>' +
+                                        '<div class="col-lg-3">' +
+                                        '<input class="form-control numeric" id= "Max_' + index + '" placeholder="Max" /></div>' +
+                                    '</div>' +
+                                    '<div class="form-group" id="choice_show_' + index + '" style="display:none">' +
+                                        '<label class="col-lg-3 control-label">Choice</label>' +
+                                        '<div class="col-lg-7">' +
+                                        '<input class="form-control" id= "Choice_' + index + '" placeholder="Fast, Medium, Slow" />' +
+                                        '</div>' +
+                                    '</div>' +
+            '</div>';
+            $('#Add_div').append(AddHtml);
+
+            BindTypeDropDown();
+            index += 1;
+
+        }
+
+        function BindTypeDropDown() {
+            var selectid = $("#ddlType_" + index);
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("FetchTypeList", "Tags")',
+                dataType: 'json',
+                success: function (data) {
+                    selectid.append('<option value="0">---Select Type---</option>')
+                    $.each(data, function (i, dat) {
+                        selectid.append('<option value="' + dat.Value + '">' +
+                             dat.Text + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+        }
+
+        $(function () {
+            $('#btnSubmit').on('click', function () {
+                var fields = new Array();
+
+                if ($('#TagName').val().length == 0 || $('#Description').val().length == 0 || $('#Prompt').val().length == 0 || $('#TypeID').val().length == 0 || parseInt($('#CategoryID').val())<=0) {
+                    showfailure('Required field(s) missing.');
+                    return;
+                }
+
+                // Collect all values from Field 1
+
+                // Add prompt
+                fields.push($('#Prompt').val());
+
+                // Add type
+                fields.push($('#TypeID').val());
+
+                // Add min, max / choice
+
+                if (parseInt($('#TypeID').val()) == 1) {
+                    fields.push($('#Min').val() + '|' + $('#Max').val());
+                }
+                else if (parseInt($('#TypeID').val()) == 2) {
+                    fields.push($('#Choice').val());
+                }
+
+                // Collect all values from Other added Fields
+
+                for (var j = 1; j < index; j++) {
+                    if ($('#Prompt_' + j).val().length == 0 || $('#ddlType_' + j).val() == 0) {
+                        showfailure('Required field(s) missing.');
+                        return;
+                    }
+
+                    // Add prompt
+                    fields.push($('#Prompt_' + j).val());
+
+                    // Add type
+                    fields.push($('#ddlType_' + j).val());
+
+                    // Add min, max / choice
+
+                    if (parseInt($('#ddlType_' + j).val()) == 1) {
+                        fields.push($('#Min_' + j).val() + '|' + $('#Max_' + j).val());
+                    }
+                    else if (parseInt($('#ddlType_' + j).val()) == 2) {
+                        fields.push($('#Choice_' + j).val());
+                    }
+                }
+
+                var isActivity = false;
+                if ($('#IsActivity').is(':checked')) {
+                    isActivity = true;
+                }
+                else {
+                    isActivity = false;
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Add", "Tags")",
+                    data: {
+                        TagCategoryID: parseInt($('#CategoryID').val()),
+                        IsActivity: isActivity,
+                        TagName: $('#TagName').val(),
+                        Desc: $('#Description').val(),
+                        Fields: fields
+                    },
+                    success: function (data) {
+                        if (data) {
+                            window.location.href = "/Tags/Index";
+                        }
+                    },
+                    error: function (arg) {
+                        alert("Error");
+                    }
+
+                });
+            });
+
+        });
+
+
+    </script>
+}
+
+

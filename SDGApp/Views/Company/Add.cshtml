@@ -1,0 +1,109 @@
+﻿@model SDGApp.ViewModel.CompanyViewModel
+@{
+    ViewBag.Title = "Add Organisation";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+
+        <section class="panel ">
+            <header class="panel-heading">
+                <h2> Add organisation </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+
+            <div class="panel-body form-generalIn">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        @using (Html.BeginForm("Add", "Company", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            <div class="position-center generalIn-formz generalIn-formzTag">
+
+
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+
+
+                                        <div class="prf-contacts sttng none">
+                                            <h2> Personal Information</h2>
+                                        </div>
+
+                                        <div>
+                                            <div class="form-group">
+                                                <label class="col-lg-2 col-md-2 col-sm-12 control-label">Organisation Name</label>
+                                                <div class="col-lg-10 col-md-10 col-sm-12">
+                                                    @Html.TextBoxFor(m => m.CompanyName, new { @placeholder = "Organisation Name", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.CompanyName)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-2 col-md-2 col-sm-12 control-label">Organisation Address</label>
+                                                <div class="col-lg-10 col-md-10 col-sm-12">
+                                                    @Html.TextBoxFor(m => m.CompanyAddress, new { @placeholder = "Organisation Address", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.CompanyAddress)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-lg-offset-2 col-lg-10">
+                                                    <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                                    @Html.ActionLink("Cancel", "Index", "Company", new { }, new { @class = "btn btn-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        fnSelectMenuActive('setup', 'managecompany');
+    </script>
+  
+}
+
+
+

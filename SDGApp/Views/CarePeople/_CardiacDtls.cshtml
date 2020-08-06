@@ -1,0 +1,434 @@
+﻿
+@{
+    int UserID = 0;
+
+
+
+    if (ViewData["UserID"] != null && ViewData["UserID"] != "" && Convert.ToInt32(ViewData["UserID"]) > 0)
+    {
+        UserID = Convert.ToInt32(ViewData["UserID"]);
+    }
+
+}
+
+
+
+
+<div class="cardiactab">
+    <section class="panel panel-overview-app ">
+
+        <div class="panel-heading">
+            <h2> Detailed history </h2>
+            <span class="tools pull-right none">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+            </span>
+        </div>
+
+        <div class="panel-body panel-tab-view ">
+            <div class="panel-heading tab-bg-dark-navy-blue ">
+                <ul id="toggleholder" class="nav nav-tabs">
+                    <li class="active">
+                        <a id="dayhistory" name="day" data-toggle="tab" onclick="fnGetCardiacHist(this.name)" href="#">Day</a>
+                    </li>
+                    <li class="">
+                        <a id="weekhistory" name="week" data-toggle="tab" onclick="fnGetCardiacHist(this.name)" href="#">Week</a>
+                    </li>
+                    <li class="">
+                        <a id="monthhistory" name="month" data-toggle="tab" onclick="fnGetCardiacHist(this.name)" href="#">Month</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active  ">
+                    <form action="#" class="form-horizontal ">
+                        <div class="form-group">
+                            <label id="lblfordetailsname" class="control-label col-lg-3 col-md-3 col-sm-12 ">History for the day : </label>
+                            <div id="datepickerholder" class="col-lg-3 col-md-3 col-sm-12 ">
+                                <div id="datepickerdivholder" data-date-viewmode="years" data-date-format="mm-dd-yyyy" data-date="@DateTime.Now.ToString("MM-dd-yyyy")" class="input-append date dpYears">
+                                    <input id="datepickerval" type="text" readonly="" value="@DateTime.Now.ToString("MM-dd-yyyy")" size="16" class="form-control">
+                                    <span class="input-group-btn add-on">
+                                        <button class="btn btn-round btn-primary" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-block none">Select date</span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <section class="table-tab-view">
+                        <div class="panel-heading">
+                            <h2> Statistics graph </h2>
+                            <span class="tools pull-right none">
+                                <a href="javascript:;" class="fa fa-chevron-down" aria-hidden="true"></a>
+                            </span>
+                        </div>
+                        <div class="main-chart chart chartcardiac">
+                            <div id="chtBPChart"></div>
+                            <div id="chtHRChart"></div>
+                        </div>
+                    </section>
+
+                    <section class="table-tab-view">
+                        <div class="panel-heading">
+                            <h2> Detail information </h2>
+                            <span class="tools pull-right none ">
+                                <a href="javascript:;" class="fa fa-chevron-down" aria-hidden="true"></a>
+                            </span>
+                        </div>
+
+                        <div class="panel-body no-pad">
+                            <table class="table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="numeric">SBP</th>
+                                        <th class="numeric">DBP</th>
+                                        <th class="numeric">HR</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailshistoryCardiac"></tbody>
+                            </table>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+    var gethistorytype = "day";
+
+    $(document).ready(function () {
+
+       
+        $('.dpYears').datepicker({
+            format: 'mm-dd-yyyy',
+            autoclose: true
+
+        });
+
+
+        var FistLoading = true;
+        fnGetCardiacHist("day");
+
+        $('#datepickerdivholder').on('changeDate', function (ev) {
+           
+            if (!FistLoading) {
+
+                fnGetCardiacHist(gethistorytype);
+
+            } else {
+                FistLoading = false;
+            }
+
+        });
+
+    });//end document ready
+
+    function fnGetCardiacHist(type) {
+        
+        var date = $("#datepickerval").val();
+
+        if (type != '') {
+
+            gethistorytype = type;
+
+            var UserID =@UserID;
+
+            $("#lblfordetailsname").text("History for the " + gethistorytype + " :");
+            $("#chtBPChart").html('');
+            $("#chtHRChart").html('');
+            $("#detailshistoryCardiac").html('');
+
+
+            if (date === '') {
+                date = "@DateTime.Now.ToString("MM-dd-yyyy")";
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: { type: type, currentdate: date, UserID: UserID },
+                url: '@Url.Action("GetCardiacHistory", "CarePeople")', // we are calling json method
+                dataType: 'json',
+                success: function (results) {
+
+                    if (results.CardiacList != '') {
+
+                        var listdata = results.CardiacList;
+                        var DateValues = new Array();
+                        var SBPValues = new Array();
+                        var DBPValues = new Array();
+                        var HRValues = new Array();
+
+                        $.each(listdata, function (index, item) {
+
+                                var dtDate = new Date(parseInt(item.CreatedDateTime.substr(6)));
+                                DateValues.push(dtDate.toLocaleString('default', { day: 'numeric' }) + '-' + dtDate.toLocaleString('default', { month: 'short' }));
+
+                                SBPValues.push(item.AVGSBP);
+                                DBPValues.push(item.AVGDBP);
+                                HRValues.push(item.AVGHR);
+                            });
+
+                        LoadBPLineGraph(DateValues, SBPValues, DBPValues);
+                        LoadHRLineGraph(DateValues, HRValues);
+                        fnCardiacHistory(listdata);
+                    }
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve chart.' + ex);
+                }
+            });//end ajax
+        }
+    }
+
+    function fnCardiacHistory(listdata) {
+       
+        $("#detailshistoryCardiac").html('');
+        $.each(listdata, function (index, item) {
+           
+            if (item.CreatedDateTimeStamp != null && item.CreatedDateTimeStamp !="") {
+
+                var strHtml = '';
+                strHtml += '<tr>';
+                strHtml += '<td>' + item.CreatedDateTimeStamp + '</td>';
+                strHtml += '<td class="numeric">' + item.AVGSBP + '</td>';
+                strHtml += '<td class="numeric">' + item.AVGDBP + '</td>';
+                strHtml += '<td class="numeric">' + item.AVGHR + '</td>';
+                strHtml += '</tr>';
+
+                $("#detailshistoryCardiac").append(strHtml);
+            }
+
+            
+        });
+    }
+
+    function LoadBPLineGraph(DateValues, SBPValues, DBPValues) {
+
+        var options = {
+            series: [
+                {
+                    name: "SBP",
+                    data: SBPValues //[120, 140, 120, 140, 125, 120, 120]
+                },
+                {
+                    name: "DBP",
+                    data: DBPValues //[88, 88, 85, 86, 88, 85, 80]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#77B6EA', '#545454', '#ff0000'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Cardiac BP History',
+                align: 'middle',
+                bold: true,
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 5,
+                //max: 200
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtBPChart"), options);
+        chart.render();
+
+    }
+
+    function LoadHRLineGraph(DateValues, HRValues) {
+
+        var options = {
+            series: [
+                {
+                    name: "HR",
+                    data: HRValues //[77, 75, 70, 78, 75, 72, 70]
+                }
+            ],
+            tooltip: {
+                enabled: true,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'line',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            colors: ['#ff0000', '#545454', '#ff0000'],
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Cardiac HR History',
+                align: 'middle',
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+                //,
+                //min: 5,
+                //max: 200
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtHRChart"), options);
+        chart.render();
+
+    }
+
+</script>

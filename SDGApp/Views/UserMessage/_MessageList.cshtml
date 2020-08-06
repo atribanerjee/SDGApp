@@ -1,0 +1,776 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.UserMessageViewModel>
+@{
+    SDGApp.Models.UserModel UM = new SDGApp.Models.UserModel();
+    int loginuserid = UM.GetLoggedInUserInfo().UserID;
+    var isViewed = "";
+    var messagetypename = ViewBag.MessageTypeName;
+    var unreadmessagecount = 0;
+    String mgHeadingName = String.Empty;
+    Int32 totalNoRecords = 0;
+    Int32 pageFrom = 0;
+    Int32 pageTo = 0;
+
+
+    if (!String.IsNullOrEmpty(messagetypename) && messagetypename.Trim().ToLower() == "bin")
+    {
+        mgHeadingName = "Trash";
+    }
+    else if (!String.IsNullOrEmpty(messagetypename) && messagetypename.Trim().ToLower() == "draft")
+    {
+        mgHeadingName = "Draft";
+    }
+    else if (!String.IsNullOrEmpty(messagetypename) && messagetypename.Trim().ToLower() == "inbox")
+    {
+        mgHeadingName = "Inbox";
+    }
+    else if (!String.IsNullOrEmpty(messagetypename) && messagetypename.Trim().ToLower() == "sent")
+    {
+        mgHeadingName = "Sent";
+    }
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    totalNoRecords = Model[0].TotalRecords;
+    pageFrom = Model[0].PageFrom;
+    pageTo = Model[0].PageTo;
+
+    <!-- Modal -->
+    <div class="modal fade" id="myAttachModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    file preview ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="panel panel-inbox inbox-right">
+
+        <header class="panel-heading wht-bg">
+
+            <h4 class="gen-case"> @mgHeadingName (@totalNoRecords) </h4>
+            <div class="pull-right mail-src-position">
+                <div id="dvsearch" class="input-append">
+                    <input id="searchmessage" type="text" class="form-control" placeholder="Search Mail" value="@ViewBag.SearchData">
+                </div>
+            </div>
+        </header>
+
+        <div class="panel-body minimal body-mail">
+
+            <div class="mail-option">
+                <div class="chk-all">
+                    <div class="pull-left mail-checkbox ">
+                        <input id="SelectAlllChkBox" type="checkbox" class="">
+                    </div>
+
+                    <div class="btn-group">
+                        <a data-toggle="dropdown" href="javascript:void(0);" class="btn mini all">
+                            <i class="fa fa-angle-down "></i>
+                        </a>
+                        <ul class="dropdown-menu ">
+                            @*
+                                <li><a href="#"> All</a></li>*@
+                            <li><a href="#"> None</a></li>
+                            @*
+                                <li><a href="#"> Read</a></li>
+                                <li><a href="#"> Unread</a></li>*@
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a href="javascript:void(0);" onclick='fnGetMessageDtls("@messagetypename");' class="btn mini tooltips">
+                        <i class="fas fa-sync-alt" data-toggle="tooltip" data-placement="bottom" title="Refresh"></i>
+                    </a>
+                </div>
+                <div id="delete_multiple_mail" class="btn-group " style="display:none;">
+                    <a href="javascript:void(0);" onclick="fnDeleteMultipleMessage()" class="btn mini tooltips">
+                        <i class="fas fa-trash-restore-alt" data-toggle="tooltip" data-placement="bottom" title="Delete All"></i>
+                    </a>
+                </div>
+                @if (messagetypename == "bin")
+                {
+                    <div id="restore_multiple_mail" class="btn-group " style="display:none;">
+                        <a href="javascript:void(0);" onclick="fnRestoreAllFromTrash()" class="btn mini tooltips">
+                            <i class="fas fa-window-restore" data-toggle="tooltip" data-placement="bottom" title="Restore All"></i>
+                        </a>
+                    </div>
+                    <div class="btn-group ">
+                        <a href="javascript:void(0);" onclick="fnEmptyTrash()" class="btn mini tooltips">
+                            <i class="fas fa-dumpster-fire" data-toggle="tooltip" data-placement="bottom" title="Empty Trash"></i>
+                        </a>
+                    </div>
+                }
+                <div class="btn-group hidden-phone">
+                    <a data-toggle="dropdown" href="javascript:void(0);" class="btn mini blue">
+                        More
+                        <i class="fa fa-angle-down "></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" id="all_message_mark_asread"><i class="fab fa-readme"></i> Mark all as Read</a></li>
+                        <li class="divider"></li>
+                        @*
+                            <li><a href="#"><i class="fas fa-trash-restore-alt"></i> Bin</a></li>*@
+                    </ul>
+                </div>
+                <div class="btn-group none">
+                    <a data-toggle="dropdown" href="javascript:void(0);" class="btn mini blue">
+                        Move to
+                        <i class="fa fa-angle-down "></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);"><i class="fab fa-readme"></i> Mark as Read</a></li>
+                        <li><a href="javascript:void(0);"><i class="fas fa-exclamation-triangle"></i> Spam</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);"><i class="fas fa-trash-restore-alt"></i> Bin</a></li>
+                    </ul>
+                </div>
+
+                <ul class="unstyled inbox-pagination">
+                    <li><span>@pageFrom-@pageTo of @totalNoRecords</span></li>
+                    <li>
+                        <a class="np-btn" id="btnPreviousMessage" href="javascript:void(0);" onclick="fnOnClickPreviousPage('@totalNoRecords')"><i class="fa fa-angle-left  pagination-left"></i></a>
+                    </li>
+                    <li>
+                        <a class="np-btn" id="btnNextMessage" href="javascript:void(0);" onclick="fnOnClickNextPage('@totalNoRecords')"><i class="fa fa-angle-right pagination-right"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="table-inbox-wrap ">
+
+                @*Message List Show Here*@
+                <table class="table table-inbox table-hover">
+                    <tbody id="tablebody">
+                        @foreach (SDGApp.ViewModel.UserMessageViewModel item in Model)
+                        {
+                            if (item.IsViewed)
+                            {
+                                isViewed = "";
+                            }
+                            else
+                            {
+                                isViewed = "unread";
+
+                                unreadmessagecount++;
+
+                            }
+
+                            int listMessageID = 0;
+                            if (mgHeadingName.Trim().ToLower().Contains("inbox"))
+                            {
+                                listMessageID = item.LastInboxMessageID;
+                            }
+                            else if (mgHeadingName.Trim().ToLower().Contains("sent"))
+                            {
+                                listMessageID = item.MessageID;
+                            }
+
+                            <tr id="trdelete_@listMessageID" class="onHovDv @isViewed">
+
+                                <td class="inbox-small-cells"><input type="checkbox" value="@listMessageID" class="mail-checkbox msgcheckbox"></td>
+                                <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                <td class="view-message dont-show" onclick="fnViewMessage('@item.MessageID','@ViewBag.SearchData','@item.LastInboxMessageID')">
+                                    <div class="hwd2sline">
+                                        @if (mgHeadingName.Trim().ToLower().Contains("inbox"))
+                                        {
+                                            if (item.ReplyMessageCount > 1)
+                                            {
+                                                @item.SenderUserName <text>,me </text>@item.ReplyMessageCount;
+                                            }
+                                            else
+                                            {
+                                                @item.SenderUserName
+                                            }
+                                        }
+                                        else if (mgHeadingName.Trim().ToLower().Contains("sent"))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.ReceiverUserName))
+                                            {
+                                                if (item.ReplyMessageCount > 1)
+                                                {
+                                                    <text>To: </text>@item.ReceiverUserName <text>,me </text>@item.ReplyMessageCount;
+                                                }
+                                                else
+                                                {
+                                                    <text>To: </text>@item.ReceiverUserName;
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                if (item.ReplyMessageCount > 0)
+                                                {
+                                                    <text>To: </text>@item.SenderUserName <text>,me </text>@item.ReplyMessageCount;
+                                                }
+                                                else
+                                                {
+                                                    <text>To: </text>@item.SenderUserName
+                                                }
+
+                                            }
+                                        }
+                                        else if (mgHeadingName.Trim().ToLower().Contains("draft"))
+                                        {
+                                            <text>Draft</text>
+                                        }
+                                        else if (mgHeadingName.Trim().ToLower().Contains("trash"))
+                                        {
+                                            if (loginuserid == item.SenderUserID)
+                                            {
+                                                <text>me</text>
+                                            }
+                                            else
+                                            {
+                                                @item.SenderUserName
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                                <td class="view-message attachment-cell">
+                                    <div class="hwd2sline" onclick="fnViewMessage('@item.MessageID','@ViewBag.SearchData','@item.LastInboxMessageID')">
+                                        @(item.MessageSubject == null ? "" : item.MessageSubject  ) - @Html.Raw(item.MessageBody)
+                                    </div>
+                                    <hr class="clearfix none" />
+                                    <div class="panel panel-attached none">
+                                        <a href="#" class="label label-attached" data-toggle="modal" data-target="#myAttachModal">
+                                            <i class="fas fa-file-word"></i>
+                                            DemoDoc.docx
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-excel"></i>
+                                            Demoexcel.xlx
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-powerpoint"></i>
+                                            DemoPPT.pptx
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-pdf"></i>
+                                            DemoPDF.pdf
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-code"></i>
+                                            DemoCode.js
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-archive"></i>
+                                            DemoArchive.zip
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-csv"></i>
+                                            DemoCSV.csvx
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-video"></i>
+                                            DemoAVI.avi
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-audio"></i>
+                                            DemoAUDIO.mp3
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-image"></i>
+                                            DemoPIC.jpg
+                                        </a>
+                                        <a href="#" class="label label-attached">
+                                            <i class="fas fa-file-alt"></i>
+                                            DemoTEXT.txt
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="view-message  inbox-small-cells akxson ">
+                                    <div class="relatvTD">
+                                        @if (messagetypename != "bin")
+                                        {
+                                            <span class="position_icon">
+                                                <a href="javascript:void(0);" class="none ">
+                                                    <i class="tooltips fa fa-pencil-square" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                                                </a>
+
+                                                <a href="javascript:void(0);" class=" " data-toggle="modal" data-target="">
+                                                    <i class="tooltips fas fa-trash-restore-alt" id="Delete_@listMessageID" onclick='DeleteUserMessage(@listMessageID)' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                </a>
+                                            </span>
+                                        }
+                                        else if (messagetypename == "bin")
+                                        {
+                                            <span class="position_icon">
+                                                <a href="javascript:void(0);" class=" " data-toggle="modal" data-target="">
+                                                    <i class="tooltips fas fa-trash-restore-alt" id="Delete_@item.MessageID" onclick='DeleteUserMessageTrash(@item.MessageID)' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class=" " data-toggle="modal" data-target="">
+                                                    <i class="tooltips fas fa-window-maximize" id="Restore_@item.MessageID" onclick='RestoreMessageByID(@item.MessageID)' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Restore"></i>
+                                                </a>
+                                            </span>
+
+                                        }
+                                        else if (messagetypename == "draft")
+                                        {
+                                            <span class="position_icon">
+                                                <a href="javascript:void(0);" class=" " data-toggle="modal" data-target="">
+                                                    <i class="tooltips fas fa-trash-restore-alt" id="Delete_@item.MessageID" onclick='DeleteUserMessage(@item.MessageID)' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                </a>
+                                            </span>
+                                        }
+                                    </div>
+                                    @*<i class="fa fa-paperclip"></i>*@
+                                </td>
+                                <td class="view-message  text-right" onclick="fnViewMessage('@item.MessageID','@ViewBag.SearchData','@item.LastInboxMessageID')">@item.CreatedDateTime.ToString("MMM dd HH:mm")</td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+}
+else
+{
+    <section class="panel panel-inbox inbox-right">
+        <div class="panel-body body-mail">
+            <h3 class="no-pad no-gap noRecord">no message(s) found !!! </h3>
+        </div>
+    </section>
+}
+
+
+
+<script type="text/javascript">
+    var arrcheckedmessageid = [];
+    var mgtypename = '@messagetypename';
+
+    $(document).ready(function () {
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        if (@pageTo == @totalNoRecords) {
+            //disable btnNext
+            $("#btnNextMessage").addClass('disabled');
+    } else {
+            $("#btnNextMessage").removeClass('disabled');
+    }
+
+    if (@totalNoRecords< 10) {
+        $("#btnNextMessage").addClass('disabled');
+    }
+
+    if (@pageFrom == 1) {
+        //disable btnprevious
+        $("#btnPreviousMessage").addClass('disabled');
+    } else {
+        $("#btnPreviousMessage").removeClass('disabled');
+    }
+
+
+    if (mgtypename== "inbox") {
+        $("#inbox_unread_mg").html('@unreadmessagecount');
+    }
+
+
+    if (mgtypename != "sent" && mgtypename != "draft") {
+
+        $("#all_message_mark_asread").removeClass('disabled');
+    }
+    else
+    {
+        $("#all_message_mark_asread").addClass('disabled');
+    }
+
+
+    $("#SelectAlllChkBox").click(function () {
+
+        $("#tablebody input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
+        if (mgtypename != "bin") {
+
+            $("#delete_multiple_mail").show();
+            if ($(this).prop("checked") == true) {
+
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            }
+            else if ($(this).prop("checked") == false) {
+
+                arrcheckedmessageid = [];
+                $("#delete_multiple_mail").hide();
+            }
+        }
+        else if (mgtypename == "bin") {
+
+            $("#restore_multiple_mail").show();
+            $("#delete_multiple_mail").show();
+            if ($(this).prop("checked") == true) {
+
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            }
+            else if ($(this).prop("checked") == false) {
+
+                arrcheckedmessageid = [];
+                $("#restore_multiple_mail").hide();
+                $("#delete_multiple_mail").hide();
+            }
+        }
+
+
+    });
+
+
+    $(".msgcheckbox").click(function(){
+
+        if (mgtypename != "bin") {
+
+            if($(".msgcheckbox").length == $(".msgcheckbox:checked").length) {
+                $("#SelectAlllChkBox").prop("checked", true);
+                $("#delete_multiple_mail").show();
+
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            }else if($(".msgcheckbox:checked").length > 1) {
+                $("#delete_multiple_mail").show();
+
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            } else {
+                $("#SelectAlllChkBox").removeAttr("checked");
+                arrcheckedmessageid = [];
+                $("#delete_multiple_mail").hide();
+            }
+        }
+        else if (mgtypename == "bin") {
+
+            if ($(".msgcheckbox").length == $(".msgcheckbox:checked").length) {
+                $("#SelectAlllChkBox").prop("checked", true);
+                $("#delete_multiple_mail").show();
+                $("#restore_multiple_mail").show();
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            }else if($(".msgcheckbox:checked").length > 1) {
+                $("#delete_multiple_mail").show();
+                $("#restore_multiple_mail").show();
+
+                $.each($("#tablebody input[type=checkbox]:checked"), function () {
+                    arrcheckedmessageid.push($(this).val());
+                });
+            }
+            else {
+
+                $("#SelectAlllChkBox").removeAttr("checked");
+                arrcheckedmessageid = [];
+                $("#restore_multiple_mail").hide();
+                $("#delete_multiple_mail").hide();
+            }
+        }
+
+    });
+
+    $("#all_message_mark_asread").click(function () {
+
+        if (arrcheckedmessageid != null && arrcheckedmessageid.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("MultipleMessageMarkAsRead", "UserMessage")",
+                data: {"mgtypename" : mgtypename , "arrMessageId":arrcheckedmessageid},
+                success: function (data) {
+                    if (data.Result) {
+
+                        fnGetMessageDtls(mgtypename);
+                    }
+                }
+            });
+        }
+        else
+        {
+            showfailure('No message selected to mark as read.');
+        }
+    });
+
+
+
+
+    });//Document Ready End
+
+    function fnDeleteMultipleMessage()
+    {
+        var cofirmmessage = 'Are you sure you want to delete all this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+
+                if (arrcheckedmessageid != null && arrcheckedmessageid.length > 0) {
+
+                    if (mgtypename != "bin")
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("MultipleMessageDelete", "UserMessage")",
+                            data: { "arrMessageId":arrcheckedmessageid },
+                            success: function (data) {
+
+                                if (data.Result) {
+
+                                    fnGetMessageDtls(mgtypename);
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("MultipleMessageDeleteTrash", "UserMessage")",
+                            data: { "arrMessageId":arrcheckedmessageid },
+                            success: function (data) {
+
+                                if (data.Result) {
+
+                                    fnGetMessageDtls(mgtypename);
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    showfailure('No message selected to delete.');
+                }
+
+            },
+            function (retunVal) {
+                showfailure('No data was deleted.');
+            });
+
+    }
+
+    function fnRestoreAllFromTrash() {
+
+        var cofirmmessage = 'Are you sure you want to restore all messages?';
+        var successmessage = 'Messages restored successfully.';
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+
+                if (arrcheckedmessageid != null && arrcheckedmessageid.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("RestoreFromTrash", "UserMessage")",
+                        data: { "arrMessageId":arrcheckedmessageid },
+                        success: function (data) {
+
+                            if (data.Result) {
+
+                                fnGetMessageDtls(mgtypename);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    showfailure('No message selected to restore.');
+                }
+            },
+            function (retunVal) {
+                showfailure('No data was restored.');
+            });
+
+    }
+
+
+    function fnEmptyTrash() {
+
+        var cofirmmessage = 'Are you sure you want to empty trash ? once you empty trash messages cannot be retreive again.';
+        var successmessage = 'Trash empty successfully.';
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EmptyFromTrashByUserID", "UserMessage")",
+                    data: {  },
+                    success: function (data) {
+
+                        if (data.Result) {
+
+                            fnGetMessageDtls(mgtypename);
+                        }
+                    }
+                });
+
+            },
+            function (retunVal) {
+                showfailure('No data was empty.');
+            });
+
+    }
+
+
+    function fnViewMessage(MessageID, searchdata,LastInboxMessageID) {
+        debugger;
+        if (mgtypename == "draft")
+        {
+            var url = '@Url.Action("ComposeEditMail", "UserMessage")';            
+
+            $('#dvnewmessage').html('');
+            $('#dvnewmessage').load(url + "?MessageID=" + MessageID);
+
+
+        }
+        else
+        {
+            var url = '@Url.Action("ViewMessage", "UserMessage")';
+            $('#lstandviewmessage').html('');
+            $('#lstandviewmessage').load(
+                url + "?MessageID=" + MessageID + "&SearchData=" + encodeURIComponent(searchdata) 
+            );
+
+            //Table save isView true
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UserViewedMessage", "UserMessage")",
+                data: {"MessageID": LastInboxMessageID },
+                success: function (data) {
+
+                }
+            });
+        }
+
+    }
+
+
+
+
+    function DeleteUserMessage(MessageID) {
+
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteMessage", "UserMessage")",
+                    data: {MessageID},
+                    success: function (data) {
+                        if (data.Result) {
+                            showsuccess(data.Message);
+                            $("#trdelete_" + MessageID).hide();
+                            fnGetMessageDtls('@messagetypename');
+                            // setTimeout(function () { location.reload(); }, 500);
+                        }
+                        else {
+                            showsuccess(data.Message);
+
+                        }
+                    },
+                    error: function (arg) {
+                        showfailure("Error");
+                    }
+
+                });
+            },
+             function (retunVal) {
+                 showfailure('No data was deleted.');
+             });
+
+    }
+
+    function DeleteUserMessageTrash(MessageID) {
+
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteMessageTrash", "UserMessage")",
+                    data: {MessageID},
+                    success: function (data) {
+                        if (data.Result) {
+                            showsuccess(data.Message);
+                            $("#trdelete_" + MessageID).hide();
+                            fnGetMessageDtls('@messagetypename');
+                            // setTimeout(function () { location.reload(); }, 500);
+                        }
+                        else {
+                            showsuccess(data.Message);
+
+                        }
+                    },
+                    error: function (arg) {
+                        showfailure("Error");
+                    }
+
+                });
+            },
+             function (retunVal) {
+                 showfailure('No data was deleted.');
+             });
+
+    }
+
+
+    function RestoreMessageByID(MessageID) {
+
+        var cofirmmessage = 'Are you sure you want to restore message?';
+        var successmessage = 'Messages restored successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("RestoreMessageByID", "UserMessage")",
+                    data: {MessageID},
+                    success: function (data) {
+                        if (data.Result) {
+                            showsuccess(data.Message);
+                            $("#trdelete_" + MessageID).hide();
+                            fnGetMessageDtls('@messagetypename');
+                            // setTimeout(function () { location.reload(); }, 500);
+                        }
+                        else {
+                            showsuccess(data.Message);
+
+                        }
+                    },
+                    error: function (arg) {
+                        showfailure("Error");
+                    }
+
+                });
+            },
+             function (retunVal) {
+                 showfailure('No message was restored.');
+             });
+
+    }
+
+</script>

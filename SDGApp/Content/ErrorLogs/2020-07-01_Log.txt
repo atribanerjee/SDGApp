@@ -1,0 +1,14 @@
+07-01-2020 13:04:43 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-01-2020 13:22:47 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-01-2020 13:29:43 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-01-2020 13:36:24 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-01-2020 16:16:50 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atribanerjee@hotmail.com
+
+07-01-2020 18:05:44 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - amitava.mukherjee@baseclass.co.in
+
+07-01-2020 18:05:54 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+

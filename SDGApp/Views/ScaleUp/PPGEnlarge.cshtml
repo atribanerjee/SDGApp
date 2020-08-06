@@ -1,0 +1,115 @@
+﻿@model SDGApp.ViewModel.MeasurementViewModel
+
+@{
+    ViewBag.Title = "PPG";
+}
+
+
+<body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style type="text/css">
+        svg { background: #eee; }
+        svg path { fill: none; stroke: #1a9bfb; stroke-width: 3; }
+        .enLrgChrt { }
+        .enLrgChrt .svgOverFlou { overflow-x: auto; overflow-y: auto; }
+        .no-border { border: none !important; }
+        .no-border strong { letter-spacing: 0.2em; font-size: 16px; }
+
+        .enLrgChrt .panel .panel-heading span.btn-group { min-height: initial; padding: 8px 15px; margin-bottom: 0; background-color: #1fb5ad; border: none; border-radius: 0; box-shadow: none; line-height: normal; margin: 0.25em 0 0 1.5em; }
+        .enLrgChrt .panel .panel-heading span.btn-group a { display: inline-block; color: #FFFFFF; /*#262632*/ margin: 0 1em; padding: 0; width: 20px; text-align: center; }
+        .enLrgChrt .panel .panel-heading span.btn-group a i { padding: 0; margin: 0; }
+        .enLrgChrt .panel .tooltip-inner { background-color: #ff6a00; color: #FFFFFF; border-radius: 0; white-space: nowrap; letter-spacing: 0.05em; text-transform: lowercase; font-size: 14px; }
+        .enLrgChrt .alert { background-color: rgba(244, 122, 91, 0.26); color: #cc4b2a; }
+
+    </style>
+
+
+    <div class="row enLrgChrt">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2> Scale Up PPG </h2>
+                    <span class=" btn-group ">
+                        <a href="#" class="tooltips" id="btninc" onclick="increaseval();" data-toggle="tooltip" data-placement="bottom" title="Increase value">
+                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="tooltips" id="btndec" onclick="decreaseval();" data-toggle="tooltip" data-placement="bottom" title="Decrease value">
+                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="svgOverFlou">
+                        <svg width="1920" height="468"></svg>
+                    </div>
+                    <div class="alert no-border" role="alert">
+                        @*<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>*@
+                        <strong>This graph is inverse</strong>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        var svg = d3.select('svg');
+        var XdataPointsArraymodal = [@Model.PpgValues];
+        let context = d3.path();
+
+        context.moveTo(0, 0);
+        var i = 1;
+        let inc = 1.1;
+        while (i < XdataPointsArraymodal.length) {
+            context.lineTo(i, (XdataPointsArraymodal[i] * inc).toFixed(2));
+            i += 1;
+        }
+        inc = inc * 1.1;
+
+        var path = svg.append('path');
+        path.attr("transform", function (d, i) {
+            return "translate(0,150)";
+        })
+            .attr('class', 'link')
+            .attr('d', context.toString());
+
+        function increaseval() {
+            inc = inc * 2;
+            context = null;
+            context = d3.path();
+            i = 0;
+            context.moveTo(0, 0);
+            while (i < XdataPointsArraymodal.length) {
+                context.lineTo(i, (XdataPointsArraymodal[i] * inc).toFixed(2));
+                i += 1;
+            }
+            path.attr('d', context.toString());
+
+        }
+
+        // TO DECREASE VALUE
+        function decreaseval() {
+            inc = inc / 2;
+            context = null;
+            context = d3.path();
+            i = 0;
+            context.moveTo(0, 0);
+            while (i < XdataPointsArraymodal.length) {
+                context.lineTo(i, (XdataPointsArraymodal[i] * inc).toFixed(2));
+                i += 1;
+            }
+            path.attr('d', context.toString());
+
+        }
+
+    </script>
+
+</body>

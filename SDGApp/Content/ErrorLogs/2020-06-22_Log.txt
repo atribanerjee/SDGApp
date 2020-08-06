@@ -1,0 +1,4 @@
+06-22-2020 13:17:22 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+06-22-2020 16:43:14 - SGDApp.Models.MailService - SendEmail ::: 
+

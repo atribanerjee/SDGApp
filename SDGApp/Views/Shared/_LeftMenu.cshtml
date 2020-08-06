@@ -1,0 +1,83 @@
+﻿@using SDGApp.Helpers
+@using SDGApp.Models
+@{
+    BaseModel BM = new BaseModel();
+}
+
+    <ul class="sidebar-menu" id="nav-accordion">
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-box\"></i><span>Dashboard</span>", "Index", "Dashboard", new { }, new { @Class = "dashboard" })
+        </li>
+        @if (BM.GetIntegerValue(BM.GetSessionValue("LoggedInUserRoleID")) == (int)SDGApp.Helpers.SDGUtilities.UserRoleType.Administrator)
+            {
+            <li class="sub-menu">
+                <a href="javascript:;" class="setup bord-hold draw"><i class="fas fa-user-cog"></i><span>Setup</span></a>
+                <ul class="sub">
+                    <li>
+                        @Html.RawActionLink("<span> User</span>", "ManageUser", "Account", new { }, new { @Class = "manageuser" })
+                    </li>
+                    <li>
+                        @Html.RawActionLink("<span>Role </span>", "Index", "Role", new { }, new { @Class = "managerolelist" })
+                    </li>
+                    <li>
+                        @Html.RawActionLink("<span>Organisation </span>", "Index", "Company", new { }, new { @Class = "managecompany" })
+                    </li>
+                    <li>
+                        @Html.RawActionLink("<span>Feedback List</span>", "Index", "Feedback", new { }, new { @Class = "managefeedback" })
+                    </li>
+                    <li>
+                        @Html.RawActionLink("<span>Upload App</span>", "Index", "UpdateApp", new { }, new { @Class = "uploadapp" })
+                    </li>
+
+                </ul>
+            </li>
+            }
+        <li class="sub-menu ">
+            <a href="javascript:;" class="tags bord-hold draw"><i class="fas fa-tags" aria-hidden="true"></i><span>Tags</span></a>
+            <ul class="sub">
+                <li>
+                    @Html.RawActionLink("<span>Tag Editor</span>", "Index", "TagLabels", new { }, new { @Class = "taglabels" })
+                </li>
+                <li>
+                    @Html.RawActionLink("<span>Tag History</span>", "Index", "TagHistory", new { }, new { @Class = "taghistory" })
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-weight\"></i><span>Measurement</span>", "Index", "Measurement", new { }, new { @Class = "managemeasurement" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-hand-holding-heart\"></i><span>Cardiac</span>", "Index", "Cardiac", new { }, new { @Class = "managecardiac" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-walking\"></i><span>Activity</span>", "Index", "WorkActivity", new { }, new { @Class = "workactivity" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-bed\"></i><span>Sleep</span>", "Index", "Sleep", new { }, new { @Class = "sleep" })
+        </li>
+
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-question-circle\"></i><span>Help</span>", "Index", "Help", new { }, new { @Class = "help" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-envelope-open-text\"></i><span>Inbox </span>", "Index", "UserMessage", new { }, new { @Class = "sendmail" })
+        </li>
+        @*<li class="">
+            @Html.RawActionLink("<i class=\"fas fa-book\"></i><span>Library</span>", "Index", "Library", new { }, new { @Class = "library" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-stopwatch\"></i><span>Reminders</span>", "Index", "SetReminders", new { }, new { @Class = "reminders" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-dollar-sign\"></i><span>Subscription</span>", "Index", "Subscription", new { }, new { @Class = "subscription" })
+        </li>*@
+
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-user-md\"></i><span>Care Team</span>", "Index", "Careteam", new { }, new { @Class = "crteam" })
+        </li>
+        <li class="">
+            @Html.RawActionLink("<i class=\"fas fa-users\"></i><span>Care People</span>", "Index", "Carepeople", new { }, new { @Class = "crpeople" })
+        </li>
+
+    </ul>
+

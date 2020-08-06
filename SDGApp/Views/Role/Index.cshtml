@@ -1,0 +1,33 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Role";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-sm-12">
+        <section id="divrolelist" class="panel">
+
+           @{Html.RenderAction("RoleList", "Role", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('setup', 'managerolelist');
+        //selectleftmenu('managerolelist', '');
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("RoleList", "Role")';
+            $('#divrolelist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

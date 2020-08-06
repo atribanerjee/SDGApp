@@ -1,0 +1,32 @@
+04-14-2020 00:46:03 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByID ::: The 'Dias_Healthgauge' property on 'EPBProfile' could not be set to a 'System.String' value. You must set this property to a non-null value of type 'System.Double'. 
+
+04-14-2020 00:47:29 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByID ::: The 'Dias_Healthgauge' property on 'EPBProfile' could not be set to a 'System.String' value. You must set this property to a non-null value of type 'System.Double'. 
+
+04-14-2020 00:48:15 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByID ::: The 'Dias_Healthgauge' property on 'EPBProfile' could not be set to a 'System.String' value. You must set this property to a non-null value of type 'System.Double'. 
+
+04-14-2020 00:50:00 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByID ::: The 'Dias_Healthgauge' property on 'EPBProfile' could not be set to a 'System.String' value. You must set this property to a non-null value of type 'System.Double'. 
+
+04-14-2020 15:36:50 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:36:51 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:36:52 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:36:52 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:36:59 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:00 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:01 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:02 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:12 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:13 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:14 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+
+04-14-2020 15:37:15 - SDGApp.Models.UserModel - GetLatestMeasurement ::: An error occurred while executing the command definition. See the inner exception for details.
+

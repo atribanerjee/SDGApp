@@ -1,0 +1,14 @@
+03-04-2020 19:52:45 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 19:53:31 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 20:03:35 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 20:05:02 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 20:13:18 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 20:15:08 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+
+03-04-2020 20:17:13 - SDGApp.Models.UserModel - GetUserDetailByUserId ::: Object reference not set to an instance of an object.
+

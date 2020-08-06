@@ -1,0 +1,2 @@
+04-07-2020 22:06:01 - SDGApp.Models.UserModel - CheckLogInService ::: An exception occurred while initializing the database. See the InnerException for details.
+

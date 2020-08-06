@@ -1,0 +1,98 @@
+07-14-2020 16:39:43 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:54:20 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 16:55:02 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 16:55:09 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:55:10 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:55:23 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:55:30 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:55:49 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 16:56:07 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:56:17 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:57:04 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 16:57:09 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 16:58:50 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 17:01:34 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 17:02:25 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:03:53 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - amitava.mukherjee@baseclass.co.in
+
+07-14-2020 17:04:31 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+07-14-2020 17:04:32 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+07-14-2020 17:05:55 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:07:56 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:08:58 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:10:12 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 17:11:44 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 17:15:47 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:33:32 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:42:39 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:47:00 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:49:10 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 17:57:54 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 19:36:22 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:37:44 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:42:26 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:43:09 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:44:21 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:46:58 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:53:04 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:53:46 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:54:31 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 20:55:23 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:55:36 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:55:53 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 20:57:26 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 21:06:19 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 21:08:26 - SDGApp.Models.UserMessageModel - GetMessageDetailById ::: Sequence contains no matching element
+
+07-14-2020 21:21:07 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 21:21:30 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 21:21:46 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 21:22:08 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-14-2020 21:22:27 - SGDApp.Models.MailService - SendEmail ::: 
+

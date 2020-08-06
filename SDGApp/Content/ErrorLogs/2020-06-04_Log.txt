@@ -1,0 +1,26 @@
+06-04-2020 15:56:07 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-04-2020 15:58:35 - SGDApp.Models.MailService - SendEmail ::: 
+
+06-04-2020 16:46:35 - SDGApp.Models.UserModel - SaveUserCode ::: An error occurred while executing the command definition. See the inner exception for details.
+
+06-04-2020 16:46:42 - GetTagHistory List Problems ::: An error occurred while executing the command definition. See the inner exception for details.
+
+06-04-2020 16:46:44 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:46:47 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:46:53 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:46:57 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:47:00 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:47:05 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 16:47:08 - GetTagHistory List Problems ::: Column 'HASCOLORCODE' does not belong to table Table.
+
+06-04-2020 17:03:04 - SDGApp.Models.TagLabesModel - RandomColorGenerate ::: Object reference not set to an instance of an object.
+
+06-04-2020 17:04:05 - SDGApp.Models.TagLabesModel - RandomColorGenerate ::: Object reference not set to an instance of an object.
+

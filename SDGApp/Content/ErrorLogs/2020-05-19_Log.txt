@@ -1,0 +1,18 @@
+05-19-2020 14:14:14 - SGDApp.Models.MailService - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+05-19-2020 19:36:04 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByUserID ::: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Content\Measurement\2\2020-05-19\Measurement.json'.
+
+05-19-2020 20:00:54 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByUserID ::: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'System.Collections.Generic.List`1[SDGAppDB.POCO.EPBProfile]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
+To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
+Path 'birthdate', line 1, position 13.
+
+05-19-2020 20:13:33 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByUserID ::: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'System.Collections.Generic.List`1[System.String]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
+To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
+Path 'birthdate', line 1, position 13.
+
+05-19-2020 20:17:30 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByUserID ::: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'System.Collections.Generic.List`1[SDGApp.ViewModel.RootObject]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
+To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
+Path 'birthdate', line 1, position 13.
+
+05-19-2020 20:26:47 - SDGApp.Models.DeviceServicesModel - GetEstimateDtlsByUserID ::: Could not find a part of the path 'E:\SDG App\HealthGauge 05-19-2020\SDGApp\SDGApp\Content\Measurement\2\2020-05-04\1_2_2020-05-04_Measurement.json'.
+

@@ -1,0 +1,79 @@
+﻿@model SDGApp.ViewModel.TagsCategoryViewModel
+@{
+    ViewBag.Title = "Edit";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Add Tag Categories
+            </header>
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+            <div class="panel-body">
+                <div class="tab-content tasi-tab">
+                    <div id="overview" class="tab-pane active">
+                        <div class="panel">
+                            @using (Html.BeginForm("Edit", "TagCategory", FormMethod.Post, new { @class = "form-horizontal" }))
+                            {
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Tag<span class="" style="color:red"> *</span></label>
+                                    <div class="col-lg-7">
+                                        @Html.HiddenFor(m => m.TagCategoryID)
+                                        @Html.TextBoxFor(m => m.TagCategoryName, new { @class = "form-control"})
+                                    </div>
+                                </div>
+                            
+                                
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-9">
+                                        <button id="btnSubmit" class="btn btn-primary" type="button"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        @Html.ActionLink("Cancel", "Index", "TagCategory", new { }, new { @class = "btn btn-danger" })
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+       
+
+        $(function(){
+            $('#btnSubmit').on('click', function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Edit", "TagCategory")",
+                    data: {
+                        TagCategoryID: parseInt($('#TagCategoryID').val()),
+                        TagCategoryName: ($('#TagCategoryName').val()),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            window.location.href = "@GlobalConstants.BaseUrl/TagCategory/Index";
+                        }
+                    },
+                    error: function (arg) {
+                        alert("Error");
+                    }
+
+                });
+            });
+                   
+          
+        });
+    </script>
+}

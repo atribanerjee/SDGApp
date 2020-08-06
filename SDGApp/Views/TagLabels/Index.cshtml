@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Tag Editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-sm-12">
+        <section id="divtaglabellist" class="panel">
+
+            @{Html.RenderAction("TagLabeslList", "TagLabels", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('tags', 'taglabels');
+        //selectleftmenu('manageuser', '');
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("TagLabeslList", "TagLabels")';
+            $('#divtaglabellist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

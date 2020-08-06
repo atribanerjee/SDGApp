@@ -1,0 +1,36 @@
+﻿@model SDGApp.ViewModel.UserViewModel
+<div class="row">
+
+    <div class="col-lg-5 col-md-5 col-sm-12">
+        <div class="prf-contacts">
+
+            <h2> <span><i class="fa fa-map-marker"></i></span> location</h2>
+            <div class="location-info">
+                <p>
+                    Address<br>
+                    @Model.Address<br>
+                    @Model.CityName,
+                    @Model.StateName,
+                    @Model.Zip,
+                    @Model.Country
+                </p>
+            </div>
+
+            <h2> <span><i class="fa fa-phone"></i></span> contacts</h2>
+            <div class="location-info">
+                <p>
+                    Phone: @Model.Phone<br>
+                    Cell: @Model.MobileNo
+                </p>
+                <p>
+                    Email: @Model.Email
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-7 col-md-7 col-sm-12"></div>
+
+</div>
+

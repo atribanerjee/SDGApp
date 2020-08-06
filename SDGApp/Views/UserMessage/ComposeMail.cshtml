@@ -1,0 +1,454 @@
+﻿@model SDGApp.ViewModel.UserMessageViewModel
+@{
+    ViewBag.Title = "Compose";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+}
+
+<script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+<script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<!--<link href="@Url.Content("~/Content/Latest/css/jqueryUI.css")" rel="stylesheet">-->
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel ">
+            <header class="panel-heading">
+                <h2> Compose Message </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+            <div class="panel-body form-generalIn">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @using (Html.BeginForm("ComposeMail", "UserMessage", FormMethod.Post, new { @class = "form-horizontal formz-autocom" }))
+                        {
+                            @Html.HiddenFor(m => m.MessageID)
+                            @Html.HiddenFor(m => m.UserEmailTo);
+                            @Html.HiddenFor(m => m.UserEmailCc);
+                            @Html.ValidationSummary(true)
+                            @Html.AntiForgeryToken()
+                            <div class="position-center generalIn-formz generalIn-formzTag">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+                                        <div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">To :</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12">
+                                                    @Html.TextBoxFor(m => m.MessageTo, new { @placeholder = "To", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.MessageTo)
+                                                    <ul class="list-group group-autocomplete none">
+                                                        <li>
+                                                            <a href="#" class="list-group-item">
+                                                                <span class="pict">
+                                                                    <img src="@Url.Content("~/Content/Latest/images/no-image-profile-male-sm.png")" class="img-responsive img-circle img-thumbnail" alt="">
+                                                                </span>
+                                                                <span class="value">
+                                                                    <h3>Jhon Doe</h3>
+                                                                    <p>doejhon@gmail.com</p>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="list-group-item">
+                                                                <span class="pict">
+                                                                    <img src="@Url.Content("~/Content/Latest/images/no-image-profile-male-sm.png")" class="img-responsive img-circle img-thumbnail" alt="">
+                                                                </span>
+                                                                <span class="value">
+                                                                    <h3>Jhon Doe</h3>
+                                                                    <p>doejhon@gmail.com</p>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Cc :</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12">
+                                                    @Html.TextBoxFor(m => m.MessageCc, new { @placeholder = "Cc", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.MessageCc)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Subject :</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12">
+                                                    @Html.TextBoxFor(m => m.MessageSubject, new { @placeholder = "Subject", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.MessageSubject)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-1 col-md-1 col-sm-12 control-label">Body</label>
+                                                <div class="col-lg-11 col-md-11 col-sm-12">
+                                                    <input type="hidden" id="hdnmsgbody" value="@Model.MessageBody" />
+                                                    @Html.TextAreaFor(m => m.MessageBody, new { @placeholder = "Body", @class = "form-control", @rows = "10" })
+                                                    @Html.ValidationMessageFor(m => m.MessageBody)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-lg-offset-1 col-lg-11">
+                                                    <button id="btnSubmit" class="btn btn-primary" type="submit">Send</button>
+                                                    @Html.ActionLink("Cancel", "Index", "UserMessage", new { }, new { @class = "btn btn-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            var cntSaveDraft = 0;
+
+            fnSelectMenuActive('sendmail', '');
+            var editor = CKEDITOR.replace('MessageBody', { toolbarStartupExpanded: false, resize_enabled: false, });
+
+
+            editor.on('change', function (e) {
+               //
+
+                SaveDraftBodyData();
+
+            });
+
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+
+            var messageto = ''; var emailto = '';
+            var messagecc = ''; var emailcc = '';
+
+            $("#MessageTo")
+                // don't navigate away from the field on tab when selecting an item
+          .on("keydown", function (event) {
+              if (event.keyCode === $.ui.keyCode.TAB &&
+                  $(this).autocomplete("instance").menu.active) {
+                  event.preventDefault();
+              }
+          }).autocomplete({
+              minLength: 0,
+              source: function (request, response) {
+                  $.ajax({
+                      url: "/UserMessage/MessageSearchList",
+                      type: "POST",
+                      dataType: "json",
+                      contentType: "application/json; charset=utf-8",
+                      data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                      success: function (data) {
+                          //
+
+                          var arraydata = $.map(data, function (m) {
+
+                              return {
+                                  Name: m.Name,
+                                  Email: m.Email,
+                                  Picture: m.Picture
+                              };
+                          })
+
+                          response(arraydata);
+                      },
+                      error: function (response) {
+                          alert(response.responseText);
+                      },
+                      failure: function (response) {
+                          alert(response.responseText);
+                      }
+                  })
+              },
+              focus: function (event, ui) {
+
+                  // $("#MessageTo").val(ui.item.Email);
+                  // prevent value inserted on focus
+                  return false;
+              },
+              select: function (event, ui) {
+
+                  var terms = split(ui.item.Name);
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push(ui.item.Name);
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push("");
+                  this.value = terms.join(", ");
+
+                  messageto = messageto + this.value;
+                  emailto = emailto + this.value + " " + ui.item.Email + " | ";
+
+                  $("#MessageTo").val('');
+                  $("#UserEmailTo").val('');
+
+                  $("#MessageTo").val(messageto);
+                  $("#UserEmailTo").val(emailto);
+
+                  setTimeout(function () { SaveDraftBodyData(); }, 3000);
+
+                  //alert($("#MessageTo").val());
+                  //alert($("#UserEmailTo").val());
+                  return false;
+              },
+              messages: {
+                  noResults: "",
+                  results: function (count) {
+                      return count + (count > 1 ? ' results' : ' result ') + ' found';
+                  }
+              }
+          })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                    ul.addClass('group-autocomplete');
+
+                    var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                        '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                        '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                    return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append(inner_html)
+                        .appendTo(ul);
+
+
+                };
+
+
+
+            $("#MessageCc")
+                // don't navigate away from the field on tab when selecting an item
+          .on("keydown", function (event) {
+              if (event.keyCode === $.ui.keyCode.TAB &&
+                  $(this).autocomplete("instance").menu.active) {
+                  event.preventDefault();
+              }
+          }).autocomplete({
+              minLength: 0,
+              source: function (request, response) {
+                  $.ajax({
+                      url: "/UserMessage/MessageSearchList",
+                      type: "POST",
+                      dataType: "json",
+                      contentType: "application/json; charset=utf-8",
+                      data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                      success: function (data) {
+                          //
+
+                          var arraydata = $.map(data, function (m) {
+
+                              return {
+                                  Name: m.Name,
+                                  Email: m.Email,
+                                  Picture: m.Picture
+                              };
+                          })
+
+                          response(arraydata);
+                      },
+                      error: function (response) {
+                          alert(response.responseText);
+                      },
+                      failure: function (response) {
+                          alert(response.responseText);
+                      }
+                  })
+              },
+              focus: function (event, ui) {
+
+                  // $("#MessageTo").val(ui.item.Email);
+
+                  // prevent value inserted on focus
+                  return false;
+              },
+              select: function (event, ui) {
+                  var terms = split(ui.item.Name);
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push(ui.item.Name);
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push("");
+                  this.value = terms.join(", ");
+
+                  messagecc = messagecc + this.value;
+                  emailcc = emailcc + this.value + " " + ui.item.Email + " | ";
+
+                  $("#MessageCc").val('');
+                  $("#UserEmailCc").val('');
+
+                  $("#MessageCc").val(messagecc);
+                  $("#UserEmailCc").val(emailcc);
+
+                  setTimeout(function () { SaveDraftBodyData(); }, 3000);
+
+                  return false;
+              },
+              messages: {
+                  noResults: "",
+                  results: function (count) {
+                      return count + (count > 1 ? ' results' : ' result ') + ' found';
+                  }
+              }
+          })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                    ul.addClass('group-autocomplete');
+
+                    var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                        '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                        '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                    return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append(inner_html)
+                        .appendTo(ul);
+
+
+                };
+
+
+
+            //editor.on('contentDom', function () {
+            //    editor.document.on('keyup', function (event) {
+
+            //        // Do not capture CTRL hotkeys.
+            //        if (!event.data.$.ctrlKey && !event.data.$.metaKey)
+            //            alert("Hi");
+            //    });
+
+            //});
+
+
+
+
+            // MessageID
+            
+            //$('#MessageTo, #MessageCc, #MessageSubject').on("change", function () {
+            //    alert("hiiiii");
+            //    setTimeout(function () { SaveDraftBodyData(); }, 3000);
+
+            //    //if (timer) {
+            //    //    clearTimeout(timer);
+            //    //}
+            //    //timer = setTimeout(SaveDraftBodyData, timeout);
+
+            //});
+
+            $("#MessageSubject").change(function () {
+                setTimeout(function () { SaveDraftBodyData(); }, 3000);
+            })
+             
+            
+
+        })
+
+        // auto Save data
+        var flagsuccess = true;
+
+        function SaveDraftBodyData() {
+            //
+
+
+            if (flagsuccess) {
+
+                flagsuccess = false;
+
+                var MessageID = $('#MessageID').val();
+
+                if (MessageID != '' && MessageID > 0) {
+                    $('#MessageID').val(MessageID);
+                }
+
+
+                var MessageID = $('#MessageID').val();
+                var MessageTo = '';
+                var MessageCc = '';
+
+                if ($('#UserEmailTo').val().trim() != '') {
+                    MessageTo = $('#UserEmailTo').val().trim();
+                }
+                else {
+                    MessageTo = $('#MessageTo').val().trim();
+                }
+
+                if ($('#UserEmailCc').val().trim() != '') {
+                    MessageCc = $('#UserEmailCc').val().trim();
+                }
+                else {
+                    MessageCc = $('#MessageCc').val().trim();
+                }
+
+
+                var MessageSubject = $('#MessageSubject').val().trim();
+                var MessageBody = CKEDITOR.instances['MessageBody'].getData();
+
+
+
+                $.ajax({
+                    url: "/UserMessage/SaveDraft",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        MessageID: MessageID,
+                        MessageTo: MessageTo,
+                        MessageCc: MessageCc,
+                        MessageSubject: MessageSubject,
+                        MessageBody: MessageBody
+                    },
+                    success: function (data) {
+                        
+                        //showsuccess("Draft saved");
+
+                        flagsuccess = true;
+
+                        if (data.MessageID > 0) {
+                            $('#MessageID').val(data.MessageID);
+
+                            cntSaveDraft = cntSaveDraft + 1;
+                            console.log(cntSaveDraft);
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Error' + ex);
+                    },
+                    complete: function () {
+                        flagsuccess = true;
+                    }
+
+                });
+            }
+
+
+        }
+
+    </script>
+}
+

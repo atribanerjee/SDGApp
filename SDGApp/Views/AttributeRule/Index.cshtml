@@ -1,0 +1,33 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-sm-12">
+        <section id="diattributelist" class="panel">
+
+            @{Html.RenderAction("AttributeRuleList", "AttributeRule", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('manageattribute', '');
+       // selectleftmenu('manageattribute', '');
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("AttributeRuleList", "AttributeRule")';
+            $('#diattributelist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

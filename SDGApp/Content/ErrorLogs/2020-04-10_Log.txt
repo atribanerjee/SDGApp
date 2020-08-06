@@ -1,0 +1,12 @@
+04-10-2020 13:22:42 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+04-10-2020 14:07:10 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+04-10-2020 16:40:11 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+04-10-2020 16:42:46 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+04-10-2020 16:48:51 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+
+04-10-2020 16:50:09 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+

@@ -1,0 +1,173 @@
+﻿@model SDGApp.ViewModel.AttributeRuleViewModel
+@{
+    ViewBag.Title = "Add Rule";
+}
+
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel user attr-rule">
+            <header class="panel-heading">
+                Add Attribute Rule
+            </header>
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+
+            <div class="panel-body">
+
+                <div class="panel">
+                    @using (Html.BeginForm("AddRule", "AttributeRule", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"> Attribute Rule Label</label>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(model => model.AttributeLabel, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AttributeLabel)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"> Attribute Type</label>
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(model => model.AttributeTypeID, Model.DDLAttributeType, "--Select--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AttributeTypeID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"> Attribute Rule Type</label>
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(model => model.AttributeRuleTypeID, Model.DDLAttributeRuleType, "--Select--", new { @class = "form-control", @onchange = "TypeChange(this.value);" })
+                                @Html.ValidationMessageFor(model => model.AttributeRuleTypeID)
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="ListAreaValue" style="display:none">
+                            <label class="col-lg-3 control-label">Attribte List<br /><small style="color:#FF0000;">(Comma separated values)</small></label>
+                            <div class="col-lg-7">
+
+                                @Html.TextAreaFor(model => model.ListAreaText, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div id="ListMinMaxValue" style="display:none">
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label"> Min Value<span class="redy"> *</span></label>
+                                <div class="col-lg-7">
+
+                                    @Html.TextBoxFor(model => model.MinValue, new { @class = "form-control numeric" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label"> Max Value<span class="redy"> *</span></label>
+                                <div class="col-lg-7">
+
+                                    @Html.TextBoxFor(model => model.MaxValue, new { @class = "form-control numeric" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" id="Listemail" style="display:none">
+                            <label class="col-lg-3 control-label">Constraint Value<span class="redy"> *</span></label>
+                            <div class="col-lg-7">
+
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email)
+
+                            </div>
+                        </div>
+                        <div class="form-group" id="Listsms" style="display:none">
+                            <label class="col-lg-3 control-label">Constraint Value<span class="redy"> *</span></label>
+                            <div class="col-lg-7">
+
+                                @Html.TextBoxFor(model => model.Sms, new { @class = "form-control numeric" })
+                                @Html.ValidationMessageFor(model => model.Sms)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-9">
+                                <input type="submit" value="Submit" class="btn btn-primary" onclick="return CheckMinMaxValue();" />
+                                @Html.ActionLink("Cancel", "Index", "AttributeRule", new { }, new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+         fnSelectMenuActive('manageattribute', '');
+        function TypeChange(typevalue) {
+
+            if (typevalue == 1) {
+                $('#ListAreaValue').show();
+                $('#ListMinMaxValue').hide();
+                $('#Listemail').hide();
+                $('#Listsms').hide();
+            }
+            else if (typevalue == 2) {
+                $('#ListMinMaxValue').show();
+                $('#ListAreaValue').hide();
+                $('#Listemail').hide();
+                $('#Listsms').hide();
+            }
+            else if (typevalue == 3) {
+                $('#Listemail').show();
+                $('#ListAreaValue').hide();
+                $('#ListMinMaxValue').hide();
+                $('#Listsms').hide();
+            }
+            else if (typevalue == 4) {
+                $('#Listsms').show();
+                $('#ListAreaValue').hide();
+                $('#ListMinMaxValue').hide();
+                $('#Listemail').hide();
+            }
+
+        }
+        function TypeChanges() {
+            $('#ListAreaValue').hide();
+            $('#ListMinMaxValue').hide();
+            $('#Listemail').hide();
+            $('#Listsms').hide();
+        }
+
+        $(function () {
+            var limit = 10;
+
+            $('#Sms').keyup(function () {
+                var len = $(this).val().length;
+                if (len > limit) {
+                    this.value = this.value.substring(0, limit);
+                }
+
+            });
+        });
+
+
+
+        function CheckMinMaxValue() {
+            if (parseInt($('#MaxValue').val()) < parseInt($('#MinValue').val())) {
+                alert("Invalid Input at max, min");
+                return false;
+            }
+        }
+
+
+    </script>
+
+}

@@ -1,0 +1,70 @@
+﻿@model SDGApp.ViewModel.LibraryViewModel
+@{
+    ViewBag.Title = "Add";
+}
+
+
+@*<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/js/jquery.datetimepicker.css")" />
+<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.datetimepicker.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/date-format.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/moment.js")"></script>*@
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel camera">
+
+            <header class="panel-heading">
+                Add New Topic
+            </header>
+            <div class="panel-body">
+
+                <div class="panel">
+                    @using (Html.BeginForm("Add", "Library", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.ValidationSummary(true)
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">@Html.LabelFor(model => model.WorkName)</label>
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.WorkName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.WorkName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">@Html.LabelFor(model => model.WorkDescription)</label>
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.WorkDescription, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.WorkDescription)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">@Html.LabelFor(model => model.WorkParentID)</label>
+                            <div class="col-lg-9">
+                                @Html.DropDownListFor(model => model.WorkParentID, Model.DDLTopic,"--Select--", new { @class = "form-control" })                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-9">
+                                <button id="btnSubmit" class="btn btn-primary" type="submit">Save</button>
+                                @Html.ActionLink("Cancel", "Index", "Library", new { }, new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<script>
+    $(function () {
+       
+    });
+</script>
+
+
+

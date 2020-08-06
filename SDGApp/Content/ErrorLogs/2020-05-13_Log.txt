@@ -1,0 +1,2 @@
+05-13-2020 15:08:51 - SDGApp.Models.DeviceServicesModel - GetUserDetailByUserId ::: The cast to value type 'System.Int32' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+

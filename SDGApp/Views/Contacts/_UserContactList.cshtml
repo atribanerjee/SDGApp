@@ -1,0 +1,93 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.UserContactsViewModel>
+@{ SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();}
+@{
+    ViewBag.Title = "Contacts";
+
+    Int32 pageSize = GlobalConstants.PageSize;
+
+    var ContactCount = 0;
+
+    if (Model.Count > 0)
+    {
+        pageSize = Model[0].PageSize;
+
+        ContactCount = Model.Count;
+    }
+
+    String title = "Contacts List";
+
+
+}
+
+
+<div class="panel-body body-kontakts ">
+
+    <!-- LIST VIEW -->
+    <div class="well well-sm lstview" id="dvlistview" style="display:none">
+        @foreach (var item in Model)
+        {
+            <div class="media" id="dv_@item.FKReceiverUserID">
+                <div class="media-left">
+                    <a href="#"> <img src="@item.Picture" class="img-responsive" alt=""> </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">@item.FirstName @item.LastName</h4>
+                    <p>UID : @item.FKReceiverUserID</p>
+                    <p>Email : @item.Email</p>
+                    <p>Phone : @item.Phone</p>
+                </div>
+                <div class="media-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i> <span class="caret none"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="fnClose('@item.FKReceiverUserID')"><i class="fa fa-user-times" aria-hidden="true"></i>&nbsp; Close contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+    <!-- LIST VIEW end -->
+
+    <hr />
+
+    <!-- GRID VIEW -->
+    <div class="well well-sm well-grid grdview" id="dvgrdview">
+
+        @foreach (var item in Model)
+        {
+            <div class="media" id="dv_@item.FKReceiverUserID">
+                <div class="media-body">
+                    <a href="#"> <img src="@item.Picture" class="img-responsive" alt=""> </a>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i> <span class="caret none"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="fnClose('@item.FKReceiverUserID')"><i class="fa fa-user-times" aria-hidden="true"></i>&nbsp; Close contact</a></li>
+                        </ul>
+                    </div>
+                    <h4 class="media-heading">@item.FirstName @item.LastName</h4>
+                    <p>UID : @item.FKReceiverUserID</p>
+                    <p>Email : @item.Email</p>
+                    <p>Phone : @item.Phone</p>
+                </div>
+            </div>
+        }
+
+    </div>
+    <!-- GRID VIEW end -->
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#spnContactscount").html('@ContactCount');
+    });
+</script>

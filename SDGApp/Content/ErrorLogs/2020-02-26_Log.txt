@@ -1,0 +1,12 @@
+02-26-2020 12:46:13 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+02-26-2020 12:46:27 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+02-26-2020 12:46:33 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+02-26-2020 12:46:37 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+02-26-2020 12:47:17 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+
+02-26-2020 12:49:24 - SDGApp.Models.SleepModel - GetSleepActivity ::: The 'SleepTotalTime' property on 'SleepActivity' could not be set to a 'null' value. You must set this property to a non-null value of type 'System.Int32'. 
+

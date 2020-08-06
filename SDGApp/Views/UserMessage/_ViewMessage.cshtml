@@ -1,0 +1,624 @@
+﻿@using SDGApp.Helpers
+@model SDGApp.ViewModel.UserMessageViewModel
+@{
+    ViewBag.Title = "View Message";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+
+    string Downloadfiles = "";
+}
+
+<script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+<script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>
+
+
+<section class="panel panel-inbox inbox-right">
+    <header class="panel-heading wht-bg">
+        <h4 class="gen-case"> View Message </h4>
+        <div class="pull-right mail-src-position">
+            <div id="dvsearch" class="input-append">
+                <input id="searchmessage" type="text" class="form-control" placeholder="Search Mail" value="@ViewBag.SearchData">
+            </div>
+        </div>
+    </header>
+
+    <div class="panel-body ">
+
+        <div class="mail-header row">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h4 class="pull-left"> @Model.MessageSubject </h4>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="compose-btn pull-right">
+                    <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li><a href="#"><i class="fas fa-reply"></i>&nbsp; Reply</a></li>
+                            <li><a href="#"><i class="fas fa-reply-all"></i>&nbsp; Reply to all</a></li>
+                            <li><a href="#"><i class="fas fa-arrow-right"></i>&nbsp; Forward</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#"><i class="fas fa-trash-restore-alt"></i>&nbsp; Trash</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-success none "><i class="fas fa-reply"></i></a>
+                    <button class="btn btn-sm btn-info none " data-original-title="Print" type="button" data-toggle="tooltip" data-placement="top" title=""><i class="fas fa-print"></i> </button>
+                    <button class="btn btn-sm btn-danger none " data-original-title="Trash" data-toggle="tooltip" data-placement="top" title=""><i class="fas fa-trash-restore-alt"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mail-sender">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 ">
+                    <img src="images/chat-avatar2.jpg" alt="">
+
+                    @if (!String.IsNullOrEmpty(Model.MessageTypeName))
+                    {
+                        if (Model.MessageTypeName.ToLower() == "inbox")
+                        {
+                            if (!String.IsNullOrEmpty(Model.SenderUserName))
+                            {
+                                @: <strong> from : <span>@Model.SenderUserName </span></strong>
+                            }
+                            <br />
+                            if (!String.IsNullOrEmpty(Model.ReceiverUserName))
+                            {
+                                @: <span>to :  @Model.ReceiverUserName</span>
+                            }
+                            <br />
+
+                            if (!String.IsNullOrEmpty(Model.MessageCc) && !String.IsNullOrEmpty(Model.UserNameCc))
+                            {
+                                @: <span>cc :  @Model.UserNameCc</span>
+                            }
+                        }
+                        else if (Model.MessageTypeName.ToLower() == "sent")
+                        {
+                            if (!String.IsNullOrEmpty(Model.SenderUserName))
+                            {
+                                @: <strong> from : <span>@Model.SenderUserName </span></strong>
+                            }
+                            <br />
+                            if (!String.IsNullOrEmpty(Model.ReceiverUserName))
+                            {
+                                @: <span>to :  @Model.ReceiverUserName</span>
+                            }
+                            <br />
+
+                            if (!String.IsNullOrEmpty(Model.MessageCc) && !String.IsNullOrEmpty(Model.UserNameCc))
+                            {
+                                @: <span>cc :  @Model.UserNameCc</span>
+                            }
+
+                        }
+                        else if (Model.MessageTypeName.ToLower() == "bin")
+                        {
+                            <strong>from : </strong>
+                            <span> @Model.SenderUserName</span><br />
+                            <strong>to : </strong>
+                            <span>@Model.ReceiverUserName </span>
+                        }
+                    }
+
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <p class="date"> @Model.CreatedDateTime.ToString("f")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-mail">
+            @Html.Raw(Model.MessageBody)
+        </div>
+
+
+        @if (Model.MessageTree != null && Model.MessageTree.Count > 0)
+        {
+            <br />
+            <a href="#" class="igons-prevmail " onclick="fnShowHideChain()" data-toggle="tooltip" data-placement="right" title="Hide expanded content">
+                <i class="fas fa-ellipsis-h"></i>
+            </a>
+            <div id="dvtreeviewHold" class="treeviewHold none ">
+                <div class="treeviewBlok" id="ReplyMessageTree">
+
+                    @* Message Tree show here *@
+
+                </div>
+
+            </div>
+        }
+
+
+
+        @if (Model.AttachmentFiles != null && Model.AttachmentFiles.Count > 0)
+        {
+
+            foreach (var fileitem in Model.AttachmentFiles)
+            {
+                //Downloadfiles += "../Content/EmailAttachments/" + fileitem.FileName + ",";
+                Downloadfiles += fileitem.FileID + ",";
+            }
+
+            Downloadfiles = Downloadfiles.TrimEnd(',');
+            <div class="attachment-mail  ">
+                <p class="attachment-text">
+                    <span><i class="fas fa-paperclip"></i> @Model.AttachmentFiles.Count attachments — &nbsp;&nbsp; </span>
+                    <a href="/UserMessage/DownloadAllAttachment?FileIDs=@Downloadfiles" data-files="@Downloadfiles" class="igons AttachmentFiles" data-toggle="tooltip" data-placement="top" title="Download all attachments"><i class="fas fa-arrow-circle-down fa-lg"></i></a>
+                    @*<a href="/UserMessage/DownloadFile?FileID=@item.FileID" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a>*@
+
+                    <!-- <i class="fas fa-download"></i> -->
+                </p>
+                <ul class="attachment-value">
+                    @foreach (var item in Model.AttachmentFiles)
+                    {
+                        var filename = item.FileName.Length < 15 ? item.FileName : item.FileName.Substring(0, 5) + "...";
+                        <li>
+                            <a class="atch-thumb thumb-sm none" href="#">
+                                <img src="@Url.Content("~/Content/Latest/images/product_img.png")" class="img-responsive" alt="">
+                            </a>
+                            <a class="name igons" href="#">
+                                @filename
+                            </a>
+                            <div class="links igons">
+                                <a class="none" href="#" data-toggle="tooltip" data-placement="bottom" title="View"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+                                <a href="/UserMessage/DownloadFile?FileID=@item.FileID" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-save"></i></a>
+                                <a href="javascript:void(0)" onclick="DeleteUploadedFile('@item.FileID','@item.FileName')" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>
+                            </div>
+                        </li>
+                        <hr class="clearfix" />
+                    }
+                </ul>
+            </div>
+        }
+        <div class="compose-btn pull-left">
+            <a href="javascript:void(0);" id="btnReply" onclick="fnOpenReply('@Model.MessageID','1')" class="btn btn-sm btn-primary "><i class="fas fa-reply"></i> Reply</a>
+            <a href="javascript:void(0);" id="btnReplyAll" onclick="fnOpenReply('@Model.MessageID','2')" class="btn btn-sm btn-primary "><i class="fas fa-reply-all"></i> Reply To All</a>
+            <button class="btn btn-sm btn-success" id="btnForward" onclick="fnOpenReply('@Model.MessageID','3')"><i class="fas fa-arrow-right"></i> Forward</button>
+            <button class="btn btn-sm btn-info none " data-original-title="Print" type="button" data-toggle="tooltip" data-placement="top" title=""><i class="fas fa-print"></i> </button>
+            <button class="btn btn-sm btn-danger none " data-original-title="Trash" data-toggle="tooltip" data-placement="top" title=""><i class="fas fa-trash-restore-alt"></i></button>
+        </div>
+
+        <div class="rfComposeHold" id="dvReplyMessage" style="display:none;">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 no-pad text-center">
+                    <section class="panel panel-compose">
+                        <a href="#" class="btn btn-link none">
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                        <div class="compose-mail">
+                            @using (Html.BeginForm("ComposeMail", "UserMessage", FormMethod.Post, new { @class = "form-horizontal formz-autocom ", @enctype = "multipart/form-data" }))
+                            {
+                                @Html.HiddenFor(m => m.ParentGUIID);
+                                @Html.HiddenFor(m => m.MsgResponseTypeID);
+                                @Html.HiddenFor(m => m.MessageID);
+                                @Html.HiddenFor(m => m.UserEmailTo);
+                                @Html.HiddenFor(m => m.UserEmailCc);
+                                @Html.ValidationSummary(true)
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-group">
+                                    <label for="to" class="">To:</label>
+                                    @Html.TextBoxFor(m => m.MessageTo, new { @placeholder = "To", @class = "form-control" })
+
+                                </div>
+
+                                <div class="form-group" id="dvcc" style="display:none;">
+                                    <label for="cc" class="">Cc:</label>
+                                    @Html.TextBoxFor(m => m.MessageCc, new { @placeholder = "Cc", @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subject" class="">Subject:</label>
+                                    @Html.TextBoxFor(m => m.MessageSubject, new { @placeholder = "Subject", @class = "form-control" })
+                                </div>
+
+                                <div class="compose-editor">
+                                    @Html.TextAreaFor(m => m.MessageBody, new { @placeholder = "Body", @class = "form-control", @rows = "10" })
+                                </div>
+
+                                <div class="form-group group-igons">
+                                    <button class="btn btn-success " type="submit">Send</button>
+                                    <a href="javascript:void(0);" class="btn btn-danger " onclick="fnCloseReplySection();">Cancel</a>
+
+                                    <div class="fileupload-new igons first" data-provides="fileupload">
+                                        <a href="javascript:void(0);" class="fud_lnk" data-toggle="tooltip" data-placement="top" title="Attach file(s)">
+                                            <span class="btn btn-file">
+                                                <span class="fileupload-new blocking "><i class="fas fa-paperclip fa-lg" data-toggle="tooltip" data-placement="top" title="Attach file(s)"></i></span>
+                                                @Html.TextBoxFor(m => m.FileAttachments, new { type = "file", multiple = "multiple", onchange = "readmultifiles(this.files)" })
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <a href="javascript:;" class="igons " data-toggle="tooltip" data-placement="top" title="Discard draft">
+                                        <i class="fas fa-trash-restore fa-lg"></i>
+                                    </a>
+                                </div>
+
+
+                            }
+                        </div>
+
+                        <div class="attachment-mail  " id="dvFileUploading">
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+
+
+    function DeleteUploadedFile(fileID, filename) {
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+
+        function (retunVal) {
+            $.ajax({
+                type: 'POST',
+                data: { "fileID": fileID, "filename": filename },
+                url: '@Url.Action("DeleteUploadedFile", "UserMessage")',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Result) {
+                        showalertpopup(data.Message);
+                    }
+                    else {
+                        showalertpopup(data.Message);
+                    }
+                },
+                error: function (arg) {
+                    showalertpopup("Error");
+                },
+                complete: function () {
+                }
+            });
+        },
+        function (retunVal) {
+            showalertpopup('No data was deleted.');
+        });
+    }
+
+    function fnShowHideChain() {
+
+        if ($("#dvtreeviewHold").hasClass('none')) {
+            $("#dvtreeviewHold").removeClass('none');
+
+            if ($("#ReplyMessageTree ul").length == 0) {
+                fnGenerateTreeViewMessage();
+            }
+
+
+        } else {
+            $("#dvtreeviewHold").addClass('none');
+        }
+
+    }
+
+    function fnGenerateTreeViewMessage() {
+
+        var strHtml = '';
+        var html = '';
+
+        @if(Model.MessageTree != null && Model.MessageTree.Count >0)
+        {
+              foreach (var item in Model.MessageTree)
+              {
+
+                @:html =  @Html.Raw(Json.Encode(item.MessageBody));
+
+                @:strHtml += '<ul>';
+                @:strHtml += '<h5 class="title">';
+                @:strHtml += ' @item.CreatedDateTime.ToString("f")  @item.SenderUserName <a href="#">[@item.MessageFrom]</a> wrote:';
+                @:strHtml += '</h5>';
+                @:strHtml += '<li>';
+                @:strHtml += html;
+                @:strHtml += '</li>';
+
+                }
+
+                foreach (var item in Model.MessageTree)
+                {
+                    @:strHtml += '</ul>';
+
+                }
+        }
+
+
+        $("#ReplyMessageTree").html('');
+        $("#ReplyMessageTree").append(strHtml);
+
+    }
+
+    $(document).ready(function () {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        for (name in CKEDITOR.instances) {
+            CKEDITOR.instances[name].destroy(true);
+        }
+
+        var editor = CKEDITOR.replace('MessageBody', { toolbarStartupExpanded: false, resize_enabled: false, });
+
+        editor.on('change', function (e) {
+
+
+        });
+
+        
+
+
+        function split(val) {
+            return val.split(/,\s*/);
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+
+        var messageto = ''; var emailto = '';
+        var messagecc = ''; var emailcc = '';
+
+        $("#MessageTo")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            }).autocomplete({
+                minLength: 0, delay: 200,
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: "/UserMessage/MessageSearchList",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                        success: function (data) {
+
+
+                            var arraydata = $.map(data, function (m) {
+
+                                return {
+                                    Name: m.Name,
+                                    Email: m.Email,
+                                    Picture: m.Picture
+                                };
+                            })
+
+                            response(arraydata);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                focus: function (event, ui) {
+
+                    // $("#MessageTo").val(ui.item.Email);
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+
+                    var terms = split(ui.item.Name);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.Name);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join(", ");
+
+                    messageto = messageto + this.value;
+                    emailto = emailto + this.value + " " + ui.item.Email + " | ";
+
+                    $("#MessageTo").val('');
+                    $("#UserEmailTo").val('');
+
+                    $("#MessageTo").val(messageto);
+                    $("#UserEmailTo").val(emailto);
+
+
+                    //alert($("#MessageTo").val());
+                    //alert($("#UserEmailTo").val());
+                    return false;
+                }
+
+
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                ul.addClass('group-autocomplete');
+
+                var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                    '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                    '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append(inner_html)
+                    .appendTo(ul);
+
+
+            };
+
+
+
+        $("#MessageCc")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            }).autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/UserMessage/MessageSearchList",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ 'prefix': '" + extractLast(request.term) + "'}",
+                        success: function (data) {
+                            //
+
+                            var arraydata = $.map(data, function (m) {
+
+                                return {
+                                    Name: m.Name,
+                                    Email: m.Email,
+                                    Picture: m.Picture
+                                };
+                            })
+
+                            response(arraydata);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                focus: function (event, ui) {
+
+                    // $("#MessageTo").val(ui.item.Email);
+
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+                    var terms = split(ui.item.Name);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.Name);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join(", ");
+
+                    messagecc = messagecc + this.value;
+                    emailcc = emailcc + this.value + " " + ui.item.Email + " | ";
+
+                    $("#MessageCc").val('');
+                    $("#UserEmailCc").val('');
+
+                    $("#MessageCc").val(messagecc);
+                    $("#UserEmailCc").val(emailcc);
+
+                    return false;
+                },
+                messages: {
+                    noResults: "",
+                    results: function (count) {
+                        return count + (count > 1 ? ' results' : ' result ') + ' found';
+                    }
+                }
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                ul.addClass('group-autocomplete');
+
+                var inner_html = '<a href="javascript:void(0)" class="list-group-item"><span class="pict">' +
+                    '<img src="' + item.Picture + '")" class="img-responsive img-circle img-thumbnail" alt=""></span>' +
+                    '<span class="value"><h3>' + item.Name + '</h3><p>' + item.Email + '</p></span></a>';
+
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append(inner_html)
+                    .appendTo(ul);
+
+
+            };
+
+
+        
+    });
+
+
+
+    var cnt = 0;
+    var filescnt = 0;
+
+
+    function readmultifiles(files) {
+        var arrImages = new Array(); // stores all image names
+        var div = document.querySelector("#dvFileUploading");
+
+        var strHtml = '';
+        if (cnt == 0) {
+            if (files.length > 0) {
+                strHtml += '<p class="attachment-text">';
+                strHtml += '<span><i class="fas fa-paperclip"></i>&nbsp;&nbsp;<span id="spnfilescnt">' + files.length + '</span> attachments — &nbsp;&nbsp; </span>';
+                strHtml += '<a href="javascript:void(0);" class="igons none" data-toggle="tooltip" data-placement="top" title="Download all attachments">';
+                strHtml += '<i class="fas fa-arrow-circle-down fa-lg"></i></a><!-- <i class="fas fa-download"></i> --></p>';
+                strHtml += '<ul class="attachment-value" id="ulattachment-value" >';
+                strHtml += '</ul>';
+
+                $("#dvFileUploading").append(strHtml);
+                cnt = 1;
+            }
+        }
+
+        filescnt += files.length;
+
+        for (var i = 0; i < files.length; i++) {
+            setup_reader(files[i], i);
+            ////////////////////////////
+
+            $('#spnfilescnt').html(filescnt);
+        }
+    }
+
+    function setup_reader(file, i) {
+
+        var filename = file.name;
+        var name = file.name.split('.')[0].replace(' ', '');
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var picFile = e.target;
+            // get file content
+            var bin = e.target.result;
+
+            var strHtml = '';
+            strHtml += '<li  id="li_' + i + '">';
+            strHtml += '<a class="name igons" href="javascript:void(0);">' + name + '</a>';
+            strHtml += '<div class="links igons"><a class="none" href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="View">';
+            strHtml += '<i class="fas fa-eye"></i></a> &nbsp;&nbsp;<a class="none" href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="Download">';
+            strHtml += '<i class="fas fa-save"></i></a> &nbsp;&nbsp;';
+            strHtml += '<a class="removebtn" href="javascript:void(0);" data-toggle="tooltip" data-placement="right" title="Remove"><i class="fas fa-trash-restore-alt"></i></a>';
+            strHtml += '</div></li><hr class="clearfix" />'
+
+            $("#dvFileUploading").append($('#ulattachment-value').append(strHtml));
+
+            //console.log(name);
+        }
+
+        reader.readAsDataURL(file);
+
+
+    }
+
+    
+
+
+</script>

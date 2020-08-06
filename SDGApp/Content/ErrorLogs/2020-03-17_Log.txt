@@ -1,0 +1,16 @@
+03-17-2020 12:13:28 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+03-17-2020 12:15:38 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+03-17-2020 12:21:01 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+03-17-2020 12:21:24 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+
+03-17-2020 16:45:54 - SDGApp.Models.UserModel - GetAllUserForContactList ::: Unable to create a constant value of type 'System.Char'. Only primitive types or enumeration types are supported in this context.
+
+03-17-2020 16:46:41 - SDGApp.Models.UserModel - GetAllUserForContactList ::: Unable to create a constant value of type 'System.Char'. Only primitive types or enumeration types are supported in this context.
+
+03-17-2020 16:46:54 - SDGApp.Models.UserModel - GetAllUserForContactList ::: Unable to create a constant value of type 'System.Char'. Only primitive types or enumeration types are supported in this context.
+
+03-17-2020 18:18:44 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - sandip.bhattacharjee@baseclass.co.in
+

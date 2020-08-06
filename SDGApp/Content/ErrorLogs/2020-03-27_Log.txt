@@ -1,0 +1,12 @@
+03-27-2020 00:45:01 - SDGApp.Models.UserModel - GetWorkActivityForBarChart ::: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+03-27-2020 00:51:29 - SDGApp.Models.UserModel - GetWorkActivityForBarChart ::: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+03-27-2020 00:51:35 - SDGApp.Models.UserModel - GetWorkActivityForBarChart ::: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+03-27-2020 14:04:04 - SDGApp.Models.DeviceServicesModel - GetUserDetailByUserId ::: LINQ to Entities does not recognize the method 'System.String ToString(System.Object, System.IFormatProvider)' method, and this method cannot be translated into a store expression.
+
+03-27-2020 21:22:32 - SDGApp.Models.UserModel - GetWorkActivityForBarChart ::: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+03-27-2020 21:22:41 - SDGApp.Models.UserModel - GetWorkActivityForBarChart ::: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+

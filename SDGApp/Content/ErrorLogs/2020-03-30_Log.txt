@@ -1,0 +1,2 @@
+03-30-2020 22:30:56 - SGDApp.Models.BaseModel - SendEmail ::: E-Mail sent successfully to - atri.tih@gmail.com
+

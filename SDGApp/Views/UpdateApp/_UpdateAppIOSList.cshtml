@@ -1,0 +1,73 @@
+﻿@using SDGApp.Helpers
+@model List<SDGApp.ViewModel.UpdateAppViewModel>
+@{
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+    SDGApp.Models.UserModel UM = new SDGApp.Models.UserModel();
+}
+@{
+    Int32 pageCount = 0;
+    Int32 pageSize = GlobalConstants.PageSize;
+    if (Model.Count > 0)
+    {
+        //pageSize = Model[0].PageSize;
+    }
+    Int32 pageNumber = 0;
+    Int32 totalRecord = 0;
+}
+
+@foreach (SDGApp.ViewModel.UpdateAppViewModel item in Model)
+{
+    <div class="list-group-item ">
+        <span class="badge">
+            <a href="@item.AppiosURL" download class="save" target="_blank">
+                <i class="fas fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
+            </a>
+            @if (UM.GetLoggedInUserInfo().UserID > 0)
+            {
+                <a href="#" class="remove" id="Delete_@item.ID" onclick='DeleteAppios(@item.ID);'>
+                    <i class="fas fa-trash-restore" data-toggle="tooltip" data-placement="bottom" title="Remove"></i>
+                </a>
+            }
+        </span>
+        <h4><i class="fab fa-apple"></i> App</h4><br />
+        @item.AppiosVersion
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    function DeleteAppios(ID) {
+        //
+        var cofirmmessage = 'Are you sure you want to delete this?';
+        var successmessage = 'Data deleted successfully.';
+        var $element = $(this);
+        customConfirm({ message: cofirmmessage },
+            function (retunVal) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "UpdateApp")",
+                    data: { ID: ID },
+                    success: function (data) {
+                        if (data.Result) {
+
+                            showsuccess(data.Message);
+                            setTimeout(function () { location.reload(); }, 1000);
+                        }
+                        else {
+                            showsuccess(data.Message);
+                            setTimeout(function () { location.reload(); }, 1000);
+                        }
+                    },
+                    error: function (arg) {
+                        alert("Error");
+                    }
+
+                });
+            },
+             function (retunVal) {
+                 showalertpopup('No data was deleted.');
+             });
+
+    }
+</script>

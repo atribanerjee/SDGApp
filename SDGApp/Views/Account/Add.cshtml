@@ -1,0 +1,763 @@
+﻿@model SDGApp.ViewModel.UserViewModel
+@{
+    ViewBag.Title = "Add User";
+    SDGApp.Models.BaseModel BM = new SDGApp.Models.BaseModel();
+    var UserTypeID = Model.UserTypeID;
+
+}
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+
+        <section class="panel ">
+            <header class="panel-heading">
+                <h2> Add user </h2>
+                <span class="tools pull-right none">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-cog"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+
+            <div class="panel-body form-generalIn">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        @using (Html.BeginForm("Add", "Account", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+
+
+                            <div class="position-center profile-settings generalIn-formz">
+
+
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+
+
+                                        <div class="prf-contacts sttng">
+                                            <h2>  Personal Information</h2>
+                                        </div>
+
+                                        <div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">First Name</label>
+                                                <div class=" ">
+                                                    @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "First Name", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.FirstName)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">Last Name</label>
+                                                <div class=" ">
+                                                    @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Last Name", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.LastName)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">User Name</label>
+                                                <div class=" ">
+                                                    @Html.TextBoxFor(m => m.UserName, new { @placeholder = "User Name", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.UserName)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <div class=" ">
+                                                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.Email)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Password</label>
+                                                <div class=" ">
+                                                    @Html.PasswordFor(m => m.NewPassword, new { @placeholder = "Password", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.Password)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">Confirm Password</label>
+                                                <div class=" ">
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Password", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.Password)
+                                                </div>
+                                            </div>
+
+                                         
+
+                                            <div class="form-group">
+                                                <label class="control-label">Organisation</label>
+                                                <div class=" ">
+                                                    @Html.DropDownListFor(model => model.CompanyID, Model.UserCompanyList, "--Select Organisation--", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.CompanyID)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">User Role</label>
+                                                <div class=" ">
+                                                    @Html.DropDownListFor(m => m.UserRoleID, Model.UserRoleList, "--Select Role--", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">Gender </label>
+                                                <div class=" ">
+                                                    @Html.DropDownListFor(m => m.Gender, Model.GenderNameList, "--Select Gender--", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">User Type</label>
+                                                <div class=" ">
+                                                    @Html.DropDownListFor(m => m.UserTypeID, Model.UserTypeList, "--Select User Type--", new { @onchange = "UserTypeChange(this.value);", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                     
+                                        <div>
+                                           
+                                            <div class="form-group">
+                                                <label class="control-label">Picture</label>
+                                                <div class=" ">
+                                                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                                                        </div>
+                                                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                                        <div>
+                                                            <span class="btn btn-white btn-file">
+                                                                <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select image</span>
+                                                                <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                                                                <input id="file" name="file" type="file" />
+                                                            </span>
+                                                            <a href="javascript:void(0);" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*Attribute Rule Edit*@
+                                        <div class="form-group">
+                                            <label class="control-label">&nbsp;</label>
+                                            <div class=" ">
+                                                <a id="btnAddAttribute" class="btn btn-success" href="javascript:void(0);">Add New Attribute</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group add-attr-section">
+
+                                            <label class="control-label">&nbsp;</label>
+                                            <div class="col-lg-9">
+
+                                                @*this one is loop section*@
+                                                <div class="row pb-4">
+                                                    <div id="dvAttributes">
+
+                                                    </div>
+                                                </div>
+                                                @*this one is loop section - END *@
+
+                                            </div>
+                                        </div>
+                                        @*End Attribute Rule*@
+
+
+
+                                        <div id="Device_User" style="display:none;">
+                                            <div class="prf-contacts sttng">
+                                                <h2>Device users</h2>
+                                            </div>
+                                            <div>
+                                                <div class="form-group">
+                                                    <label class=" control-label">DOB</label>
+                                                    <div class="">
+                                                        @Html.TextBoxFor(m => m.DateOfBirth, new { @placeholder = "DOB", @class = "form-control", @autocomplete = "off" })
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class=" control-label">Unit<span class="red"> </span></label>
+                                                    <div class="group-unit">
+                                                        @foreach (var item in Model.UnitNameList)
+                                                        {
+                                                            <label class="checkbox-inline">
+                                                                @Html.RadioButtonFor(m => m.UnitNameID, item.Value, new { @class = "selectunit", @alt = "" + item.Text + "", @onchange = "fnSelectUnit('" + item.Text + "')" })
+                                                                @item.Text
+                                                            </label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class=" control-label">Height</label>
+                                                    <div class="">
+                                                        @Html.TextBoxFor(m => m.Height, new { @placeholder = "Height in Meter", @class = "form-control decimal", @id = "userheight" })
+                                                        @Html.ValidationMessageFor(m => m.Height)
+                                                    </div>
+                                                    <div class=" ">
+                                                        <input id="heightunit" type="text" class="form-control form-control-small" name="unit" value="M" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class=" control-label">Weight</label>
+                                                    <div class="">
+                                                        @Html.TextBoxFor(m => m.Weight, new { @placeholder = "Weight in KG", @class = "form-control decimal", @id = "userweight" })
+                                                        @Html.ValidationMessageFor(m => m.Weight)
+                                                    </div>
+                                                    <div class=" ">
+                                                        <input id="weightunit" type="text" class="form-control form-control-small" name="unit" value="KG" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Geolocation</label>
+                                                    <div class=" ">
+                                                        @Html.TextBoxFor(m => m.GeoLocation, new { @placeholder = "Geolocation", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-group-skin">
+                                                    <label class="control-label">Skin Type</label>
+                                                    <div class="editonly ">
+
+                                                        <div id="skintypeothers" class="color-hold">
+                                                            <div class="skin-option-radio">
+                                                                @if (Model.SkinType == "#8d5524")
+                                                                {
+                                                                    <label class="radio-inline coption1 active">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="radio-inline coption1">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                    </label>
+                                                                }
+                                                                @if (Model.SkinType == "#c68642")
+                                                                {
+                                                                    <label class="radio-inline coption2 active">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="radio-inline coption2">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                    </label>
+                                                                }
+                                                                @if (Model.SkinType == "#e0ac69")
+                                                                {
+                                                                    <label class="radio-inline coption3 active">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="radio-inline coption3">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                    </label>
+                                                                }
+                                                                @if (Model.SkinType == "#f1c27d")
+                                                                {
+                                                                    <label class="radio-inline coption4 active">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="radio-inline coption4">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                    </label>
+                                                                }
+                                                                @if (Model.SkinType == "#ffdbac")
+                                                                {
+                                                                    <label class="radio-inline coption5 active">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="radio-inline coption5">
+                                                                        <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                    </label>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- firefox issue start -->
+                                                        <div id="skintypefirefox" class="ch-firefox">
+                                                            <div class="color-hold ">
+
+                                                                <div class="skin-option-radio">
+                                                                    @if (Model.SkinType == "#8d5524")
+                                                                    {
+                                                                        <label class="radio-inline coption1 active">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                        </label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label class="radio-inline coption1">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio1" onchange="SkinTypeChange(this);" value="#8d5524">
+                                                                        </label>
+                                                                    }
+                                                                    @if (Model.SkinType == "#c68642")
+                                                                    {
+                                                                        <label class="radio-inline coption2 active">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                        </label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label class="radio-inline coption2">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio2" onchange="SkinTypeChange(this);" value="#c68642">
+                                                                        </label>
+                                                                    }
+                                                                    @if (Model.SkinType == "#e0ac69")
+                                                                    {
+                                                                        <label class="radio-inline coption3 active">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                        </label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label class="radio-inline coption3">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio3" onchange="SkinTypeChange(this);" value="#e0ac69">
+                                                                        </label>
+                                                                    }
+                                                                    @if (Model.SkinType == "#f1c27d")
+                                                                    {
+                                                                        <label class="radio-inline coption4 active">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                        </label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label class="radio-inline coption4">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio4" onchange="SkinTypeChange(this);" value="#f1c27d">
+                                                                        </label>
+                                                                    }
+                                                                    @if (Model.SkinType == "#ffdbac")
+                                                                    {
+                                                                        <label class="radio-inline coption5 active">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                        </label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label class="radio-inline coption5">
+                                                                            <input type="radio" name="skincolor" id="inlineRadio5" onchange="SkinTypeChange(this);" value="#ffdbac">
+                                                                        </label>
+                                                                    }
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- end firefox issue -->
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div id="Resercher" style="display:none;">
+
+                                            <div class="prf-contacts sttng">
+                                                <h2>Resercher</h2>
+                                            </div>
+
+                                            <div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Institution</label>
+                                                    <div class=" ">
+                                                        @Html.TextBoxFor(m => m.Institution, new { @placeholder = "Institution", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Notes</label>
+                                                    <div class=" ">
+                                                        @Html.TextAreaFor(m => m.NotesHere, new { @placeholder = "Notes here", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 no-pad">
+                                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                                @Html.ActionLink("Cancel", "ManageUser", "Account", new { }, new { @class = "btn btn-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+         fnSelectMenuActive('setup', 'manageuser');
+        $(function () {
+            // duplicate email checking
+            $('#Email').on('change', function () {
+                $.ajax({
+                    type: 'POST',
+                    data: { Email: $(this).val(), UserID: 0 },
+                    url: '@Url.Action("CheckDuplicateEmail", "Account")', // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Result) {
+                            showalertpopup('Email already exists, please try with another one!');
+                        }
+                    }
+                });
+            });
+
+            // duplicate username checking
+            $('#UserName').on('change', function () {
+                $.ajax({
+                    type: 'POST',
+                    data: { UserName: $(this).val(), UserID: 0 },
+                    url: '@Url.Action("CheckDuplicateUserName", "Account")', // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Result) {
+                            showalertpopup('UserName already exists, please try with another one!');
+                        }
+                    }
+                });
+            });
+
+
+        });
+
+        function checkDuplicateData() {
+            $.ajax({
+                type: 'POST',
+                data: { Email: $('#Email').val(), UserID: 0 },
+                url: '@Url.Action("CheckDuplicateEmail", "Account")', // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Result) {
+                        showalertpopup('Email already exists, please try with another one!');
+                        return false;
+                    }
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                data: { UserName: $('#UserName').val(), UserID: 0 },
+                url: '@Url.Action("CheckDuplicateUserName", "Account")', // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Result) {
+                        showalertpopup('UserName already exists, please try with another one!');
+                        return false;
+                    }
+                }
+            });
+            return true;
+        }
+
+        function UserTypeChange(UserType) {
+            if (UserType == 3) {
+
+                $('#Device_User').show();
+
+                $('#Resercher').hide();
+            }
+            else {
+                $('#Device_User').hide();
+                $('#Resercher').show();
+            }
+        }
+
+        function CountryChange(strCountry) {
+
+            $("#State").empty();
+            $("#City").empty();
+            $("#City").append('<option value="0">--Select City--</option>');
+            $.ajax({
+                type: 'Get',
+                data: { CountryID: $('#CountryID').val() },
+                url: '@Url.Action("GetStates", "Account")', // we are calling json method
+                dataType: 'json',
+                // here we are get value of selected country and passing same value
+                //as inputto json method GetStates.
+                success: function (states) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $("#State").append('<option value="0">--Select State--</option>');
+                    $.each(states, function (i, state) {
+                        $("#State").append('<option value="' + state.ID + '">' +
+                             state.StateName + '</option>');
+                        // here we are adding option for States
+                    });
+
+                },
+                error: function (ex) {
+
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+
+        }
+
+        function StateChange(strState) {
+            $("#City").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCity","Account")',
+                dataType: 'json',
+                data: { StateId: $('#State').val() },
+                success: function (citys) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    //$("#City").append('<option value="0">--Select City--</option>');
+                    $.each(citys, function (i, city) {
+                        $("#City").append('<option value="'
+                              + city.ID + '">'
+                              + city.CityName + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+
+            });
+        }
+
+        function SkinTypeChange(selectedColor) {
+            if (selectedColor.length > 0) {
+                $('#spnSelectedSkinType').css({ 'background': selectedColor });
+            }
+        }
+
+        var index = 1;
+        $(function () {
+            $('#btnAddAttribute').on('click', function () {
+                AddAttributeDDL();
+            });
+        });
+
+        function AddAttributeDDL() {
+            var SelectDDLOption = '<option value="0">--Select Attribute--</option>';
+            $.ajax({
+                type: 'Get',
+                data: { TypeID: 6 },
+                url: '@Url.Action("GetAttributeLabelforDDlByTypeID", "AttributeRule")',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, result) {
+                        SelectDDLOption += '<option value="' + result.Value + '">' +
+                                            result.Text + '</option>';
+                    });
+                    var html = '<div id="dvAttribute_' + index + '" class="form-group form-topMost-border">' +
+                        '<div class="col-lg-5"> <select id="txtAttrLabel_' + index + '" name="txtAttrLabel" class = "form-control" onchange="AddAttributeRuleDataForUser(this.value,' + index + ');">' + SelectDDLOption + '</select></div>' +
+                    '<div class="col-lg-5" id="dvtxtAttrValue_' + index + '" class = "form-control"></div>' +
+                      '<div class="col-lg-2"><a class="btn btn-danger" href="javascript:void(0);" onclick="DeleteAttribute(' + index + ');"><i class="fa fa-minus" aria-hidden="true"></i></a></div>' +
+                       '</div>';
+
+                    $('#dvAttributes').append(html);
+                    index++;
+                },
+                error: function (ex) {
+
+                    alert('Failed to retrieve attributes.' + ex);
+                }
+
+
+            });
+        }
+
+        function AddAttributeRuleDataForUser(labelId, currentid) {
+            var selectOptions = '';
+            $.ajax({
+                type: 'Get',
+                data: { "AttrLabelId": labelId },
+                url: '@Url.Action("GetAttributeTypeAndValue", "AttributeRule")',
+                dataType: 'json',
+                success: function (Data) {
+
+
+                    switch (Data.AttributeRuleTypeID) {
+
+                        case 1:// Generate DDL
+                            var splitdata = Data.AttributeRuleValue.split(',');
+                            selectOptions = '<select id="txtAttrValue_' + currentid + '" name="txtAttrValue" class = "form-control" >';
+                            for (var i = 0; i < splitdata.length; i++) {
+                                selectOptions += '<option value="' + splitdata[i] + '">' +
+                                                splitdata[i] + '</option>';
+                            }
+                            selectOptions += '</select>';
+                            break;
+                        case 2://GENERATE NUMERIC SLIDER
+                            var splitdatarange = Data.AttributeRuleValue.split(',');
+
+                            selectOptions = '<div id="slidecontainer_' + currentid + '"><input name="txtAttrValue" type="range" min="' + splitdatarange[0] + '" max="' + splitdatarange[1] + '" value="' + splitdatarange[0] + '" class="slider" id="txtAttrValue_' + currentid + '" oninput="putvalue(this.value, ' + currentid + ');">' +
+                                           '<h5>Value - <strong id="rangevalue_' + currentid + '"></strong></h5></div>';
+                            break;
+                        case 3://GENERATE EMAIL
+                            selectOptions = '<input id="txtAttrValue_' + currentid + '" name="txtAttrValue" type="text" value="' + Data.AttributeRuleValue + '" class = "form-control" onchange="return validateEmail(this.value);"/>';
+                            break;
+                        case 4:// GENERATE PHONE
+                            selectOptions = '<input id="txtAttrValue_' + currentid + '" name="txtAttrValue" type="text" value="' + Data.AttributeRuleValue + '" maxlength="10"  class = "form-control" onkeypress="return Checkphonenolimit(event)" />';
+
+                            break;
+                    }
+                    $('#dvtxtAttrValue_' + currentid).empty();
+                    $('#dvtxtAttrValue_' + currentid).append(selectOptions);
+
+
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve records.' + ex);
+                }
+
+            });
+
+        }
+
+        function putvalue(slvalue, indexvalue) {
+            document.getElementById("rangevalue_" + indexvalue).innerHTML = slvalue;
+        }
+
+        function Checkphonenolimit(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail(email) {
+            var re = /[A-Z0-9._%+-]+@@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
+            if (!re.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            return true;
+        }
+
+        function DeleteAttribute(id) {
+
+            $('#dvAttribute_' + id).remove();
+        }
+
+    </script>
+}
+
+
+<script>
+
+    $('input:radio[name="UnitNameID"][value="1"]').prop('checked', true);
+
+    $(document).ready(function () {
+
+        var ua = navigator.userAgent.toLowerCase();
+
+        if (ua.indexOf('firefox') > -1) {
+            $("#skintypeothers").hide();
+            $("#skintypefirefox").show();
+
+        } else {
+            $("#skintypefirefox").hide();
+            $("#skintypeothers").show();
+        }
+
+        $("#DateOfBirth").datepicker({
+            // dateFormat: "MM-dd-yyyy",
+            autoclose: true
+        });
+
+    });
+
+    function fnSelectUnit(event) {
+
+        if (event != null) {
+            var userheight = parseFloat($("#userheight").val());
+            var userweight = parseFloat($("#userweight").val());
+
+            if (!isNaN(userheight) && !isNaN(userweight)) {
+
+                var selectedtext = event;
+                if (selectedtext == 'Metric') {
+                    var convervalheight = (userheight * 0.0254).toFixed(2);
+                    var convervalweight = (userweight * 0.453592).toFixed(2);
+                    $("#userheight").val(convervalheight);
+                    $("#userweight").val(convervalweight);
+                    $("#heightunit").val("M");
+                    $("#weightunit").val("KG");
+                } else {
+
+                    //else "Imperial"
+                    var convervalheight = (userheight * 39.3701).toFixed(2);
+                    var convervalweight = (userweight * 2.20462).toFixed(2);
+                    $("#userheight").val(convervalheight);
+                    $("#userweight").val(convervalweight);
+
+                    $("#heightunit").val("Inch");
+                    $("#weightunit").val("Pound");
+                }
+            } else {
+                fnSelectUnit(null);
+            }
+
+        } else {
+
+            var selectedtext = $(".selectunit:checked").attr('alt');
+
+            if (selectedtext == 'Metric') {
+
+                $("#heightunit").val("M");
+                $("#weightunit").val("KG");
+            } else {
+
+                //else "Imperial"
+                $("#heightunit").val("Inch");
+                $("#weightunit").val("Pound");
+            }
+        }
+
+    }
+</script>

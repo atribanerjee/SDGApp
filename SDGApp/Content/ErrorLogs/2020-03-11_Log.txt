@@ -1,0 +1,6 @@
+03-11-2020 18:55:23 - GetTagHistory List Problems ::: Procedure or function USP_GETTAGHISTORY_WEEKMONTHWISE has too many arguments specified.
+
+03-11-2020 18:55:35 - GetTagHistory List Problems ::: Procedure or function USP_GETTAGHISTORY_WEEKMONTHWISE has too many arguments specified.
+
+03-11-2020 18:56:38 - GetTagHistory List Problems ::: Procedure or function USP_GETTAGHISTORY_WEEKMONTHWISE has too many arguments specified.
+

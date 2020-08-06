@@ -1,0 +1,36 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Index";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-sm-12">
+        <section id="divactivitylist" class="panel">
+
+            @{Html.RenderAction("ActivityList", "Activity", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        // select menu
+
+        fnSelectMenuActive('setup', 'manageactivity');
+        //selectleftmenu('manageactivity', '');
+
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("ActivityList", "Activity")';
+            $('#divactivitylist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "People Details";
+    String title = "View Details";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+
+    int UserID = 0;
+    String UserName = String.Empty;
+
+    if (ViewBag.ViewPeopleUserID != null && ViewBag.ViewPeopleUserID > 0)
+    {
+        UserID = ViewBag.ViewPeopleUserID;
+    }
+    if (ViewBag.UserName != null)
+    {
+        UserName = ViewBag.UserName;
+    }
+
+
+}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app panel-careperson">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <section class="panel ">
+                        <header class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9">
+                                    <h2 class="pull-left"> @title of @UserName</h2>
+                                    <div class="pull-left searchOnHeaderGen none ">
+                                        <form action="#" class="header-search ">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="Search for ...">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <span class="tools pull-right ">
+                                        <button type="button" class="btn btn-info btn-sm" onclick="window.location.href='/CarePeople/Index'"> Back </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div class="panel-body panel-tab-view ">
+                            <ul id="uTabHeaders" class="nav nav-tabs">
+                                <li class=" active">
+                                    @Ajax.ActionLink("Measurement", "GetMeasurmentDtls", "CarePeople", new { UserID = @UserID }, new AjaxOptions { UpdateTargetId = "divCommon", OnSuccess = "loadClassOnAciveTab('aMeasurement');" }, new { @class = "" ,@id="aMeasurement"})                                    
+                                </li>
+                                <li class=" ">
+                                    @Ajax.ActionLink("Cardiac", "GetCardiacDtls", "CarePeople", new { UserID = @UserID }, new AjaxOptions { UpdateTargetId = "divCommon", OnSuccess = "loadClassOnAciveTab('aCardiac');" }, new { @class = "", @id = "aCardiac" })
+                                </li>
+                                <li class=" ">
+                                    @Ajax.ActionLink("Activity", "GetActivityDtls", "CarePeople", new { UserID = @UserID }, new AjaxOptions { UpdateTargetId = "divCommon", OnSuccess = "loadClassOnAciveTab('aActivity');" }, new { @class = "", @id= "aActivity" })
+                                </li>
+                                <li class=" ">
+                                    @Ajax.ActionLink("Sleep", "GetSleepDtls", "CarePeople", new { UserID = @UserID }, new AjaxOptions { UpdateTargetId = "divCommon", OnSuccess = "loadClassOnAciveTab('aSleep');" }, new { @class = "", @id= "aSleep" })
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="tabContentArea">
+                                <div id="divCommon" class="tab-pane active TabContent ">
+                                    @{Html.RenderAction("GetMeasurmentDtls", "CarePeople", new { UserID = @UserID });}
+                                </div>                               
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        fnSelectMenuActive('crpeople', '');
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        function loadClassOnAciveTab(id) {
+            $('#uTabHeaders > li').each(function () {
+                $(this).removeClass('active');
+            });                
+            $('#' + id).parent('li').addClass('active');
+        }
+
+    </script>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+       
+      
+       
+
+    });//end main function
+
+   
+
+</script>
+

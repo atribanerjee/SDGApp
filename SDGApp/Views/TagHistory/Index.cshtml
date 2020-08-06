@@ -1,0 +1,458 @@
+﻿
+@{
+    ViewBag.Title = "Tag History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app ">
+
+            <header class="panel-heading">
+                <h2> Tag History </h2>
+            </header>
+
+            <div class=" panel-tab-view ">
+
+                <div class="panel-heading tab-bg-dark-navy-blue no-pad ">
+                    <ul id="toggleholder" class="nav nav-tabs ">
+                        <li class="active">
+                            <a id="dayhistory" name="day" data-toggle="tab" onclick="fnGetHistory('day')" href="#">Day</a>
+                        </li>
+                        <li class="">
+                            <a id="weekhistory" name="week" data-toggle="tab" onclick="fnGetHistory('week')" href="#">Week</a>
+                        </li>
+                        <li class="">
+                            <a id="monthhistory" name="month" data-toggle="tab" onclick="fnGetHistory('month')" href="#">Month</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+
+                    <form id="datepickerholder" action="#" class="form-horizontal ">
+                        <div class="form-group">
+                            <label id="lblfordetailsname" class="control-label col-lg-3 col-md-3 col-sm-12 ">History for the day : </label>
+                            <div class="col-lg- col-md-3 col-sm-12 ">
+                                <div id="datepickerdiv" data-date-viewmode="years" data-date-format="mm-dd-yyyy" data-date="" class="input-append date dpYears">
+                                    <input id="datepickerval" type="text" readonly="" value="@DateTime.Now.ToString("MM-dd-yyyy")" size="16" class="form-control">
+                                    <span class="input-group-btn add-on">
+                                        <button class="btn btn-round btn-primary" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-block none">Select date</span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-12"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <button onclick="window.location.href='/TagHistory/Add'" class="btn btn-taga none" type="button">Add Tag</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <section class="panel panel-overview-app ">
+
+                        <header class="panel-heading">
+                            <h2> Tag history chart </h2>
+                            <span class="tools pull-right ">
+                                <a href="#" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+
+                        <div class="panel-body no-pad">
+                            <div class="main-chart">
+                                <div id="chtTagChart"></div>@*Don't Delete div*@
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section class="panel panel-overview-app table-tab-view">
+
+                        <header class="panel-heading">
+                            <h2> Tag history information </h2>
+                            <span class="tools pull-right ">
+                                <a href="#" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+
+                        <div class="panel-body no-pad">
+                            <table class="table table-striped table-nobro table-tag general-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="numeric">Type</th>
+                                        <th class="numeric">Value</th>
+                                        <th class="numeric">Note</th>
+                                        <th class="akxson">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailshistory"></tbody>
+                            </table>
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        fnSelectMenuActive('tags', 'taghistory');
+
+    </script>
+
+}
+
+<script type="text/javascript">
+
+    var gethistorytype = "day";
+
+    $(document).ready(function () {
+
+        $('#datepickerdiv').on("changeDate", function (ev) {
+            fnGetHistory(gethistorytype);
+            });
+
+    });
+
+
+    function fnGetHistory(type) {
+
+        $("#detailshistory").html('');
+        $("#chtTagChart").html('');
+
+        if (type != '') {
+
+                gethistorytype = type;
+                $("#lblfordetailsname").text("History for the " + gethistorytype + " :");
+
+            var currentdate = $("#datepickerval").val();
+
+                if (currentdate==='') {
+                    currentdate="@DateTime.Now.ToString("MM-dd-yyyy")";
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: { type: type, currentdate: currentdate },
+                url: '@Url.Action("GetHistory", "TagHistory")',
+                dataType: 'json',
+                success: function (results) {
+                    
+                    if (results.Taglist != '' && results.Taglist.length > 0) {
+                        var listdata = results.Taglist;
+
+                        var DateValues = new Array();
+                        var Taglabels = new Array();
+                        var yValues = new Array();
+                        var Hascolorcode = new Array();
+
+                        $.each(listdata, function (index, item) {
+
+                            var strHtml = '';
+                            strHtml += '<tr>';
+                            //strHtml += '<td></td>';
+                            strHtml += '<td>' + item.CreatedDateTimeTimestamp + '</td>';
+                            strHtml += '<td class="numeric">' + item.TypeName + '</td>';
+                            strHtml += '<td class="numeric">' + item.TagValue + '</td>';
+                            strHtml += '<td class="numeric">' + item.Note + '</td>';
+                            strHtml += '<td class="akxson editlink">';
+                            strHtml += '<a href="/TagHistory/Edit/' + item.ID + '" class="" id=""><i class="fa fa-pencil-square"></i></a>'
+                            strHtml += '</td>';
+                            strHtml += '</tr>';
+
+                            $("#detailshistory").append(strHtml);
+
+                            //For Display chart
+                            DateValues.push(item.CreatedDateTimeTimestamp);
+                            Taglabels.push(item.TypeName);
+                            yValues.push(item.TagValue);
+                            Hascolorcode.push(item.HasColorCode)
+
+                        });
+
+                        if (type == "month" || type == "week") {
+                            $("#detailshistory .editlink").addClass('disabled');
+                        }
+
+                        //Call function for display chart
+                        if (Taglabels.length > 0 && yValues.length > 0) {
+
+                            Taglabels = getUnique(Taglabels);
+                            fnLoadTagHistoryGraph(DateValues, Taglabels, yValues, Hascolorcode);
+                        }
+
+                    }//end if
+                    //else {
+
+
+                    //    $("#chtTagChart").attr("style", "min-height:0px");
+                    //    // $("#chtTagChart").html('');
+                    //}
+
+                },//end success function
+                    error: function (ex) {
+                        alert('Failed to retrieve Data.' + ex);
+                    }
+                });
+
+            }
+    }
+    function getUnique(array) {
+        var uniqueArray = [];
+
+        // Loop through array values
+        for (i = 0; i < array.length; i++) {
+            if (uniqueArray.indexOf(array[i]) === -1) {
+                uniqueArray.push(array[i]);
+            }
+        }
+        return uniqueArray;
+    }
+
+    function fnLoadTagHistoryGraph_1(DateValues, Taglabels, yValues) {
+       
+        //(3) [3, 4, 1]
+        var options = {
+            series: [
+            //    {
+                   
+            //        data: yValues
+            //}
+                {
+                    name: "Deep ",
+                    data:[1]
+                },
+                {
+                    name: "Deep Sleep Hour",
+                    data: [2]
+                },
+                 {
+                    name: "Deep ",
+                    data: [8]
+                },
+                {
+                    name: "Sleep ",
+                    data: [8]
+                }
+            ],
+
+            chart: {
+                type: 'bar',
+                height: 430,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    dataLabels: {
+                        position: 'top',
+                    },
+                    distributed: true,
+                }
+            },
+            dataLabels: {
+                enabled: false,
+                offsetX: -6,
+                style: {
+                    fontSize: '12px',
+                    colors: ['#fff']
+                }
+            },
+            stroke: {
+                show: false,
+                width: 1,
+                colors: ['#fff']
+            },
+            xaxis: {
+                categories: DateValues,
+            },
+            legend: {
+                position: 'top',
+                display: true,
+                colors: ['#2E93fA', '#66DA26', '#546E7A'],
+                useSeriesColors:true
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtTagChart"), options);
+        chart.render();
+    }
+
+    function fnLoadTagHistoryGraph(DateValues, Taglabels, yValues, Hascolorcode) {
+       
+        $("#chtTagChart").html('');
+        var lagendcolor = []
+        if (Hascolorcode.length > 0) {
+            lagendcolor = getUnique(Hascolorcode);
+        }
+
+        var i = 0;
+        var options = {
+            series: [{
+                name:'Tag',
+                data: yValues   // [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+            }],
+            tooltip: {
+                enabled: false,
+                position: "topLeft",
+                fixed: {
+                    enabled: true,
+                    position: "topLeft",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+            },
+            chart: {
+                width: '100%',
+                height: 350,
+                type: 'bar',
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                zoom: {
+                    zoomedArea: {
+                        fill: {
+                            color: '#90CAF9',
+                            opacity: 0.4
+                        },
+                        stroke: {
+                            color: '#0D47A1',
+                            opacity: 0.4,
+                            width: 1
+                        }
+                    },
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                    },
+                    autoSelected: 'zoom'
+                }
+            },
+            fill: {
+                colors: Hascolorcode
+            },
+            
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'flat',
+                    columnWidth: '30%',
+                    barHeight: '30%',
+                    distributed: true,
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Tag History',
+                align: 'middle',
+                fontWeight: "bold"
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                categories: DateValues, // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                title: {
+                    text: 'Date'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                },
+                
+            },
+            legend: {
+                show: true,
+                showForSingleSeries: false,
+                position: 'top',
+                display: false,
+                onItemClick: {
+                    toggleDataSeries: true
+                },
+               
+                formatter: function (seriesName, opts) {
+                    return [Taglabels[i++]];
+                },
+                markers: {
+                    fillColors: lagendcolor,
+                },
+            },
+            responsive: [
+                {
+                    breakpoint: 1000,
+                    options: {
+                        plotOptions: {
+                            bar: {
+                                horizontal: false
+                            }
+                        },
+                        legend: {
+                            position: "bottom"
+                        }
+                    }
+                }
+            ]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chtTagChart"), options);
+        chart.render();
+        
+    }
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

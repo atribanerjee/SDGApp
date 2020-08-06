@@ -1,0 +1,53 @@
+﻿@using SDGApp.Helpers
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="success-message">
+                @if (!String.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    @ViewBag.SuccessMessage
+                }
+            </div>
+            <div class="panel-body">
+                <div class="tab-content tasi-tab">
+                    <div id="overview" class="tab-pane active">
+                        <section class="panel">
+                            @*@{Html.RenderAction("QuickSearch", "Child");}*@
+                        </section>
+                        <div class="panel" id="diattributelist">
+                            @{Html.RenderAction("AttributeRuleList", "AttributeRule", new { PageNumber = 1, PageSize = GlobalConstants.PageSize });}
+                        </div>
+                    </div>
+                    <div id="job-history" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('manageattribute', '');
+       // selectleftmenu('manageattribute', '');
+        function loadrecordlist(pagenumber) {
+            var pagesize = parseInt($('select#ddlPageSize').val());
+            var url = '@Url.Action("AttributeRuleList", "AttributeRule")';
+            $('#diattributelist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize
+            );
+        }
+    </script>
+    <!-- select left menu-->
+}

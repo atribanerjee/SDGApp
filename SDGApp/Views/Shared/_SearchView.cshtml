@@ -1,0 +1,70 @@
+﻿
+<div class="pull-left searchOnHeaderGen">
+    <div class="header-search">
+        <div class="input-group">
+            <input id="defaultSearch" type="text" class="form-control" value="@ViewBag.SearchValue" placeholder="Search for ...">
+            <span class="input-group-btn">
+                <button id="btnSeach" onclick="GetSearchValue();" class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function GetSearchValue() {
+        
+
+        var pagenumber = 1;
+        var pagesize = 10;
+
+        var pagename = $('#hdnpagename').val();
+        var searchvalue = $('#defaultSearch').val();
+
+        if (pagename == 'userlist') {
+
+            var url = '@Url.Action("UserList", "Account")';
+            $('#divuserlist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize + "&SearchValue=" + encodeURIComponent(searchvalue)
+            );
+
+        }
+        else if (pagename == 'companylist') {
+
+            var url = '@Url.Action("CompanyList", "Company")';
+            $('#divcompanylist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize + "&SearchValue=" + encodeURIComponent(searchvalue)
+            );
+
+        }
+        else if (pagename == 'feedbacklist') {
+
+            var url = '@Url.Action("FeedbackList", "Feedback")';
+            $('#divfeedbacklist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize + "&SearchValue=" + encodeURIComponent(searchvalue)
+            );
+
+        }
+        else if (pagename == 'helplist') {
+
+            var url = '@Url.Action("HelpList", "Help")';
+            $('#divhelplist').load(
+                url + "?PageNumber=" + pagenumber + "&PageSize=" + pagesize + "&SearchValue=" + encodeURIComponent(searchvalue)
+            );
+
+        }
+    }
+
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            GetSearchValue();
+        }
+    });
+     
+
+    //$("#defaultSearch").keyup(function () {
+    //    GetSearchValue();
+    //});
+
+</script>

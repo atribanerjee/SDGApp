@@ -1,0 +1,4 @@
+07-02-2020 19:14:52 - SGDApp.Models.MailService - SendEmail ::: 
+
+07-02-2020 19:16:28 - SGDApp.Models.MailService - SendEmail ::: 
+

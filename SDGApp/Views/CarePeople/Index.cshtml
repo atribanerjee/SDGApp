@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Care People";
+    String title = "Care People";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+
+@{Html.RenderPartial("_Breadcrumbs"); }
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="panel panel-overview-app panel-careperson">
+
+            <!-- the table type section | for item listing page -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+
+                    <section class="panel ">
+                        <header class="panel-heading">
+
+                            <div class="row">
+
+                                <div class="col-lg-9 col-md-9 col-sm-9">
+                                    <h2 class="pull-left">@title</h2>
+
+                                    <div class="pull-left searchOnHeaderGen none ">
+                                        <form action="#" class="header-search ">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="Search for ...">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <span class="tools pull-right none">
+                                        <button type="button" class="btn btn-info btn-sm"> Add </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </header>
+
+                        <div class="panel-body ">
+
+
+                            <table class="table table-hover general-table table-Care tableCTP">
+                                <thead>
+                                    <tr>
+                                        @*<th>Permission</th>*@
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Date</th>
+                                        @*<th>Address</th>*@
+                                        <th class="akxson">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="CarePeopleList">
+
+                                    @* List show here *@
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        fnSelectMenuActive('crpeople', '');
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+    </script>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+        fnGetCarePeopleList();
+
+    });//end document ready
+
+    function fnGetCarePeopleList() {
+
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("RequestForCareList", "CarePeople")',
+            data: {},
+            success: function (result) {
+
+                $("#CarePeopleList").html('');
+                if (result != "") {
+                   
+                    $.each(result, function (index, item) {
+
+                        var strHtml = '';
+                        strHtml += '<tr>';
+
+                        //strHtml += '<td> <label class="switch"> <input type = "checkbox" ><span class="slider"></span></label ></td>';
+                        strHtml += '<td>' + item.FirstName + '</td>';
+                        strHtml += '<td>' + item.LastName + '</td>';
+                        strHtml += '<td>' + item.Email + '</td>';
+                        strHtml += '<td>' + item.Phone + '</td>';
+                        strHtml += '<td>' + item.CreatedDateTimeStamp + '</td>';
+                        //strHtml += '<td>' + item.Address + '</td>';
+                        strHtml += '<td class="akxson">';
+                        strHtml += '<a href="/CarePeople/ViewPeopleDtls?UserID=' + item.RequestUserID +'"  class="">';
+                        strHtml += '<i class="fas fa-eye" data-toggle="tooltip" data-placement="left" title="View">';
+                        strHtml += '</i></a>';
+                        strHtml += '<a href="javascript:void(0);" onclick="fnDeleteCareTeamPerson(' + item.CarePeopleID +')" class="">';
+                        strHtml += '<i class="fas fa-trash-restore-alt" data-toggle="tooltip" data-placement="left" title="Remove">';
+                        strHtml += '</i></a>';
+                        strHtml += '</td>';
+
+                        strHtml += '</tr>';
+
+                        $("#CarePeopleList").append(strHtml);
+                    });
+                }
+
+
+            },
+            error: function (ex) {
+                showfailure('Failed save data.' + ex);
+            }
+        })//end ajax call
+    }//end function
+
+    function fnDeleteCareTeamPerson(CarePeopleID) {
+
+        if (CarePeopleID > 0) {
+            var cofirmmessage = 'Are you sure you want to delete this?';
+            var successmessage = 'Data deleted successfully.';
+            var $element = $(this);
+            customConfirm({ message: cofirmmessage },
+                function (retunVal) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteCarePerson", "CareTeam")",
+                        data: { CarePeopleID },
+                        success: function (Result) {
+
+                            if (Result) {
+
+                                showsuccess(successmessage);
+
+                                fnGetCarePeopleList();
+                            }
+                            else {
+                                showfailure('Delete failed.');
+                            }
+                        },
+                        error: function (arg) {
+                            showfailure('Failed delete.' + arg);
+                        }
+                    });
+
+                },
+
+                function (retunVal) {
+
+                    showalertpopup('No data was deleted.');
+
+                });
+
+        }
+
+
+    }
+
+</script>

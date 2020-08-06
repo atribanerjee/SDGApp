@@ -1,0 +1,78 @@
+﻿@{
+    SDGApp.Models.UserModel UM = new SDGApp.Models.UserModel();
+}
+<!--C3 Chart-->
+<link href="@Url.Content("~/Content/js/c3-chart/c3.css")" rel="stylesheet" />
+<div id="ppgChartContainer" style="height: 400px; width: 100%;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.js" type="text/javascript"></script>
+<script>
+    var xAxisStripLinesArray = [];
+    var yAxisStripLinesArray = [];
+    var dps = [];
+    var dataPointsArray = [@ViewBag.PpgValues];
+
+
+    var chart = new CanvasJS.Chart("ppgChartContainer",
+        {
+            title: {
+                text: "",
+            },
+            subtitles: [{
+                text: "Patient Name: @UM.GetLoggedInUserInfo().UserName",
+                horizontalAlign: "left",
+            },
+            {
+                text: "DOB : @UM.GetLoggedInUserInfo().DateOfBirth",
+                horizontalAlign: "left",
+            },
+            {
+                text: "",
+                horizontalAlign: "right",
+                verticalAlign: "bottom",
+            },
+            ],
+            axisY: {
+                stripLines: yAxisStripLinesArray,
+                gridThickness: 2,
+                gridColor: "#DC74A5",
+                lineColor: "#DC74A5",
+                tickColor: "#DC74A5",
+                labelFontColor: "#DC74A5",
+            },
+            axisX: {
+                stripLines: xAxisStripLinesArray,
+                gridThickness: 2,
+                gridColor: "#DC74A5",
+                lineColor: "#DC74A5",
+                tickColor: "#DC74A5",
+                labelFontColor: "#DC74A5",
+            },
+            data: [
+                {
+                    type: "spline",
+                    color: "black",
+                    dataPoints: dps
+                }
+            ]
+        });
+
+    addDataPointsAndStripLines();
+    chart.render();
+    $('.canvasjs-chart-credit').hide();
+
+    function addDataPointsAndStripLines() {
+        //dataPoints
+        for (var i = 0; i < dataPointsArray.length; i++) {
+            dps.push({ y: dataPointsArray[i] });
+        }
+        //StripLines
+        for (var i = 0; i < 3000; i = i + 100) {
+            if (i % 1000 != 0)
+                yAxisStripLinesArray.push({ value: i, thickness: 0.7, color: "#DC74A5" });
+        }
+        for (var i = 0; i < 1400; i = i + 20) {
+            if (i % 200 != 0)
+                xAxisStripLinesArray.push({ value: i, thickness: 0.7, color: "#DC74A5" });
+        }
+    }
+</script>
